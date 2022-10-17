@@ -1,0 +1,6 @@
+.git
+node_modules
+/src/scripts/JSON.JSON
+/src/scripts/practice.js
+/src/scripts/validWordsGenerator.js
+/src/validWordsProjector.html

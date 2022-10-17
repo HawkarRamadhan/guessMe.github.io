@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="author" content="Hawkar Ramadhan" />
+        <meta
+            name="keywords"
+            content="Kurdish word game, puzzle, words, wordle, recreation" />
+
+        <!-- google font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap"
+            rel="stylesheet" />
+
+        <!-- font awesome cdn -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+            integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer" />
+
+        <!-- remixicon -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+            rel="stylesheet" />
+
+        <!-- style sheet -->
+        <link rel="stylesheet" href="../src/index.css" />
+
+        <link rel="shortcut icon" href="#" />
+        <!-- tab icon -->
+        <title>بمزانە</title>
+    </head>
+    <body>
+        <!-- header -->
+        <header>
+            <div class="title-container">
+                <h1 class="title">بمزانە</h1>
+                <i class="fa-solid fa-angle-down down-arrow"></i>
+            </div>
+        </header>
+
+        <!-- main -->
+        <main>
+            <!-- cards -->
+            <div class="cards-container">
+                <div class="occupations">
+                    <img
+                        src="./assets/icons/occupations.png"
+                        alt="occupations" />
+                    <h3>پیشە</h3>
+                </div>
+
+                <div class="countries">
+                    <img src="./assets/icons/countries.png" alt="occupations" />
+                    <h3>وڵات</h3>
+                </div>
+
+                <div class="capitals">
+                    <img src="./assets/icons/capitals.png" alt="occupations" />
+                    <h3>پایتەخت</h3>
+                </div>
+
+                <div class="foods">
+                    <img src="./assets/icons/foods.png" alt="occupations" />
+                    <h3>خواردن</h3>
+                </div>
+
+                <div class="fruits-and-vegtables">
+                    <img
+                        src="./assets/icons/fruitsAndVegtables.png"
+                        alt="occupations" />
+                    <h3>سەوزە و میوە</h3>
+                </div>
+
+                <div class="random">
+                    <img src="./assets/icons/random.png" alt="occupations" />
+                    <h3>هەڕەمەکی</h3>
+                </div>
+
+                <i class="fa-sharp fa-solid fa-angle-up up-arrow"></i>
+            </div>
+
+            <!-- guess rows -->
+            <div class="guess-rows"></div>
+
+            <!-- keyboard -->
+            <div class="keyboard">
+                <!-- first -->
+                <div class="row first-row"></div>
+
+                <!-- second -->
+                <div class="row second-row"></div>
+
+                <!-- third -->
+                <div class="row third-row"></div>
+
+                <!-- fourth -->
+                <div class="row fourth-row"></div>
+            </div>
+
+            <!-- unregistered word -->
+        </main>
+
+        <!-- footer -->
+        <footer></footer>
+
+        <!-- scripts -->
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
+
+        <script type="module" src="./scripts/app.js"></script>
+    </body>
+</html>

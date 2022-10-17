@@ -1,0 +1,32 @@
+// colors
+$myBlack: rgb(20, 20, 20);
+$myWhite: rgb(235, 235, 235);
+$myRed: rgb(220, 0, 0);
+$myGrey: rgb(120, 120, 120);
+$myYellow: rgb(224, 224, 0);
+$myGreen: rgb(0, 196, 0);
+
+// units
+$query-units: (
+    xs: "23.125em",
+    sm: "30em",
+    lg: "37.5em",
+    el: "48em",
+);
+
+// mixins
+@mixin flex($fd, $jc, $ai) {
+    display: flex;
+    flex-direction: $fd;
+    justify-content: $jc;
+    align-items: $ai;
+}
+
+// queries
+@mixin mobile($dimension) {
+    @media screen and (min-width: $dimension) {
+        @content;
+    }
+}
+
+// functions

@@ -1,0 +1,110 @@
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+}
+
+html {
+  font-family: "Noto Naskh Arabic", serif;
+  font-size: 10px;
+}
+
+body {
+  background-color: rgb(20, 20, 20);
+  height: 100vh;
+  color: rgb(235, 235, 235);
+  font-size: 1.6rem;
+  position: relative;
+}
+
+a {
+  text-align: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 95;
+}
+header .title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+header .title {
+  font-size: 2.5rem;
+}
+header .down-arrow {
+  font-size: 2.5rem;
+  transition: bottom 0.3s ease;
+  position: absolute;
+  left: 35%;
+  bottom: -1.5rem;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  transform: translateY(-100%);
+  transition: transform 0.5s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+}
+.cards-container div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.cards-container div img {
+  width: 5rem;
+}
+.cards-container .up-arrow {
+  display: none;
+  font-size: 2.5rem;
+  transition: bottom 0.3s ease;
+  position: absolute;
+  left: 50%;
+  bottom: 3rem;
+}
+
+.show-cards {
+  transform: translateY(0%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.card-translation {
+  animation: card-translation 1.5s ease-in-out infinite;
+}
+@keyframes card-translation {
+  50% {
+    transform: translateY(-1rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/*# sourceMappingURL=index.css.map */

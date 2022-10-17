@@ -1,0 +1,35 @@
+@use "../variablesMixinsFunctions.scss" as *;
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    list-style-type: none;
+}
+
+html {
+    font-family: "Noto Naskh Arabic", serif;
+    font-size: 10px;
+}
+
+body {
+    background-color: $myBlack;
+
+    height: 100vh;
+
+    color: $myWhite;
+    font-size: 1.6rem;
+
+    position: relative;
+}
+
+a {
+    text-align: none;
+}
+
+img {
+    max-width: 100%;
+}
