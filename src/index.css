@@ -50,6 +50,7 @@ header .title {
   font-size: 2.5rem;
 }
 header .down-arrow {
+  display: none;
   font-size: 2.5rem;
   transition: bottom 0.3s ease;
   position: absolute;
