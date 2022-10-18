@@ -46,16 +46,19 @@ header .title-container {
   align-items: center;
   position: relative;
 }
-header .title {
+header .title-container .title {
   font-size: 2.5rem;
 }
-header .down-arrow {
-  display: none;
+header .title-container .down-arrow {
   font-size: 2.5rem;
+  transform: scale(0);
   transition: bottom 0.3s ease;
+  padding: 0 0.5rem 0.5rem 0.5rem;
   position: absolute;
-  left: 35%;
-  bottom: -1.5rem;
+  bottom: -2.5rem;
+}
+header .title-container .down-arrow:active {
+  bottom: -3.5rem;
 }
 
 .cards-container {
@@ -64,7 +67,7 @@ header .down-arrow {
   justify-items: center;
   align-items: center;
   transform: translateY(-100%);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s 0.3s ease-in-out;
   position: absolute;
   top: 0;
   left: 0;
@@ -83,17 +86,21 @@ header .down-arrow {
   width: 5rem;
 }
 .cards-container .up-arrow {
-  display: none;
   font-size: 2.5rem;
+  transform: scale(0);
   transition: bottom 0.3s ease;
+  padding: 1rem;
   position: absolute;
-  left: 50%;
+  left: 47%;
   bottom: 3rem;
+}
+.cards-container .up-arrow:active {
+  bottom: 5rem;
 }
 
 .show-cards {
   transform: translateY(0%);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s 0.3s ease-in-out;
 }
 
 .card-translation {
@@ -105,6 +112,36 @@ header .down-arrow {
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+.show-down-arrow {
+  animation: show-down-arrow 1s 0.1s ease-in-out forwards;
+}
+@keyframes show-down-arrow {
+  40% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.show-up-arrow {
+  animation: show-down-arrow 1s 0.5s ease-in-out forwards;
+}
+@keyframes show-down-arrow {
+  40% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 

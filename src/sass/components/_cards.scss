@@ -7,7 +7,7 @@
     align-items: center;
 
     transform: translateY(-100%);
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s 0.3s ease-in-out;
 
     position: absolute;
     top: 0;
@@ -27,14 +27,19 @@
     }
 
     .up-arrow {
-        display: none;
-
         font-size: 2.5rem;
 
+        transform: scale(0);
         transition: bottom 0.3s ease;
 
+        padding: 1rem;
+
         position: absolute;
-        left: 50%;
+        left: 47%;
         bottom: 3rem;
+
+        &:active {
+            bottom: 5rem;
+        }
     }
 }
