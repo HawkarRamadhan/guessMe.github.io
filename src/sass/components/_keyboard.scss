@@ -1,1 +1,97 @@
 @use "../variablesMixinsFunctions.scss" as *;
+
+.keyboard {
+    @include flex(column, center, center);
+    gap: 0.5rem;
+
+    width: 100%;
+    max-width: 70rem;
+
+    padding: 1rem;
+
+    .row {
+        @include flex(row, space-between, stretch);
+        gap: 0.5rem;
+
+        width: 100%;
+
+        button {
+            @include flex(row, center, center);
+            flex: 1;
+
+            min-width: 3.5rem;
+
+            background-color: rgba($myGrey, 0.2);
+
+            color: $myWhite;
+
+            border-radius: 0.5rem;
+
+            padding: 0.5rem;
+            @include query("lg") {
+                padding: 0.5rem 0.5rem;
+            }
+
+            transition: transform 0.2s ease-in-out,
+                background-color 0.3s ease-in-out;
+
+            cursor: pointer;
+
+            &:active {
+                transform: translateY(-0.3rem);
+                background-color: rgba($myGrey, 0);
+            }
+
+            @include query("lg") {
+                &:hover {
+                    background-color: rgba($myGrey, 0);
+                }
+            }
+
+            span {
+                @include flex(row, center, center);
+
+                font-size: 2rem;
+                @include query("sm") {
+                    font-size: 3rem;
+                }
+            }
+        }
+
+        .accented span:nth-of-type(2) {
+            display: none;
+        }
+
+        .shift {
+            flex: 2;
+
+            font-size: 2.5rem;
+            @include query("sm") {
+                font-size: 4rem;
+            }
+        }
+
+        .back-space {
+            font-size: 1.5rem;
+            @include query("sm") {
+                font-size: 2.5rem;
+            }
+        }
+
+        .space {
+            flex: 3;
+
+            font-size: 2rem;
+            @include query("sm") {
+                font-size: 3rem;
+            }
+        }
+
+        .enter {
+            font-size: 2rem;
+            @include query("sm") {
+                font-size: 3rem;
+            }
+        }
+    }
+}
