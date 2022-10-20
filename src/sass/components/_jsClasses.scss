@@ -1,0 +1,92 @@
+@use "../variablesMixinsFunctions.scss" as *;
+
+// cards
+.show-cards {
+    transform: translateY(0%);
+    transition: transform 0.5s 0.3s ease-in-out;
+}
+
+.card-translation {
+    animation: card-translation 1.5s ease-in-out infinite;
+    @keyframes card-translation {
+        50% {
+            transform: translateY(-1rem);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+}
+
+.show-down-arrow {
+    animation: show-down-arrow 1s 0.5s ease-in-out forwards;
+    @keyframes show-down-arrow {
+        40% {
+            transform: translateX(-50%) scale(0);
+        }
+        70% {
+            transform: translateX(-50%) scale(2.5);
+        }
+        100% {
+            transform: translateX(-50%) scale(1);
+        }
+    }
+}
+
+.show-up-arrow {
+    animation: show-up-arrow 1s 0.5s ease-in-out forwards;
+    @keyframes show-up-arrow {
+        40% {
+            transform: translateX(-50%) scale(0);
+        }
+        70% {
+            transform: translateX(-50%) scale(2.5);
+        }
+        100% {
+            transform: translateX(-50%) scale(1);
+        }
+    }
+}
+
+// guess word
+.veil-word {
+    animation: veil-word 1s 1.2s ease-in-out forwards;
+    @keyframes veil-word {
+        60% {
+            right: -15%;
+        }
+        65% {
+            right: -15%;
+        }
+        100% {
+            right: 0%;
+        }
+    }
+}
+
+.turn-the-notch {
+    animation: turn-the-notch 1.5s 2.2s ease-in-out forwards;
+    @keyframes turn-the-notch {
+        40% {
+            transform: rotate(360deg);
+        }
+        70% {
+            transform: rotate(360deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+// guesses
+.active-slot {
+    border: 0.2rem solid red;
+    transition: border 0.1s ease-in-out;
+}
+
+// keyboard
+.show-keyboard {
+    transform: translateY(0);
+    transition: transform 0.5s 1.2s ease-in-out;
+}

@@ -8,10 +8,10 @@ $myGreen: rgb(0, 196, 0);
 
 // units
 $query-units: (
-    xs: "23.125em",
-    sm: "30em",
-    lg: "37.5em",
-    el: "48em",
+    "xs": 23.125em,
+    "sm": 30em,
+    "lg": 37.5em,
+    "xl": 48em,
 );
 
 // mixins
@@ -23,8 +23,8 @@ $query-units: (
 }
 
 // queries
-@mixin mobile($dimension) {
-    @media screen and (min-width: $dimension) {
+@mixin query($dimension) {
+    @media screen and (min-width: map-get($query-units, $dimension)) {
         @content;
     }
 }

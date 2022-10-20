@@ -1,1 +1,52 @@
 @use "../variablesMixinsFunctions.scss" as *;
+
+.guesses {
+    @include flex(column, center, center);
+    gap: 0.5rem;
+
+    justify-self: center;
+    align-self: center;
+
+    .guess-row {
+        @include flex(row, center, center);
+        gap: 0.5rem;
+
+        span {
+            @include flex(row, center, center);
+
+            min-width: 37px;
+            min-height: 35px;
+            @include query("sm") {
+                min-width: 42px;
+                min-height: 40px;
+            }
+
+            background-color: $myWhite;
+
+            color: $myBlack;
+            font-size: 1.5rem;
+            @include query("sm") {
+                font-size: 2rem;
+            }
+            font-weight: bold;
+
+            border-radius: 0.5rem;
+
+            transition: border 0.3s ease-in-out;
+
+            opacity: 0;
+
+            cursor: pointer;
+
+            @include query("xl") {
+                &:hover {
+                    transition: background-color 0.2s ease-in-out,
+                        color 0.2s ease;
+
+                    background-color: rgba($myWhite, 0.2);
+                    color: $myWhite;
+                }
+            }
+        }
+    }
+}

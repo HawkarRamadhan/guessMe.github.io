@@ -30,7 +30,7 @@
             rel="stylesheet" />
 
         <!-- style sheet -->
-        <link rel="stylesheet" href="../src/index.css" />
+        <link rel="stylesheet" href="./index.css" />
 
         <link rel="shortcut icon" href="#" />
         <!-- tab icon -->
@@ -86,36 +86,159 @@
                 <i class="fa-sharp fa-solid fa-angle-up up-arrow"></i>
             </div>
 
-            <!-- guess rows -->
-            <div class="guess-rows"></div>
+            <div class="word-and-guesses">
+                <div class="word-container">
+                    <h3 class="word">Your Guess</h3>
+                    <div class="word-cover">
+                        <div class="notch-container">
+                            <i
+                                class="fa-sharp fa-solid fa-circle-notch the-notch"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- guess rows -->
+                <div class="guesses"></div>
+            </div>
 
             <!-- keyboard -->
             <div class="keyboard">
                 <!-- first -->
-                <div class="row first-row"></div>
+                <div class="row first-row">
+                    <button>
+                        <span>ق</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>و</span>
+                        <span>ۆ</span>
+                    </button>
+
+                    <button>
+                        <span>ە</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ر</span>
+                        <span>ڕ</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ت</span>
+                        <span>ط</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ی</span>
+                        <span>ێ</span>
+                    </button>
+
+                    <button>
+                        <span>ئ</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ع</span>
+                        <span>ح</span>
+                    </button>
+                </div>
 
                 <!-- second -->
-                <div class="row second-row"></div>
+                <div class="row second-row">
+                    <button>
+                        <span>ا</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>س</span>
+                        <span>ز</span>
+                    </button>
+
+                    <button>
+                        <span>د</span>
+                    </button>
+
+                    <button class="trouble-maker">
+                        <span>هـ</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ش</span>
+                        <span>ژ</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ک</span>
+                        <span>گ</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ل</span>
+                        <span>ڵ</span>
+                    </button>
+                </div>
 
                 <!-- third -->
-                <div class="row third-row"></div>
+                <div class="row third-row">
+                    <button class="accented">
+                        <span>خ</span>
+                        <span>غ</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ج</span>
+                        <span>چ</span>
+                    </button>
+
+                    <button class="accented">
+                        <span>ف</span>
+                        <span>ڤ</span>
+                    </button>
+
+                    <button class="shift">
+                        <i class="fa-solid fa-caret-down shift-icon"></i>
+                    </button>
+
+                    <button class="accented">
+                        <span>ب</span>
+                        <span>پ</span>
+                    </button>
+
+                    <button>
+                        <span>ن</span>
+                    </button>
+
+                    <button>
+                        <span>م</span>
+                    </button>
+                </div>
 
                 <!-- fourth -->
-                <div class="row fourth-row"></div>
+                <div class="row fourth-row">
+                    <button class="back-space">
+                        <i class="ri-delete-back-fill back-space-icon"></i>
+                    </button>
+
+                    <button class="space">
+                        <i class="ri-space space-icon space-icon"></i>
+                    </button>
+
+                    <button class="enter">
+                        <i class="fa-sharp fa-solid fa-arrow-turn-up"></i>
+                        <i
+                            class="fa-sharp fa-solid fa-arrow-turn-down-left enter-icon"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- unregistered word -->
+            <h4 class="unregistered">وشەکە تۆمار نەکراوە</h4>
         </main>
 
         <!-- footer -->
         <footer></footer>
 
         <!-- scripts -->
-        <script
-            src="https://code.jquery.com/jquery-3.6.1.js"
-            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-            crossorigin="anonymous"></script>
-
         <script type="module" src="./scripts/app.js"></script>
     </body>
 </html>

@@ -24,6 +24,8 @@
         .word {
             font-size: 2.5rem;
             font-weight: font;
+
+            opacity: 0;
         }
 
         .word-cover {
@@ -36,11 +38,15 @@
             color: $myBlack;
             font-weight: bold;
 
+            transition: right 0.5s 1s ease-in-out;
+
             position: absolute;
             top: 0;
-            right: 0;
+            right: 100%;
             bottom: 0;
             left: 0;
+
+            overflow: hidden;
 
             .notch-container {
                 transform: translateY(-50%) rotate(86deg);

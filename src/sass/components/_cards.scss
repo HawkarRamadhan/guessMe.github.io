@@ -1,13 +1,19 @@
 @use "../variablesMixinsFunctions.scss" as *;
 
 .cards-container {
-    display: grid;
+    display: none;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center;
 
+    background-color: rgba($myBlack, 0.99);
+
     transform: translateY(-100%);
     transition: transform 0.5s 0.3s ease-in-out;
+
+    @include query("lg") {
+        padding: 0 10%;
+    }
 
     position: absolute;
     top: 0;
@@ -20,6 +26,8 @@
     div {
         @include flex(column, center, center);
         gap: 1rem;
+
+        cursor: pointer;
 
         img {
             width: 5rem;
@@ -35,7 +43,7 @@
         padding: 1rem;
 
         position: absolute;
-        left: 47%;
+        left: 50%;
         bottom: 3rem;
 
         &:active {
