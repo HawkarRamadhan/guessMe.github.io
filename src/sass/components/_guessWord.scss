@@ -1,1 +1,54 @@
 @use "../variablesMixinsFunctions.scss" as *;
+
+.word-and-guesses {
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    align-content: space-around;
+
+    width: 100%;
+
+    .word-container {
+        @include flex(row, center, center);
+
+        align-self: center;
+        justify-self: center;
+
+        width: 50%;
+        max-width: 20rem;
+
+        margin-top: 3rem;
+
+        position: relative;
+
+        .word {
+            font-size: 2.5rem;
+            font-weight: font;
+        }
+
+        .word-cover {
+            @include flex(row, center, center);
+
+            background-color: $myWhite;
+
+            border-radius: 0.5rem;
+
+            color: $myBlack;
+            font-weight: bold;
+
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            .notch-container {
+                transform: translateY(-50%) rotate(86deg);
+
+                position: absolute;
+                top: 50%;
+                right: 5%;
+            }
+        }
+    }
+}
