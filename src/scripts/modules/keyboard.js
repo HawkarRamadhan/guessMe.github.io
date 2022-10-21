@@ -1,4 +1,3 @@
-// --------------- imports ---------------
 import {
     log,
     query,
@@ -14,7 +13,6 @@ import { validWordsObj, validWordsObj as VWO } from "./validWords.js";
 import { guessWordsObj as GWO } from "./guessWords.js";
 
 import * as GG from "./guessGenerator.js";
-// --------------- imports ---------------
 
 export const keyboard = query(document, ".keyboard");
 const accentedKeys = queryAll(keyboard, ".accented");
@@ -28,7 +26,7 @@ addEl(keyboard, "click", keyboardMechanics);
 export function keyboardMechanics(e) {
     const target = e.target;
 
-    // letters
+    // ----- letters -----
     if (target.matches(":not(div, .fourth-row *, .shift, .shift-icon)")) {
         for (const slot of GG.activeRowSlots) {
             if (slot.classList.contains("active-slot")) {
@@ -41,28 +39,34 @@ export function keyboardMechanics(e) {
         changeActiveSlot(nextActiveSlot());
     }
 
-    // space
+    // ----- space -----
     if (target.matches(".space, .space-icon")) {
         changeActiveSlot(nextActiveSlot("loop"), "empty");
     }
 
-    // shift
+    // ----- shift -----
     if (target.matches(".shift, .shift-icon")) {
         accentShifter(shiftKeyPressed);
     }
 
-    // back space
+    // ----- back space -----
     if (target.matches(".back-space, .back-space-icon")) {
         changeActiveSlot(previousActiveSlot(), "empty");
     }
 
-    // enter
+    GG.activeRowSlots[3].animate(...correct);
+    GG.activeRowSlots[2].animate(...notIncluded);
+    GG.activeRowSlots[4].animate(...incorrect);
+    GG.activeRowSlots[0].animate(...activeSlot);
+
+    // ----- enter -----
     if (target.matches(".enter, .enter-icon")) {
         let playersGuess = [];
+        const guessWord = GG.guessWord.split("");
 
         removeClass(unregistered, "show-unregistered");
 
-        // empty or not
+        // ----- empty or not -----
         const hasEmptySlots = (() => {
             let emptySlotsIndex = [];
 
@@ -70,23 +74,7 @@ export function keyboardMechanics(e) {
                 const letter = slot.innerText;
 
                 if (letter === "") {
-                    slot.animate(
-                        [
-                            {
-                                backgroundColor: "red",
-                            },
-                            {
-                                backgroundColor: "white",
-                            },
-                            {
-                                backgroundColor: "red",
-                            },
-                        ],
-                        {
-                            duration: 500,
-                            easing: "ease-in-out",
-                        }
-                    );
+                    slot.animate(...emptySlot);
 
                     emptySlotsIndex.push(index);
 
@@ -103,7 +91,7 @@ export function keyboardMechanics(e) {
             return (emptySlotsIndex = !emptySlotsIndex.length ? false : true);
         })();
 
-        // valid or not
+        // ----- valid or not -----
         const invalidGuess = (() => {
             let result;
             if (!hasEmptySlots) {
@@ -133,14 +121,19 @@ export function keyboardMechanics(e) {
 
             return result;
         })();
+        console.log("guessWord:", guessWord);
+        console.log("playersGuess:", playersGuess);
 
-        // correct or not
+        // ----- correct or not -----
+        if (!invalidGuess) {
+            GG.activeRowSlots.forEach((slot, index, array) => {});
+        }
 
-        // game won or not
+        // ----- game won or not -----
     }
 }
 
-// previous active slot
+// --------------- functions ---------------
 function previousActiveSlot() {
     let previousActiveSlot;
 
@@ -153,7 +146,6 @@ function previousActiveSlot() {
     return previousActiveSlot;
 }
 
-// next active slot
 function nextActiveSlot(loop) {
     let nextActiveSlot;
 
@@ -182,7 +174,6 @@ function changeActiveSlot(activate, empty) {
     addClass(GG.activeRowSlots[activate], "active-slot");
 }
 
-// accent shifter
 function accentShifter(pressed, unpress) {
     for (const key of accentedKeys) {
         if (unpress === "unshift") {
@@ -203,3 +194,88 @@ function accentShifter(pressed, unpress) {
         }
     }
 }
+
+// --------------- animations ---------------
+
+const emptySlot = [
+    [
+        {
+            backgroundColor: "red",
+        },
+        {
+            backgroundColor: "white",
+        },
+        {
+            backgroundColor: "red",
+        },
+    ],
+    {
+        duration: 500,
+        easing: "ease-in-out",
+    },
+];
+
+const correct = [
+    [
+        {
+            transform: "rotate(0deg",
+        },
+        {
+            transform: "rotate(360deg",
+        },
+        {
+            transform: "rotate(360deg",
+            backgroundColor: "#339900",
+            color: "white",
+        },
+    ],
+    {
+        duration: 1000,
+        easing: "ease-in-out",
+        fill: "forwards",
+    },
+];
+
+const incorrect = [
+    [
+        {
+            transform: "rotate(0deg",
+        },
+        {
+            transform: "rotate(-360deg",
+        },
+        {
+            transform: "rotate(-360deg",
+            backgroundColor: "	#fdc010",
+        },
+    ],
+    {
+        duration: 1000,
+        easing: "ease-in-out",
+        fill: "forwards",
+    },
+];
+
+const notIncluded = [
+    [
+        {
+            transform: "scale(1)",
+        },
+        {
+            transform: "scale(0)",
+        },
+        {
+            transform: "scale(1.1)",
+        },
+        {
+            transform: "scale(1)",
+            backgroundColor: "#252522",
+            color: "#6a6a6a",
+        },
+    ],
+    {
+        duration: 800,
+        easing: "ease-in-out",
+        fill: "forwards",
+    },
+];
