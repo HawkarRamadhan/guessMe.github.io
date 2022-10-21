@@ -10,7 +10,10 @@ import {
 } from "./globalFun.js";
 
 import { validWordsObj as VWO } from "./validWords.js";
+
 import { guessWordsObj as GWO } from "./guessWords.js";
+
+import * as GG from "./guessGenerator.js";
 // --------------- imports ---------------
 
 export const keyboard = query(document, ".keyboard");
@@ -24,7 +27,19 @@ export function keyboardMechanics(e) {
     const target = e.target;
 
     // letters
-    if (target.matches(".enter")) {
+    if (target.matches(":not(div, .fourth-row *, .shift, .shift-icon)")) {
+        for (const slot of GG.activeRowSlots) {
+            if (slot.classList.contains("active-slot")) {
+                slot.innerText = target.innerText;
+            }
+        }
+
+        changeActiveSlot(nextActiveSlot(), false);
+    }
+
+    // space
+    if (target.matches(".space, .space-icon")) {
+        changeActiveSlot(nextActiveSlot(true), true);
     }
 
     // shift
@@ -33,7 +48,8 @@ export function keyboardMechanics(e) {
     }
 
     // back space
-    if (target.matches(".back-space")) {
+    if (target.matches(".back-space, .back-space-icon")) {
+        changeActiveSlot(previousActiveSlot(), true);
     }
 
     // enter
@@ -41,6 +57,51 @@ export function keyboardMechanics(e) {
     }
 }
 
+// previous active slot
+function previousActiveSlot() {
+    let previousActiveSlot;
+
+    GG.activeRowSlots.forEach((slot, index, array) => {
+        if (slot.classList.contains("active-slot")) {
+            previousActiveSlot = index === 0 ? index : index - 1;
+        }
+    });
+
+    return previousActiveSlot;
+}
+
+// next active slot
+function nextActiveSlot(loop) {
+    let nextActiveSlot;
+
+    GG.activeRowSlots.forEach((slot, index, array) => {
+        if (slot.classList.contains("active-slot") && !loop) {
+            nextActiveSlot = index === array.length - 1 ? index : index + 1;
+        } else if (slot.classList.contains("active-slot") && loop) {
+            nextActiveSlot = index === array.length - 1 ? 0 : index + 1;
+        }
+    });
+
+    return nextActiveSlot;
+}
+
+function changeActiveSlot(activate, empty) {
+    for (const slot of GG.activeRowSlots) {
+        if (slot.classList.contains("active-slot") && empty) {
+            slot.innerText = "";
+
+            removeClass(slot, "active-slot");
+        } else {
+            removeClass(slot, "active-slot");
+        }
+    }
+
+    // here!!!
+
+    addClass(GG.activeRowSlots[activate], "active-slot");
+}
+
+// accent shifter
 function accentShifter(pressed) {
     if (shiftKeyPressed === false) {
         for (const key of accentedKeys) {
