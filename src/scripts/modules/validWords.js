@@ -28,3 +28,5 @@ wordsToFilter.forEach(word => {
             break;
     }
 });
+
+function validWordsNum() {}

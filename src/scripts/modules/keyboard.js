@@ -9,7 +9,7 @@ import {
     removeEl,
 } from "./globalFun.js";
 
-import { validWordsObj as VWO } from "./validWords.js";
+import { validWordsObj, validWordsObj as VWO } from "./validWords.js";
 
 import { guessWordsObj as GWO } from "./guessWords.js";
 
@@ -20,6 +20,8 @@ export const keyboard = query(document, ".keyboard");
 const accentedKeys = queryAll(keyboard, ".accented");
 const shiftKey = query(keyboard, ".shift");
 let shiftKeyPressed = false;
+
+const unregistered = query(document, ".unregistered");
 
 addEl(keyboard, "click", keyboardMechanics);
 
@@ -54,23 +56,20 @@ export function keyboardMechanics(e) {
         changeActiveSlot(previousActiveSlot(), "empty");
     }
 
-    const playersGuess = (() => {
-        const guess = [];
-        for (const slot of GG.activeRowSlots) {
-            guess.push(slot.innerText);
-        }
-
-        return guess;
-    })();
-
     // enter
     if (target.matches(".enter, .enter-icon")) {
+        let playersGuess = [];
+
+        removeClass(unregistered, "show-unregistered");
+
         // empty or not
         const hasEmptySlots = (() => {
             let emptySlotsIndex = [];
 
-            GG.activeRowSlots.forEach((slot, index, array) => {
-                if (slot.innerText === "") {
+            GG.activeRowSlots.forEach((slot, index) => {
+                const letter = slot.innerText;
+
+                if (letter === "") {
                     slot.animate(
                         [
                             {
@@ -92,7 +91,12 @@ export function keyboardMechanics(e) {
                     emptySlotsIndex.push(index);
 
                     changeActiveSlot(emptySlotsIndex[0]);
-                } else {
+                } else if (letter !== "") {
+                    if (letter === "هـ") {
+                        playersGuess.push("ه");
+                    } else {
+                        playersGuess.push(letter);
+                    }
                 }
             });
 
@@ -100,8 +104,19 @@ export function keyboardMechanics(e) {
         })();
 
         // valid or not
-        if (!hasEmptySlots) {
-        }
+        const invalidGuess = (() => {
+            if (!hasEmptySlots) {
+                if (validWordsObj[5].includes(playersGuess.join(""))) {
+                    true;
+                } else {
+                    unregistered.lastElementChild.innerText = `${playersGuess.join(
+                        ""
+                    )}`;
+
+                    addClass(unregistered, "show-unregistered");
+                }
+            }
+        })();
 
         // correct or not
 

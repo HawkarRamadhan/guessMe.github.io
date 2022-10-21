@@ -90,3 +90,20 @@
     transform: translateY(0);
     transition: transform 0.5s 1.2s ease-in-out;
 }
+
+// pop ups
+.show-unregistered {
+    animation: show-unregistered 2s ease-in-out;
+
+    @keyframes show-unregistered {
+        20% {
+            transform: translateY(0);
+        }
+        80% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-200%);
+        }
+    }
+}

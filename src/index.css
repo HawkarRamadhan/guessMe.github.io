@@ -77,6 +77,7 @@ main {
   right: 0;
   bottom: 0;
   left: 0;
+  overflow: hidden;
 }
 
 .cards-container {
@@ -413,6 +414,21 @@ main {
   transition: transform 0.5s 1.2s ease-in-out;
 }
 
+.show-unregistered {
+  animation: show-unregistered 2s ease-in-out;
+}
+@keyframes show-unregistered {
+  20% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-200%);
+  }
+}
+
 .unregistered {
   display: flex;
   flex-direction: row;
@@ -423,10 +439,17 @@ main {
   color: rgb(20, 20, 20);
   border-radius: 0.5rem;
   padding: 1rem 3rem;
-  transform: translateY(-100rem);
+  transform: translateY(-200%);
+  transition: transform 0.5s ease-in-out;
   position: absolute;
   top: 2.75rem;
   z-index: 10;
+}
+.unregistered span:nth-child(1) {
+  margin-right: 1rem;
+}
+.unregistered span:last-child {
+  color: red;
 }
 
 /*# sourceMappingURL=index.css.map */
