@@ -31,15 +31,17 @@ export function keyboardMechanics(e) {
         for (const slot of GG.activeRowSlots) {
             if (slot.classList.contains("active-slot")) {
                 slot.innerText = target.innerText;
+
+                accentShifter(shiftKeyPressed, "unshift");
             }
         }
 
-        changeActiveSlot(nextActiveSlot(), false);
+        changeActiveSlot(nextActiveSlot());
     }
 
     // space
     if (target.matches(".space, .space-icon")) {
-        changeActiveSlot(nextActiveSlot(true), true);
+        changeActiveSlot(nextActiveSlot("loop"), "empty");
     }
 
     // shift
@@ -49,11 +51,61 @@ export function keyboardMechanics(e) {
 
     // back space
     if (target.matches(".back-space, .back-space-icon")) {
-        changeActiveSlot(previousActiveSlot(), true);
+        changeActiveSlot(previousActiveSlot(), "empty");
     }
 
+    const playersGuess = (() => {
+        const guess = [];
+        for (const slot of GG.activeRowSlots) {
+            guess.push(slot.innerText);
+        }
+
+        return guess;
+    })();
+
     // enter
-    if (target.matches(".enter")) {
+    if (target.matches(".enter, .enter-icon")) {
+        // empty or not
+        const hasEmptySlots = (() => {
+            let emptySlotsIndex = [];
+
+            GG.activeRowSlots.forEach((slot, index, array) => {
+                if (slot.innerText === "") {
+                    slot.animate(
+                        [
+                            {
+                                backgroundColor: "red",
+                            },
+                            {
+                                backgroundColor: "white",
+                            },
+                            {
+                                backgroundColor: "red",
+                            },
+                        ],
+                        {
+                            duration: 500,
+                            easing: "ease-in-out",
+                        }
+                    );
+
+                    emptySlotsIndex.push(index);
+
+                    changeActiveSlot(emptySlotsIndex[0]);
+                } else {
+                }
+            });
+
+            return (emptySlotsIndex = !emptySlotsIndex.length ? false : true);
+        })();
+
+        // valid or not
+        if (!hasEmptySlots) {
+        }
+
+        // correct or not
+
+        // game won or not
     }
 }
 
@@ -77,7 +129,7 @@ function nextActiveSlot(loop) {
     GG.activeRowSlots.forEach((slot, index, array) => {
         if (slot.classList.contains("active-slot") && !loop) {
             nextActiveSlot = index === array.length - 1 ? index : index + 1;
-        } else if (slot.classList.contains("active-slot") && loop) {
+        } else if (slot.classList.contains("active-slot") && loop === "loop") {
             nextActiveSlot = index === array.length - 1 ? 0 : index + 1;
         }
     });
@@ -87,7 +139,7 @@ function nextActiveSlot(loop) {
 
 function changeActiveSlot(activate, empty) {
     for (const slot of GG.activeRowSlots) {
-        if (slot.classList.contains("active-slot") && empty) {
+        if (slot.classList.contains("active-slot") && empty === "empty") {
             slot.innerText = "";
 
             removeClass(slot, "active-slot");
@@ -96,26 +148,27 @@ function changeActiveSlot(activate, empty) {
         }
     }
 
-    // here!!!
-
     addClass(GG.activeRowSlots[activate], "active-slot");
 }
 
 // accent shifter
-function accentShifter(pressed) {
-    if (shiftKeyPressed === false) {
-        for (const key of accentedKeys) {
-            key.children[0].style.display = "none";
-            key.children[1].style.display = "inline";
-        }
-
-        shiftKeyPressed = true;
-    } else if (shiftKeyPressed === true) {
-        for (const key of accentedKeys) {
+function accentShifter(pressed, unpress) {
+    for (const key of accentedKeys) {
+        if (unpress === "unshift") {
             key.children[0].style.display = "inline";
             key.children[1].style.display = "none";
-        }
 
-        shiftKeyPressed = false;
+            shiftKeyPressed = false;
+        } else if (!pressed) {
+            key.children[0].style.display = "none";
+            key.children[1].style.display = "inline";
+
+            shiftKeyPressed = true;
+        } else if (pressed) {
+            key.children[0].style.display = "inline";
+            key.children[1].style.display = "none";
+
+            shiftKeyPressed = false;
+        }
     }
 }
