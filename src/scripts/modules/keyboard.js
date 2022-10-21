@@ -105,17 +105,33 @@ export function keyboardMechanics(e) {
 
         // valid or not
         const invalidGuess = (() => {
+            let result;
             if (!hasEmptySlots) {
+                // valid
                 if (validWordsObj[5].includes(playersGuess.join(""))) {
-                    true;
+                    result = false;
                 } else {
+                    // invalid
                     unregistered.lastElementChild.innerText = `${playersGuess.join(
                         ""
                     )}`;
-
                     addClass(unregistered, "show-unregistered");
+
+                    GG.activeRowSlots.reverse().forEach((slot, index) => {
+                        setTimeout(() => {
+                            slot.innerText = "";
+                        }, index * 120);
+
+                        GG.activeRowSlots.reverse();
+
+                        changeActiveSlot(0);
+                    });
+
+                    result = true;
                 }
             }
+
+            return result;
         })();
 
         // correct or not
