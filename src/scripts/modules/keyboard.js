@@ -17,6 +17,7 @@ import * as F from "./fun.js";
 
 import * as GG from "./guessGenerator.js";
 // --------------- imports ---------------
+export let activeRowCounter = 0;
 
 export const keyboard = query(document, ".keyboard");
 const accentedKeys = queryAll(keyboard, ".accented");
@@ -34,7 +35,7 @@ export function keyboardMechanics(e) {
 
     // ----- letters -----
     if (target.matches(":not(div, .fourth-row *, .shift, .shift-icon)")) {
-        for (const slot of GG.activeRowSlots) {
+        for (const slot of F.activeRowSlots) {
             if (slot.classList.contains("active-slot")) {
                 slot.innerText = target.innerText;
 
@@ -71,7 +72,7 @@ export function keyboardMechanics(e) {
         const hasEmptySlots = (() => {
             let emptySlotsIndex = [];
 
-            GG.activeRowSlots.forEach((slot, index) => {
+            F.activeRowSlots.forEach((slot, index) => {
                 const letter = slot.innerText;
 
                 if (letter === "") {
@@ -106,12 +107,12 @@ export function keyboardMechanics(e) {
                     )}`;
                     addClass(unregistered, "show-unregistered");
 
-                    GG.activeRowSlots.reverse().forEach((slot, index) => {
+                    F.activeRowSlots.reverse().forEach((slot, index) => {
                         setTimeout(() => {
                             slot.innerText = "";
                         }, index * 120);
 
-                        GG.activeRowSlots.reverse();
+                        F.activeRowSlots.reverse();
 
                         changeActiveSlot(0);
                     });
@@ -127,7 +128,7 @@ export function keyboardMechanics(e) {
 
         // ----- correct or not -----
         if (!hasEmptySlots && !invalidGuess) {
-            GG.activeRowSlots.forEach((slot, index, array) => {
+            F.activeRowSlots.forEach((slot, index, array) => {
                 const letter = slot.innerText === "هـ" ? "ه" : slot.innerText;
 
                 // ----- no letters included -----
@@ -155,7 +156,7 @@ export function keyboardMechanics(e) {
                 }
             });
 
-            F.rowActiveState(GG.guessRows[activeRow], "deactivate");
+            F.rowActiveState(GG.guessRows[activeRowCounter], "deactive");
         }
 
         // ----- game won or not -----
@@ -164,7 +165,7 @@ export function keyboardMechanics(e) {
             F.word.style.opacity = 1;
 
             setTimeout(() => {
-                GG.activeRowSlots.forEach((slot, index) => {
+                F.activeRowSlots.forEach((slot, index) => {
                     setTimeout(() => {
                         slot.animate(...winnerFlag);
                     }, index * 120);
@@ -174,10 +175,10 @@ export function keyboardMechanics(e) {
                 F.wordCover.animate(...unveilWord);
             }, 800);
         } else {
-            activeRow++;
+            if (activeRowCounter < GG.guessRows.length - 2) {
+                activeRowCounter++;
 
-            if (activeRow < guessWord.length - 2) {
-                F.rowActiveState(GG.guessRows[activeRow], "activate");
+                F.rowActiveState(GG.guessRows[activeRowCounter], "active");
             }
         }
     }
@@ -187,7 +188,7 @@ export function keyboardMechanics(e) {
 function previousActiveSlot() {
     let previousActiveSlot;
 
-    GG.activeRowSlots.forEach((slot, index, array) => {
+    F.activeRowSlots.forEach((slot, index, array) => {
         if (slot.classList.contains("active-slot")) {
             previousActiveSlot = index === 0 ? index : index - 1;
         }
@@ -199,7 +200,7 @@ function previousActiveSlot() {
 function nextActiveSlot(loop) {
     let nextActiveSlot;
 
-    GG.activeRowSlots.forEach((slot, index, array) => {
+    F.activeRowSlots.forEach((slot, index, array) => {
         if (slot.classList.contains("active-slot") && !loop) {
             nextActiveSlot = index === array.length - 1 ? index : index + 1;
         } else if (slot.classList.contains("active-slot") && loop === "loop") {
@@ -211,7 +212,7 @@ function nextActiveSlot(loop) {
 }
 
 function changeActiveSlot(activate, empty) {
-    for (const slot of GG.activeRowSlots) {
+    for (const slot of F.activeRowSlots) {
         if (slot.classList.contains("active-slot") && empty === "empty") {
             slot.innerText = "";
 
@@ -221,7 +222,7 @@ function changeActiveSlot(activate, empty) {
         }
     }
 
-    addClass(GG.activeRowSlots[activate], "active-slot");
+    addClass(F.activeRowSlots[activate], "active-slot");
 }
 
 function accentShifter(pressed, unpress) {

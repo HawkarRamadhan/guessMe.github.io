@@ -65,13 +65,18 @@ function activeRowCBF(e) {
 }
 
 // active row click event
+export let activeRow;
+export let activeRowSlots;
 export function rowActiveState(row, state) {
-    if (state === "activate") {
+    activeRow = row;
+    activeRowSlots = Array.from(row.children).reverse();
+
+    if (state === "active") {
         addEl(row, "click", activeRowCBF);
 
         // row activation
         setTimeout(() => {
-            GG.activeRowSlots.forEach((slot, index, array) => {
+            activeRowSlots.forEach((slot, index, array) => {
                 slot.animate(
                     [
                         {
@@ -100,12 +105,12 @@ export function rowActiveState(row, state) {
                 );
             });
 
-            addClass(GG.activeRowSlots[0], "active-slot");
+            addClass(activeRowSlots[0], "active-slot");
         }, 1200);
-    } else if (state === "deactivate") {
+    } else if (state === "deactive") {
         removeEl(row, "click", activeRowCBF);
 
-        for (const slot of GG.activeRowSlots) {
+        for (const slot of activeRowSlots) {
             removeClass(slot, "active-slot");
         }
     }

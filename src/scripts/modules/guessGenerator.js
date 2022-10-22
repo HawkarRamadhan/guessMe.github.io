@@ -9,11 +9,13 @@ import {
     removeEl,
 } from "./globalFun.js";
 
-import * as M from "./menu.js";
-
 import * as F from "./fun.js";
 
 import { validWordsObj } from "./validWords.js";
+
+import * as M from "./menu.js";
+
+import * as k from "./keyboard.js";
 // --------------- imports ---------------
 
 export let guessWord;
@@ -21,8 +23,6 @@ let guessWordLength;
 
 const guessContainer = query(document, ".guesses");
 export let guessRows;
-export let activeRow;
-export let activeRowSlots;
 
 export function guessGenerator(PCH, GWO) {
     // guessWord = GWO[PCH][5][Math.round(Math.random() * GWO[PCH][5].length - 1)];
@@ -82,10 +82,7 @@ export function guessGenerator(PCH, GWO) {
         "none";
 
     guessRows = Array.from(guessContainer.children);
-    activeRow = guessRows[0];
-    activeRowSlots = Array.from(activeRow.children).reverse();
+    F.rowActiveState(guessRows[k.activeRowCounter], "active");
 
-    F.rowActiveState(activeRow, "activate", true);
-
-    addClass(activeRow, "activated");
+    addClass(F.activeRow, "activated");
 }
