@@ -20,6 +20,27 @@ import * as M from "./menu.js";
 
 export const wordCover = query(document, ".word-cover");
 export const theNotch = query(wordCover, "i");
+export const word = query(document, ".word");
+
+// catigorizer
+export function catigirizer(rawStuff, destination) {
+    rawStuff.forEach(word => {
+        switch (word.length) {
+            case 5:
+                destination[5].push(word);
+                break;
+            case 6:
+                destination[6].push(word);
+                break;
+            case 7:
+                destination[7].push(word);
+                break;
+            case 8:
+                destination[8].push(word);
+                break;
+        }
+    });
+}
 
 // game mechanics
 export default function gameMechanics(appLaunch) {
@@ -44,8 +65,50 @@ function activeRowCBF(e) {
 }
 
 // active row click event
-export function activeRowCE(activeRow) {
-    addEl(activeRow, "click", activeRowCBF);
+export function rowActiveState(row, state) {
+    if (state === "activate") {
+        addEl(row, "click", activeRowCBF);
+
+        // row activation
+        setTimeout(() => {
+            GG.activeRowSlots.forEach((slot, index, array) => {
+                slot.animate(
+                    [
+                        {
+                            opacity: 0.2,
+                            transform: "scale(0)",
+                        },
+                        {
+                            opacity: 1,
+                            transform: "scale(0)",
+                        },
+                        {
+                            opacity: 1,
+                            transform: "scale(1.1)",
+                        },
+                        {
+                            opacity: 1,
+                            transform: "scale(1)",
+                        },
+                    ],
+                    {
+                        duration: 700,
+                        delay: index * 120,
+                        easing: "ease-in-out",
+                        fill: "forwards",
+                    }
+                );
+            });
+
+            addClass(GG.activeRowSlots[0], "active-slot");
+        }, 1200);
+    } else if (state === "deactivate") {
+        removeEl(row, "click", activeRowCBF);
+
+        for (const slot of GG.activeRowSlots) {
+            removeClass(slot, "active-slot");
+        }
+    }
 }
 
 // game reset

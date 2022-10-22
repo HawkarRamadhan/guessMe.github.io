@@ -12,18 +12,21 @@ import {
 import * as M from "./menu.js";
 
 import * as F from "./fun.js";
+
+import { validWordsObj } from "./validWords.js";
 // --------------- imports ---------------
 
-let guessWord;
+export let guessWord;
 let guessWordLength;
 
 const guessContainer = query(document, ".guesses");
-let guessRows;
-let activeRow;
+export let guessRows;
+export let activeRow;
 export let activeRowSlots;
 
 export function guessGenerator(PCH, GWO) {
-    guessWord = GWO[PCH][5][Math.round(Math.random() * GWO[PCH][5].length - 1)];
+    // guessWord = GWO[PCH][5][Math.round(Math.random() * GWO[PCH][5].length - 1)];
+    guessWord = "مەلهە";
     guessWordLength = guessWord.length;
 
     console.log("guessWord:", guessWord);
@@ -82,41 +85,7 @@ export function guessGenerator(PCH, GWO) {
     activeRow = guessRows[0];
     activeRowSlots = Array.from(activeRow.children).reverse();
 
-    F.activeRowCE(activeRow);
+    F.rowActiveState(activeRow, "activate", true);
 
     addClass(activeRow, "activated");
-
-    // first row activation
-    setTimeout(() => {
-        activeRowSlots.forEach((slot, index, array) => {
-            slot.animate(
-                [
-                    {
-                        opacity: 0.2,
-                        transform: "scale(0)",
-                    },
-                    {
-                        opacity: 1,
-                        transform: "scale(0)",
-                    },
-                    {
-                        opacity: 1,
-                        transform: "scale(1.1)",
-                    },
-                    {
-                        opacity: 1,
-                        transform: "scale(1)",
-                    },
-                ],
-                {
-                    duration: 700,
-                    delay: index * 120,
-                    easing: "ease-in-out",
-                    fill: "forwards",
-                }
-            );
-        });
-
-        addClass(activeRowSlots[0], "active-slot");
-    }, 1200);
 }

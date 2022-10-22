@@ -1,3 +1,4 @@
+// --------------- imports ---------------
 import {
     log,
     query,
@@ -12,7 +13,10 @@ import { validWordsObj, validWordsObj as VWO } from "./validWords.js";
 
 import { guessWordsObj as GWO } from "./guessWords.js";
 
+import * as F from "./fun.js";
+
 import * as GG from "./guessGenerator.js";
+// --------------- imports ---------------
 
 export const keyboard = query(document, ".keyboard");
 const accentedKeys = queryAll(keyboard, ".accented");
@@ -24,6 +28,8 @@ const unregistered = query(document, ".unregistered");
 addEl(keyboard, "click", keyboardMechanics);
 
 export function keyboardMechanics(e) {
+    removeClass(unregistered, "show-unregistered");
+
     const target = e.target;
 
     // ----- letters -----
@@ -54,17 +60,12 @@ export function keyboardMechanics(e) {
         changeActiveSlot(previousActiveSlot(), "empty");
     }
 
-    GG.activeRowSlots[3].animate(...correct);
-    GG.activeRowSlots[2].animate(...notIncluded);
-    GG.activeRowSlots[4].animate(...incorrect);
-    GG.activeRowSlots[0].animate(...activeSlot);
-
     // ----- enter -----
     if (target.matches(".enter, .enter-icon")) {
         let playersGuess = [];
-        const guessWord = GG.guessWord.split("");
+        const guessWord = [...GG.guessWord];
 
-        removeClass(unregistered, "show-unregistered");
+        let gameWon = 0;
 
         // ----- empty or not -----
         const hasEmptySlots = (() => {
@@ -95,11 +96,11 @@ export function keyboardMechanics(e) {
         const invalidGuess = (() => {
             let result;
             if (!hasEmptySlots) {
-                // valid
+                // ----- valid -----
                 if (validWordsObj[5].includes(playersGuess.join(""))) {
                     result = false;
                 } else {
-                    // invalid
+                    // ----- invalid -----
                     unregistered.lastElementChild.innerText = `${playersGuess.join(
                         ""
                     )}`;
@@ -125,11 +126,60 @@ export function keyboardMechanics(e) {
         console.log("playersGuess:", playersGuess);
 
         // ----- correct or not -----
-        if (!invalidGuess) {
-            GG.activeRowSlots.forEach((slot, index, array) => {});
+        if (!hasEmptySlots && !invalidGuess) {
+            GG.activeRowSlots.forEach((slot, index, array) => {
+                const letter = slot.innerText === "هـ" ? "ه" : slot.innerText;
+
+                // ----- no letters included -----
+                if (!guessWord.includes(letter)) {
+                    setTimeout(() => {
+                        slot.animate(...notIncluded);
+                    }, index * 80);
+                }
+
+                // ----- incorrect -----
+                if (
+                    guessWord.includes(letter) &&
+                    guessWord.indexOf(letter) !== index
+                ) {
+                    slot.animate(...incorrect);
+                }
+
+                // ----- correct -----
+                if (guessWord.indexOf(letter) === index) {
+                    slot.animate(...correct);
+
+                    guessWord[index] = "";
+
+                    gameWon++;
+                }
+            });
+
+            F.rowActiveState(GG.guessRows[activeRow], "deactivate");
         }
 
         // ----- game won or not -----
+        if (gameWon === guessWord.length) {
+            F.word.innerText = GG.guessWord;
+            F.word.style.opacity = 1;
+
+            setTimeout(() => {
+                GG.activeRowSlots.forEach((slot, index) => {
+                    setTimeout(() => {
+                        slot.animate(...winnerFlag);
+                    }, index * 120);
+                });
+
+                F.theNotch.animate(...turnTheNotch);
+                F.wordCover.animate(...unveilWord);
+            }, 800);
+        } else {
+            activeRow++;
+
+            if (activeRow < guessWord.length - 2) {
+                F.rowActiveState(GG.guessRows[activeRow], "activate");
+            }
+        }
     }
 }
 
@@ -196,7 +246,6 @@ function accentShifter(pressed, unpress) {
 }
 
 // --------------- animations ---------------
-
 const emptySlot = [
     [
         {
@@ -275,6 +324,73 @@ const notIncluded = [
     ],
     {
         duration: 800,
+        easing: "ease-in-out",
+        fill: "forwards",
+    },
+];
+
+const winnerFlag = [
+    [
+        {
+            transform: "scale(1)",
+        },
+        {
+            transform: "scale(1.2)",
+        },
+        {
+            transform: "scale(1.2)",
+        },
+        {
+            transform: "scale(1)",
+        },
+    ],
+    {
+        duration: 500,
+        easing: "ease-in-out",
+    },
+];
+
+const turnTheNotch = [
+    [
+        {
+            transform: "rotate(0deg)",
+        },
+        {
+            transform: "rotate(360deg)",
+        },
+        {
+            transform: "rotate(420deg)",
+        },
+        {
+            transform: "rotate(360deg)",
+        },
+    ],
+    {
+        duration: 1000,
+        delay: 1000,
+        easing: "ease-in-out",
+        fill: "forwards",
+    },
+];
+
+const unveilWord = [
+    [
+        {
+            right: "0%",
+        },
+        {
+            right: "-15%",
+        },
+        {
+            right: "-15%",
+        },
+        {
+            right: "100%",
+        },
+    ],
+    {
+        duration: 1000,
+        delay: 2000,
         easing: "ease-in-out",
         fill: "forwards",
     },

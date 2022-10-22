@@ -1,3 +1,7 @@
+// --------------- imports ---------------
+import { catigirizer } from "./fun.js";
+// --------------- imports ---------------
+
 export const guessWordsObj = {
     occupations: { 5: [], 6: [], 7: [], 8: [] },
     fruitsAndVegtables: { 5: [], 6: [], 7: [], 8: [] },

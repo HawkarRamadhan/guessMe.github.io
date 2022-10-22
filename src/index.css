@@ -296,7 +296,7 @@ main {
   }
 }
 .keyboard .row .back-space {
-  font-size: 1.5rem;
+  font-size: 2rem;
   padding: 1rem 0;
 }
 @media screen and (min-width: 30em) {
@@ -405,7 +405,7 @@ main {
 }
 
 .active-slot {
-  border: 0.2rem solid red;
+  border: 0.1rem solid red;
   transition: border 0.1s ease-in-out;
 }
 
