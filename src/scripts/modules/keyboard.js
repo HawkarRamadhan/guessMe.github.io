@@ -192,9 +192,9 @@ const unveilWord = [
 
 export let activeRowCounter = 0;
 
+let playersGuessTracker = [];
 let redTracker = [];
 let yellowTracker = [];
-let playersGuessTracker = [];
 
 export const keyboard = query(document, ".keyboard");
 const accentedKeys = queryAll(keyboard, ".accented");
@@ -259,15 +259,15 @@ export function keyboardMechanics(e) {
 
                     changeActiveSlot(emptySlotsIndex[0]);
                 } else if (letter !== "") {
-                    if (letter === "هـ") {
-                        playersGuess.push("ه");
-                    } else {
-                        playersGuess.push(letter);
-                    }
+                    if (letter === "هـ") playersGuess.push("ه");
+                    else playersGuess.push(letter);
                 }
             });
 
-            return (emptySlotsIndex = !emptySlotsIndex.length ? false : true);
+            if (!emptySlotsIndex.length) emptySlotsIndex = false;
+            else emptySlotsIndex = true;
+
+            return emptySlotsIndex;
         })();
 
         // ----- valid or not -----
@@ -280,11 +280,12 @@ export function keyboardMechanics(e) {
                 validWordsObj[5].includes(playersGuess.join(""))
             ) {
                 result = false;
-            } else {
+            } else if (!hasEmptySlots) {
                 // ----- invalid -----
                 unregistered.lastElementChild.innerText = `${playersGuess.join(
                     ""
                 )}`;
+
                 addClass(unregistered, "show-unregistered");
 
                 F.clearInvalidGuess();
@@ -292,39 +293,24 @@ export function keyboardMechanics(e) {
                 result = true;
             }
 
-            return result;
-        })();
-
-        const registeredGuess = (() => {
-            let result = false;
-
-            if (activeRowCounter > 0 && !hasEmptySlots && !invalidGuess) {
+            // ----- duplicate guess -----
+            if (!hasEmptySlots && activeRowCounter > 0) {
                 playersGuessTracker.forEach(item => {
                     if (playersGuess.join("") === item[0]) {
                         GG.guessRows[item[1]].animate(...registeredGuessAnime);
-                        console.log(
-                            "GG.guessRows[item[1]]:",
-                            GG.guessRows[item[1]]
-                        );
 
                         F.clearInvalidGuess();
 
                         result = true;
-
-                        console.log("item:", item);
                     }
                 });
             }
 
             return result;
         })();
-        console.log("registeredGuess:", registeredGuess);
-
-        // console.log("guessWord:", guessWord);
-        // console.log("playersGuess:", playersGuess);
 
         // ----- correct or not -----
-        if (!hasEmptySlots && !invalidGuess && !registeredGuess) {
+        if (!hasEmptySlots && !invalidGuess) {
             F.activeRowSlots.forEach((slot, index, array) => {
                 const letter = slot.innerText === "هـ" ? "ه" : slot.innerText;
 
@@ -357,7 +343,6 @@ export function keyboardMechanics(e) {
 
             F.rowActiveState(GG.guessRows[activeRowCounter], "deactive");
         }
-        // console.log("playersGuessTracker:", playersGuessTracker);
 
         // ----- game won or not -----
         if (gameWon === guessWord.length) {
@@ -387,7 +372,6 @@ export function keyboardMechanics(e) {
         } else if (
             !hasEmptySlots &&
             !invalidGuess &&
-            !registeredGuess &&
             activeRowCounter < GG.guessRows.length - 1
         ) {
             activeRowCounter++;
