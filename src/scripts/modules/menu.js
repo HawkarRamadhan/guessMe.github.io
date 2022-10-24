@@ -16,7 +16,26 @@ import * as F from "./fun.js";
 import { guessGenerator } from "./guessGenerator.js";
 
 import { keyboard } from "./keyboard.js";
-// --------------- imports ---------------
+
+// --------------- animations ---------------
+const selectedChoice = [
+    [
+        {
+            transform: "scale(1)",
+        },
+        {
+            transform: "scale(2)",
+        },
+        {
+            transform: "scale(1)",
+        },
+    ],
+    {
+        duration: 500,
+        easing: "ease-in-out",
+        fill: "forwards",
+    },
+];
 
 const downArrow = query(document, ".down-arrow");
 const upArrow = query(document, ".up-arrow");
@@ -62,24 +81,7 @@ function cardsEL(e) {
         ? e.target
         : e.target.parentElement;
 
-    reassignedTarget.children[1].animate(
-        [
-            {
-                transform: "scale(1)",
-            },
-            {
-                transform: "scale(2)",
-            },
-            {
-                transform: "scale(1)",
-            },
-        ],
-        {
-            duration: 500,
-            easing: "ease-in-out",
-            fill: "forwards",
-        }
-    );
+    reassignedTarget.children[1].animate(...selectedChoice);
 
     //     playersChoice = reassignedTarget.getAttribute("class");
     //

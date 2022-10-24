@@ -2,7 +2,6 @@
 import { log } from "./globalFun.js";
 
 import { catigirizer } from "./fun.js";
-// --------------- imports ---------------
 
 export const validWordsObj = {
     5: [],

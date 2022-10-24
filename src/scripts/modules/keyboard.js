@@ -190,20 +190,61 @@ const unveilWord = [
     },
 ];
 
+const scaledShiftKeyIcon = [
+    [
+        {
+            transform: "rotate(0deg) ",
+        },
+        {
+            transform: "rotate(180deg) scale(1.3)",
+            color: "red",
+        },
+        {
+            transform: "rotate(180deg) scale(1.3)",
+            color: "red",
+        },
+    ],
+    {
+        duration: 700,
+        easing: "ease-in-out",
+        fill: "forwards",
+    },
+];
+
+const unscaledShiftKeyIcon = [
+    [
+        {
+            transform: "rotate(180deg) scale(1.3)",
+            color: "red",
+        },
+        {
+            transform: "rotate(0deg) scale(1)",
+            color: "white",
+        },
+        {
+            transform: "rotate(0deg) scale(1)",
+            color: "white",
+        },
+    ],
+    {
+        duration: 700,
+        easing: "ease-in-out",
+        fill: "forwards",
+    },
+];
+
 export let activeRowCounter = 0;
 
+// ----- guess tracker -----
 let playersGuessTracker = [];
-let redTracker = [];
-let yellowTracker = [];
 
+// ----- variables -----
 export const keyboard = query(document, ".keyboard");
 const accentedKeys = queryAll(keyboard, ".accented");
 const shiftKey = query(keyboard, ".shift");
+const shiftKeyIcon = query(keyboard, ".shift-icon");
 let shiftKeyPressed = false;
-
 const unregistered = query(document, ".unregistered");
-
-addEl(keyboard, "click", keyboardMechanics);
 
 export function keyboardMechanics(e) {
     removeClass(unregistered, "show-unregistered");
@@ -311,6 +352,33 @@ export function keyboardMechanics(e) {
 
         // ----- correct or not -----
         if (!hasEmptySlots && !invalidGuess) {
+            const activatedRows = Array.from(queryAll(document, ".activated"));
+
+            function duplicateColorCodingRemover(placeHolder, className) {
+                if (activeRowCounter > 0) {
+                    activatedRows.forEach((row, index) => {
+                        if (index !== activatedRows.length - 1) {
+                            const rowSlots = Array.from(row.children).reverse();
+
+                            rowSlots.forEach(slot => {
+                                const letterV =
+                                    slot.innerText === "هـ"
+                                        ? "ه"
+                                        : slot.innerText;
+
+                                if (
+                                    letterV === placeHolder &&
+                                    slot.classList.contains(className)
+                                ) {
+                                    slot.animate(...notIncluded);
+                                    removeClass(slot, className);
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+
             F.activeRowSlots.forEach((slot, index, array) => {
                 const letter = slot.innerText === "هـ" ? "ه" : slot.innerText;
 
@@ -327,15 +395,21 @@ export function keyboardMechanics(e) {
                     guessWord.indexOf(letter) !== index
                 ) {
                     slot.animate(...incorrect);
+                    addClass(slot, "incorrect");
+
+                    duplicateColorCodingRemover(letter, "incorrect");
                 }
 
                 // ----- correct -----
                 if (guessWord.indexOf(letter) === index) {
                     slot.animate(...correct);
+                    addClass(slot, "correct");
 
                     guessWord[index] = "";
 
                     gameWon++;
+
+                    duplicateColorCodingRemover(letter, "correct");
                 }
             });
 
@@ -344,8 +418,8 @@ export function keyboardMechanics(e) {
             F.rowActiveState(GG.guessRows[activeRowCounter], "deactive");
         }
 
-        // ----- game won or not -----
         if (gameWon === guessWord.length) {
+            // ----- game won or not -----
             F.word.innerText = GG.guessWord;
             F.word.style.opacity = 1;
 
@@ -422,19 +496,26 @@ export function changeActiveSlot(activate, empty) {
     addClass(F.activeRowSlots[activate], "active-slot");
 }
 
+// come back to this!!!
 function accentShifter(pressed, unpress) {
     for (const key of accentedKeys) {
         if (unpress === "unshift") {
+            // shiftKeyIcon.animate(...unscaledShiftKeyIcon);
+
             key.children[0].style.display = "inline";
             key.children[1].style.display = "none";
 
             shiftKeyPressed = false;
         } else if (!pressed) {
+            shiftKeyIcon.animate(...scaledShiftKeyIcon);
+
             key.children[0].style.display = "none";
             key.children[1].style.display = "inline";
 
             shiftKeyPressed = true;
         } else if (pressed) {
+            shiftKeyIcon.animate(...unscaledShiftKeyIcon);
+
             key.children[0].style.display = "inline";
             key.children[1].style.display = "none";
 

@@ -16,6 +16,8 @@ import { guessWordsObj } from "./guessWords.js";
 import * as GG from "./guessGenerator.js";
 
 import * as M from "./menu.js";
+
+import * as K from "./keyboard.js";
 // --------------- imports ---------------
 
 export const wordCover = query(document, ".word-cover");
@@ -52,11 +54,12 @@ export default function gameMechanics(appLaunch) {
     }
 }
 
+// active row call back
 function activeRowCBF(e) {
     const target = e.target;
 
     if (target.matches("span")) {
-        for (const slot of GG.activeRowSlots) {
+        for (const slot of activeRowSlots) {
             removeClass(slot, "active-slot");
         }
 
@@ -67,14 +70,29 @@ function activeRowCBF(e) {
 // active row click event
 export let activeRow;
 export let activeRowSlots;
-export function rowActiveState(row, state) {
+export function rowActiveState(row, state, gameOpening) {
     activeRow = row;
     activeRowSlots = Array.from(row.children).reverse();
 
     if (state === "active") {
         addEl(row, "click", activeRowCBF);
 
-        // row activation
+        rowActivationAnime(gameOpening);
+    } else if (state === "deactive") {
+        removeEl(row, "click", activeRowCBF);
+
+        for (const slot of activeRowSlots) {
+            removeClass(slot, "active-slot");
+        }
+    }
+
+    addClass(activeRow, "activated");
+}
+
+// row activation anime
+function rowActivationAnime(gameOpening) {
+    // row activation
+    if (gameOpening) {
         setTimeout(() => {
             activeRowSlots.forEach((slot, index, array) => {
                 slot.animate(
@@ -107,13 +125,52 @@ export function rowActiveState(row, state) {
 
             addClass(activeRowSlots[0], "active-slot");
         }, 1200);
-    } else if (state === "deactive") {
-        removeEl(row, "click", activeRowCBF);
+    } else {
+        setTimeout(() => {
+            activeRowSlots.forEach((slot, index, array) => {
+                slot.animate(
+                    [
+                        {
+                            opacity: 0.2,
+                            transform: "scale(0)",
+                        },
+                        {
+                            opacity: 1,
+                            transform: "scale(0)",
+                        },
+                        {
+                            opacity: 1,
+                            transform: "scale(1.1)",
+                        },
+                        {
+                            opacity: 1,
+                            transform: "scale(1)",
+                        },
+                    ],
+                    {
+                        duration: 700,
+                        delay: index * 120,
+                        easing: "ease-in-out",
+                        fill: "forwards",
+                    }
+                );
+            });
 
-        for (const slot of activeRowSlots) {
-            removeClass(slot, "active-slot");
-        }
+            addClass(activeRowSlots[0], "active-slot");
+        }, 500);
     }
+}
+
+export function clearInvalidGuess() {
+    activeRowSlots.reverse().forEach((slot, index) => {
+        setTimeout(() => {
+            slot.innerText = "";
+        }, index * 120);
+
+        activeRowSlots.reverse();
+
+        K.changeActiveSlot(0);
+    });
 }
 
 // game reset

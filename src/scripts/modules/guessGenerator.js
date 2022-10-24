@@ -15,7 +15,7 @@ import { validWordsObj } from "./validWords.js";
 
 import * as M from "./menu.js";
 
-import * as k from "./keyboard.js";
+import * as K from "./keyboard.js";
 // --------------- imports ---------------
 
 export let guessWord;
@@ -82,7 +82,6 @@ export function guessGenerator(PCH, GWO) {
         "none";
 
     guessRows = Array.from(guessContainer.children);
-    F.rowActiveState(guessRows[k.activeRowCounter], "active");
-
-    addClass(F.activeRow, "activated");
+    F.rowActiveState(guessRows[K.activeRowCounter], "active", true);
+    addEl(K.keyboard, "click", K.keyboardMechanics);
 }
