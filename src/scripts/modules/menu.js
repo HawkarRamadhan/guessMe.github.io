@@ -20,15 +20,15 @@ import * as K from "./keyboard.js";
 import * as F from "./fun.js";
 // --------------- imports ---------------
 
-const downArrow = query(document, ".down-arrow");
-const upArrow = query(document, ".up-arrow");
+export const downArrow = query(document, ".down-arrow");
+export const upArrow = query(document, ".up-arrow");
 const cardsContainer = query(document, ".cards-container");
 const cards = queryAll(cardsContainer, "div");
 
 export let playersChoice;
 
 // card translation
-export function cardsToggler(state) {
+export default function cardsToggler(state) {
     // on
     if (state === "on") {
         addClass(cardsContainer, "show-cards");
@@ -82,11 +82,10 @@ function cardsEL(e) {
 }
 
 // down arrow
-function downArrowF() {
+export function downArrowF() {
     removeEl(downArrow, "click", downArrowF);
     removeClass(downArrow, "show-down-arrow");
 
-    addClass(cardsContainer, "show-cards");
     cardsToggler("on");
 
     addClass(upArrow, "show-up-arrow");
@@ -94,11 +93,10 @@ function downArrowF() {
 }
 
 // up arrow
-function upArrowF() {
+export function upArrowF() {
     removeEl(upArrow, "click", upArrowF);
     removeClass(upArrow, "show-up-arrow");
 
-    removeClass(cardsContainer, "show-card");
     cardsToggler("off");
 
     addClass(downArrow, "show-down-arrow");

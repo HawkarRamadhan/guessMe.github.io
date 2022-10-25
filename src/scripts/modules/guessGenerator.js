@@ -27,10 +27,7 @@ export function guessGenerator(PCH, GWO) {
     console.log("guessWord:", guessWord);
     console.log("guessWordLength:", guessWordLength);
 
-    // row clean up
-    for (let index = 0; index < guessContainer.children.length; index++) {
-        guessContainer.removeChild(guessContainer.firstElementChild);
-    }
+    K.gameReset();
 
     for (let rowIndex = 0; rowIndex < guessWordLength + 1; rowIndex++) {
         // row
@@ -82,6 +79,8 @@ export function guessGenerator(PCH, GWO) {
         "none";
 
     guessRows = Array.from(guessContainer.children);
+
     F.rowActiveState(guessRows[K.activeRowCounter], "active", true);
+
     addEl(K.keyboard, "click", K.keyboardMechanics);
 }

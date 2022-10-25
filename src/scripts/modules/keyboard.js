@@ -11,19 +11,19 @@ import {
 
 import * as A from "./animations.js";
 
+import * as M from "./menu.js";
+
 import * as GG from "./guessGenerator.js";
 
 import * as F from "./fun.js";
 
 import { validWordsObj } from "./validWords.js";
-
-import { cardsToggler } from "./menu.js";
 // --------------- imports ---------------
 
 export let activeRowCounter = 0;
 
 //  guess tracker
-let playersGuessTracker = [];
+export let playersGuessTracker = [];
 
 //  variables
 export const keyboard = query(document, ".keyboard");
@@ -212,11 +212,16 @@ export function keyboardMechanics(e) {
 
             log("Game Won");
             //  game lost
-        } else if (activeRowCounter === GG.guessRows.length - 2) {
+        } else if (
+            !hasEmptySlots &&
+            !invalidGuess &&
+            activeRowCounter + 1 === guessWord.length
+        ) {
             removeEl(keyboard, "click", keyboardMechanics);
             removeClass(keyboard, "show-keyboard");
 
-            cardsToggler("on");
+            addClass(M.downArrow, "show-down-arrow");
+            addEl(M.downArrow, "click", M.downArrowF);
 
             log("Game Over");
             //  next guess
@@ -229,5 +234,16 @@ export function keyboardMechanics(e) {
 
             F.rowActiveState(GG.guessRows[activeRowCounter], "active");
         }
+    }
+}
+
+export function gameReset() {
+    playersGuessTracker = [];
+
+    activeRowCounter = 0;
+
+    // row clean up
+    while (GG.guessContainer.firstChild) {
+        GG.guessContainer.removeChild(GG.guessContainer.firstChild);
     }
 }

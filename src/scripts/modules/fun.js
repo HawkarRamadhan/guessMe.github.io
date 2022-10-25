@@ -11,34 +11,21 @@ import {
 
 import * as A from "./animations.js";
 
-import * as M from "./menu.js";
+import * as GG from "./guessGenerator.js";
 
 import * as K from "./keyboard.js";
-
-import * as GG from "./guessGenerator.js";
 // --------------- imports ---------------
 
 export const wordCover = query(document, ".word-cover");
 export const theNotch = query(wordCover, "i");
 export const word = query(document, ".word");
 
-const accentedKeys = queryAll(K.keyboard, ".accented");
-const shiftKey = query(K.keyboard, ".shift");
-const shiftKeyIcon = query(K.keyboard, ".shift-icon");
+const accentedKeys = queryAll(document, ".accented");
+const shiftKeyIcon = query(document, ".shift-icon");
 let shiftKeyPressed = false;
 
 export let activeRow;
 export let activeRowSlots;
-
-// game mechanics
-export default function gameMechanics(appLaunch) {
-    if (appLaunch) {
-        setTimeout(() => {
-            M.cardsToggler("on");
-        }, 100);
-    } else if (!appLaunch) {
-    }
-}
 
 // active row call back
 function activeRowCBF(e) {
@@ -231,6 +218,7 @@ export function accentShifter(pressed, unpress) {
     }
 }
 
+// dupllicate removal
 export function duplicateRemover(ARC, rows, letter, index, className) {
     if (ARC > 0) {
         rows.forEach((row, rowIndex) => {

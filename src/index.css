@@ -1,455 +1,455 @@
 html {
-  font-family: "Noto Naskh Arabic", serif;
-  font-size: 10px;
+    font-family: "Noto Naskh Arabic", serif;
+    font-size: 10px;
 }
 
 *,
 ::before,
 ::after {
-  margin: 0;
-  padding: 0;
-  border: none;
-  outline: none;
-  list-style-type: none;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    list-style-type: none;
+    box-sizing: border-box;
 }
 
 body {
-  background-color: rgb(20, 20, 20);
-  color: rgb(235, 235, 235);
-  font-size: 1.6rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
+    background-color: rgb(20, 20, 20);
+    color: rgb(235, 235, 235);
+    font-size: 1.6rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
 }
 
 a {
-  text-align: none;
+    text-align: none;
 }
 
 img {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 header {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 95;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 95;
 }
 header .title-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 header .title-container .title {
-  font-size: 2.5rem;
+    font-size: 2.5rem;
 }
 header .title-container .down-arrow {
-  font-size: 2.5rem;
-  transform: scale(0);
-  transition: bottom 0.3s ease;
-  padding: 0 0.5rem 0.5rem 0.5rem;
-  position: absolute;
-  left: 50%;
-  bottom: -2.5rem;
+    font-size: 2.5rem;
+    transform: scale(0);
+    transition: bottom 0.3s ease;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    position: absolute;
+    left: 50%;
+    bottom: -2.5rem;
 }
 header .title-container .down-arrow:active {
-  bottom: -3.5rem;
+    bottom: -3.5rem;
 }
 
 main {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  justify-items: center;
-  position: absolute;
-  top: 4.2rem;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    justify-items: center;
+    position: absolute;
+    top: 4.2rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
 }
 
 .cards-container {
-  display: none;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
-  align-items: center;
-  background-color: rgba(20, 20, 20, 0.99);
-  transform: translateY(-100%);
-  transition: transform 0.5s 0.3s ease-in-out;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 90;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    background-color: rgba(20, 20, 20, 0.99);
+    transform: translateY(-100%);
+    transition: transform 0.5s 0.3s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
 }
 @media screen and (min-width: 37.5em) {
-  .cards-container {
-    padding: 0 10%;
-  }
+    .cards-container {
+        padding: 0 10%;
+    }
 }
 .cards-container div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
 }
 .cards-container div img {
-  width: 5rem;
+    width: 5rem;
 }
 .cards-container .up-arrow {
-  font-size: 2.5rem;
-  transform: scale(0);
-  transition: bottom 0.3s ease;
-  padding: 1rem;
-  position: absolute;
-  left: 50%;
-  bottom: 3rem;
+    font-size: 2.5rem;
+    transform: scale(0);
+    transition: bottom 0.3s ease;
+    padding: 1rem;
+    position: absolute;
+    left: 50%;
+    bottom: 3rem;
 }
 .cards-container .up-arrow:active {
-  bottom: 5rem;
+    bottom: 5rem;
 }
 
 .word-and-guesses {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  align-content: space-around;
-  width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-content: space-around;
+    width: 100%;
 }
 .word-and-guesses .word-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
-  justify-self: center;
-  width: 50%;
-  max-width: 20rem;
-  margin-top: 3rem;
-  position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    justify-self: center;
+    width: 50%;
+    max-width: 20rem;
+    margin-top: 3rem;
+    position: relative;
 }
 .word-and-guesses .word-container .word {
-  font-size: 2.5rem;
-  font-weight: font;
-  opacity: 0;
+    font-size: 2.5rem;
+    font-weight: font;
+    opacity: 0;
 }
 .word-and-guesses .word-container .word-cover {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background-color: rgb(235, 235, 235);
-  border-radius: 0.5rem;
-  color: rgb(20, 20, 20);
-  font-weight: bold;
-  transition: right 0.5s 1s ease-in-out;
-  position: absolute;
-  top: 0;
-  right: 100%;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(235, 235, 235);
+    border-radius: 0.5rem;
+    color: rgb(20, 20, 20);
+    font-weight: bold;
+    transition: right 0.5s 1s ease-in-out;
+    position: absolute;
+    top: 0;
+    right: 100%;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
 }
 .word-and-guesses .word-container .word-cover .notch-container {
-  transform: translateY(-50%) rotate(86deg);
-  position: absolute;
-  top: 50%;
-  right: 5%;
+    transform: translateY(-50%) rotate(86deg);
+    position: absolute;
+    top: 50%;
+    right: 5%;
 }
 
 .guesses {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  justify-self: center;
-  align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    justify-self: center;
+    align-self: center;
 }
 .guesses .guess-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
 .guesses .guess-row span {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  min-width: 37px;
-  min-height: 35px;
-  background-color: rgb(235, 235, 235);
-  color: rgb(20, 20, 20);
-  font-size: 1.5rem;
-  font-weight: bold;
-  border-radius: 0.5rem;
-  transition: border 0.3s ease-in-out;
-  opacity: 0;
-  cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-width: 37px;
+    min-height: 35px;
+    background-color: rgb(235, 235, 235);
+    color: rgb(20, 20, 20);
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    transition: border 0.3s ease-in-out;
+    opacity: 0;
+    cursor: pointer;
 }
 @media screen and (min-width: 30em) {
-  .guesses .guess-row span {
-    min-width: 42px;
-    min-height: 40px;
-  }
+    .guesses .guess-row span {
+        min-width: 42px;
+        min-height: 40px;
+    }
 }
 @media screen and (min-width: 30em) {
-  .guesses .guess-row span {
-    font-size: 2rem;
-  }
+    .guesses .guess-row span {
+        font-size: 2rem;
+    }
 }
 @media screen and (min-width: 48em) {
-  .guesses .guess-row span:hover {
-    transition: background-color 0.2s ease-in-out, color 0.2s ease;
-    background-color: rgba(235, 235, 235, 0.2);
-    color: rgb(235, 235, 235);
-  }
+    .guesses .guess-row span:hover {
+        transition: background-color 0.2s ease-in-out, color 0.2s ease;
+        background-color: rgba(235, 235, 235, 0.2);
+        color: rgb(235, 235, 235);
+    }
 }
 
 .keyboard {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  max-width: 70rem;
-  padding: 1rem 1rem;
-  transform: translateY(150%);
-  transition: transform 0.5s 0.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 70rem;
+    padding: 1rem 1rem;
+    transform: translateY(150%);
+    transition: transform 0.5s 0.5s ease-in-out;
 }
 .keyboard .row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 0.5rem;
-  width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 0.5rem;
+    width: 100%;
 }
 .keyboard .row button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  min-width: 4rem;
-  background-color: rgba(120, 120, 120, 0.2);
-  color: rgb(235, 235, 235);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
-  cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    min-width: 4rem;
+    background-color: rgba(120, 120, 120, 0.2);
+    color: rgb(235, 235, 235);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+    cursor: pointer;
 }
 @media screen and (min-width: 37.5em) {
-  .keyboard .row button {
-    padding: 0.5rem 0.5rem;
-  }
+    .keyboard .row button {
+        padding: 0.5rem 0.5rem;
+    }
 }
 .keyboard .row button:active {
-  transform: translateY(-0.6rem);
-  background-color: rgba(120, 120, 120, 0);
+    transform: translateY(-0.6rem);
+    background-color: rgba(120, 120, 120, 0);
 }
 @media screen and (min-width: 37.5em) {
-  .keyboard .row button:hover {
-    background-color: rgba(120, 120, 120, 0);
-  }
+    .keyboard .row button:hover {
+        background-color: rgba(120, 120, 120, 0);
+    }
 }
 .keyboard .row button span {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
-  font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
 }
 @media screen and (min-width: 30em) {
-  .keyboard .row button span {
-    font-size: 3rem;
-  }
+    .keyboard .row button span {
+        font-size: 3rem;
+    }
 }
 .keyboard .row .accented span:nth-of-type(2) {
-  display: none;
+    display: none;
 }
 .keyboard .row .shift {
-  flex: 2;
-  font-size: 2.5rem;
+    flex: 2;
+    font-size: 2.5rem;
 }
 @media screen and (min-width: 30em) {
-  .keyboard .row .shift {
-    font-size: 4rem;
-  }
+    .keyboard .row .shift {
+        font-size: 4rem;
+    }
 }
 .keyboard .row .back-space {
-  font-size: 2rem;
-  padding: 1rem 0;
+    font-size: 2rem;
+    padding: 1rem 0;
 }
 @media screen and (min-width: 30em) {
-  .keyboard .row .back-space {
-    font-size: 2.5rem;
-  }
+    .keyboard .row .back-space {
+        font-size: 2.5rem;
+    }
 }
 .keyboard .row .space {
-  flex: 3;
-  font-size: 2rem;
-  padding: 1rem 0;
+    flex: 3;
+    font-size: 2rem;
+    padding: 1rem 0;
 }
 @media screen and (min-width: 30em) {
-  .keyboard .row .space {
-    font-size: 3rem;
-  }
+    .keyboard .row .space {
+        font-size: 3rem;
+    }
 }
 .keyboard .row .enter {
-  font-size: 2rem;
-  padding: 1rem 0;
+    font-size: 2rem;
+    padding: 1rem 0;
 }
 @media screen and (min-width: 30em) {
-  .keyboard .row .enter {
-    font-size: 3rem;
-  }
+    .keyboard .row .enter {
+        font-size: 3rem;
+    }
 }
 .keyboard .row .enter i {
-  transform: rotateY(180deg) rotate(90deg);
+    transform: rotateY(180deg) rotate(90deg);
 }
 
 .show-cards {
-  transform: translateY(0%);
-  transition: transform 0.5s 0.3s ease-in-out;
+    transform: translateY(0%);
+    transition: transform 0.5s 0.3s ease-in-out;
 }
 
 .card-translation {
-  animation: card-translation 1.5s ease-in-out infinite;
+    animation: card-translation 1.5s ease-in-out infinite;
 }
 @keyframes card-translation {
-  50% {
-    transform: translateY(-1rem);
-  }
-  100% {
-    transform: translateY(0);
-  }
+    50% {
+        transform: translateY(-1rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 .show-down-arrow {
-  animation: show-down-arrow 1s 0.5s ease-in-out forwards;
+    animation: show-down-arrow 1s 0.5s ease-in-out forwards;
 }
 @keyframes show-down-arrow {
-  40% {
-    transform: translateX(-50%) scale(0);
-  }
-  70% {
-    transform: translateX(-50%) scale(2.5);
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-  }
+    40% {
+        transform: translateX(-50%) scale(0);
+    }
+    70% {
+        transform: translateX(-50%) scale(2.5);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
 }
 
 .show-up-arrow {
-  animation: show-up-arrow 1s 0.5s ease-in-out forwards;
+    animation: show-up-arrow 1s 0.5s ease-in-out forwards;
 }
 @keyframes show-up-arrow {
-  40% {
-    transform: translateX(-50%) scale(0);
-  }
-  70% {
-    transform: translateX(-50%) scale(2.5);
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-  }
+    40% {
+        transform: translateX(-50%) scale(0);
+    }
+    70% {
+        transform: translateX(-50%) scale(2.5);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
 }
 
 .veil-word {
-  animation: veil-word 1s 1.2s ease-in-out forwards;
+    animation: veil-word 1s 1.2s ease-in-out forwards;
 }
 @keyframes veil-word {
-  60% {
-    right: -15%;
-  }
-  65% {
-    right: -15%;
-  }
-  100% {
-    right: 0%;
-  }
+    60% {
+        right: -15%;
+    }
+    65% {
+        right: -15%;
+    }
+    100% {
+        right: 0%;
+    }
 }
 
 .turn-the-notch {
-  animation: turn-the-notch 1.5s 2.2s ease-in-out forwards;
+    animation: turn-the-notch 1.5s 2.2s ease-in-out forwards;
 }
 @keyframes turn-the-notch {
-  40% {
-    transform: rotate(360deg);
-  }
-  70% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    40% {
+        transform: rotate(360deg);
+    }
+    70% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .active-slot {
-  border: 0.1rem solid red;
-  transition: border 0.1s ease-in-out;
+    border: 0.1rem solid red;
+    transition: border 0.1s ease-in-out;
 }
 
 .show-keyboard {
-  transform: translateY(0);
-  transition: transform 0.5s 1.2s ease-in-out;
+    transform: translateY(0);
+    transition: transform 0.5s 1.2s ease-in-out;
 }
 
 .show-unregistered {
-  animation: show-unregistered 2s ease-in-out;
+    animation: show-unregistered 2s ease-in-out;
 }
 @keyframes show-unregistered {
-  20% {
-    transform: translateY(0);
-  }
-  80% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-200%);
-  }
+    20% {
+        transform: translateY(0);
+    }
+    80% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-200%);
+    }
 }
 
 .unregistered {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  min-width: 20rem;
-  background-color: rgb(235, 235, 235);
-  color: rgb(20, 20, 20);
-  border-radius: 0.5rem;
-  padding: 1rem 3rem;
-  transform: translateY(-200%);
-  transition: transform 0.5s ease-in-out;
-  position: absolute;
-  top: 2.75rem;
-  z-index: 10;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-width: 20rem;
+    background-color: rgb(235, 235, 235);
+    color: rgb(20, 20, 20);
+    border-radius: 0.5rem;
+    padding: 1rem 3rem;
+    transform: translateY(-200%);
+    transition: transform 0.5s ease-in-out;
+    position: absolute;
+    top: 2.75rem;
+    z-index: 10;
 }
 .unregistered span:nth-child(1) {
-  margin-right: 1rem;
+    margin-right: 1rem;
 }
 .unregistered span:last-child {
-  color: red;
+    color: red;
 }
 
 /*# sourceMappingURL=index.css.map */

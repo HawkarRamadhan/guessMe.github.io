@@ -1,5 +1,4 @@
 // --------------- imports ---------------
-import { guessGenerator } from "./guessGenerator.js";
 // --------------- imports ---------------
 
 //  menu

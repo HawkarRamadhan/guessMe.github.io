@@ -1,3 +1,5 @@
-import gameMechanics from "./modules/fun.js";
+import cardsToggler from "./modules/menu.js";
 
-gameMechanics(true);
+setTimeout(() => {
+    cardsToggler("on");
+}, 200);
