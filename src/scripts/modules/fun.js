@@ -9,40 +9,26 @@ import {
     removeEl,
 } from "./globalFun.js";
 
-import { guessGenerator } from "./guessGenerator.js";
-
-import { guessWordsObj } from "./guessWords.js";
-
-import * as GG from "./guessGenerator.js";
+import * as A from "./animations.js";
 
 import * as M from "./menu.js";
 
 import * as K from "./keyboard.js";
+
+import * as GG from "./guessGenerator.js";
 // --------------- imports ---------------
 
 export const wordCover = query(document, ".word-cover");
 export const theNotch = query(wordCover, "i");
 export const word = query(document, ".word");
 
-// catigorizer
-export function catigirizer(rawStuff, destination) {
-    rawStuff.forEach(word => {
-        switch (word.length) {
-            case 5:
-                destination[5].push(word);
-                break;
-            case 6:
-                destination[6].push(word);
-                break;
-            case 7:
-                destination[7].push(word);
-                break;
-            case 8:
-                destination[8].push(word);
-                break;
-        }
-    });
-}
+const accentedKeys = queryAll(K.keyboard, ".accented");
+const shiftKey = query(K.keyboard, ".shift");
+const shiftKeyIcon = query(K.keyboard, ".shift-icon");
+let shiftKeyPressed = false;
+
+export let activeRow;
+export let activeRowSlots;
 
 // game mechanics
 export default function gameMechanics(appLaunch) {
@@ -68,8 +54,6 @@ function activeRowCBF(e) {
 }
 
 // active row click event
-export let activeRow;
-export let activeRowSlots;
 export function rowActiveState(row, state, gameOpening) {
     activeRow = row;
     activeRowSlots = Array.from(row.children).reverse();
@@ -161,6 +145,7 @@ function rowActivationAnime(gameOpening) {
     }
 }
 
+// clear invalid guess
 export function clearInvalidGuess() {
     activeRowSlots.reverse().forEach((slot, index) => {
         setTimeout(() => {
@@ -169,9 +154,102 @@ export function clearInvalidGuess() {
 
         activeRowSlots.reverse();
 
-        K.changeActiveSlot(0);
+        changeActiveSlot(0);
     });
 }
 
-// game reset
-export function gameReset() {}
+// --------------- keyboard ---------------
+// previous row
+export function previousActiveSlot() {
+    let previousActiveSlot;
+
+    activeRowSlots.forEach((slot, index, array) => {
+        if (slot.classList.contains("active-slot")) {
+            previousActiveSlot = index === 0 ? index : index - 1;
+        }
+    });
+
+    return previousActiveSlot;
+}
+
+// next row
+export function nextActiveSlot(loop) {
+    let nextActiveSlot;
+
+    activeRowSlots.forEach((slot, index, array) => {
+        if (slot.classList.contains("active-slot") && !loop) {
+            nextActiveSlot = index === array.length - 1 ? index : index + 1;
+        } else if (slot.classList.contains("active-slot") && loop === "loop") {
+            nextActiveSlot = index === array.length - 1 ? 0 : index + 1;
+        }
+    });
+
+    return nextActiveSlot;
+}
+
+// change active slot
+export function changeActiveSlot(activate, empty) {
+    for (const slot of activeRowSlots) {
+        if (slot.classList.contains("active-slot") && empty === "empty") {
+            slot.innerText = "";
+
+            removeClass(slot, "active-slot");
+        } else {
+            removeClass(slot, "active-slot");
+        }
+    }
+
+    addClass(activeRowSlots[activate], "active-slot");
+}
+
+// accent shifter
+// come back to this!!!
+export function accentShifter(pressed, unpress) {
+    for (const key of accentedKeys) {
+        if (unpress === "unshift") {
+            // shiftKeyIcon.animate(...unscaledShiftKeyIcon);
+
+            key.children[0].style.display = "inline";
+            key.children[1].style.display = "none";
+
+            shiftKeyPressed = false;
+        } else if (!pressed) {
+            shiftKeyIcon.animate(...A.scaledShiftKeyIcon);
+
+            key.children[0].style.display = "none";
+            key.children[1].style.display = "inline";
+
+            shiftKeyPressed = true;
+        } else if (pressed) {
+            shiftKeyIcon.animate(...A.unscaledShiftKeyIcon);
+
+            key.children[0].style.display = "inline";
+            key.children[1].style.display = "none";
+
+            shiftKeyPressed = false;
+        }
+    }
+}
+
+export function duplicateRemover(ARC, rows, letter, index, className) {
+    if (ARC > 0) {
+        rows.forEach((row, rowIndex) => {
+            const rowSlots = Array.from(row.children).reverse();
+
+            rowSlots.forEach((slot, slotIndex) => {
+                const slotletter =
+                    slot.innerText === "هـ" ? "ه" : slot.innerText;
+
+                if (
+                    rowIndex !== rows.length - 1 &&
+                    slotletter === letter &&
+                    slotIndex === index &&
+                    slot.classList.contains(className)
+                ) {
+                    slot.animate(...A.notIncluded);
+                    removeClass(slot, className);
+                }
+            });
+        });
+    }
+}

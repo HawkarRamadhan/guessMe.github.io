@@ -9,33 +9,16 @@ import {
     removeEl,
 } from "./globalFun.js";
 
-import { guessWordsObj } from "./guessWords.js";
+import * as A from "./animations.js";
 
-import * as F from "./fun.js";
+import { guessWordsObj } from "./guessWords.js";
 
 import { guessGenerator } from "./guessGenerator.js";
 
-import { keyboard } from "./keyboard.js";
+import * as K from "./keyboard.js";
 
-// --------------- animations ---------------
-const selectedChoice = [
-    [
-        {
-            transform: "scale(1)",
-        },
-        {
-            transform: "scale(2)",
-        },
-        {
-            transform: "scale(1)",
-        },
-    ],
-    {
-        duration: 500,
-        easing: "ease-in-out",
-        fill: "forwards",
-    },
-];
+import * as F from "./fun.js";
+// --------------- imports ---------------
 
 const downArrow = query(document, ".down-arrow");
 const upArrow = query(document, ".up-arrow");
@@ -81,16 +64,16 @@ function cardsEL(e) {
         ? e.target
         : e.target.parentElement;
 
-    reassignedTarget.children[1].animate(...selectedChoice);
+    reassignedTarget.children[1].animate(...A.selectedChoice);
 
-    //     playersChoice = reassignedTarget.getAttribute("class");
-    //
-    //     setTimeout(() => {
-    //         guessGenerator(playersChoice, guessWordsObj);
-    //         addClass(keyboard, "show-keyboard");
-    //         addClass(F.wordCover, "veil-word");
-    //         addClass(F.theNotch, "turn-the-notch");
-    //     }, 1200);
+    playersChoice = reassignedTarget.getAttribute("class");
+
+    setTimeout(() => {
+        guessGenerator(playersChoice, guessWordsObj);
+        addClass(K.keyboard, "show-keyboard");
+        addClass(F.wordCover, "veil-word");
+        addClass(F.theNotch, "turn-the-notch");
+    }, 1200);
 
     setTimeout(() => {
         removeClass(cardsContainer, "show-cards");
@@ -123,11 +106,11 @@ function upArrowF() {
 }
 
 // delete
-playersChoice = "countries";
-
-setTimeout(() => {
-    guessGenerator(playersChoice, guessWordsObj);
-    addClass(keyboard, "show-keyboard");
-    addClass(F.wordCover, "veil-word");
-    addClass(F.theNotch, "turn-the-notch");
-}, 0);
+// playersChoice = "countries";
+//
+// setTimeout(() => {
+//     guessGenerator(playersChoice, guessWordsObj);
+//     addClass(K.keyboard, "show-keyboard");
+//     addClass(F.wordCover, "veil-word");
+//     addClass(F.theNotch, "turn-the-notch");
+// }, 0);

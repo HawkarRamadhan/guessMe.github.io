@@ -9,28 +9,28 @@ import {
     removeEl,
 } from "./globalFun.js";
 
-import * as F from "./fun.js";
-
-import { validWordsObj } from "./validWords.js";
-
-import * as M from "./menu.js";
-
 import * as K from "./keyboard.js";
+
+import * as F from "./fun.js";
 // --------------- imports ---------------
 
 export let guessWord;
 let guessWordLength;
 
-const guessContainer = query(document, ".guesses");
+export const guessContainer = query(document, ".guesses");
 export let guessRows;
 
 export function guessGenerator(PCH, GWO) {
-    // guessWord = GWO[PCH][5][Math.round(Math.random() * GWO[PCH][5].length - 1)];
-    guessWord = "مەلهە";
+    guessWord = GWO[PCH][5][Math.round(Math.random() * GWO[PCH][5].length - 1)];
     guessWordLength = guessWord.length;
 
     console.log("guessWord:", guessWord);
     console.log("guessWordLength:", guessWordLength);
+
+    // row clean up
+    for (let index = 0; index < guessContainer.children.length; index++) {
+        guessContainer.removeChild(guessContainer.firstElementChild);
+    }
 
     for (let rowIndex = 0; rowIndex < guessWordLength + 1; rowIndex++) {
         // row

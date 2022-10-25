@@ -1,7 +1,6 @@
 // --------------- imports ---------------
 import { log } from "./globalFun.js";
-
-import { catigirizer } from "./fun.js";
+// --------------- imports ---------------
 
 export const validWordsObj = {
     5: [],
@@ -22,8 +21,27 @@ catigirizer(wordsToFilter, validWordsObj);
 const validWordsCount = [...Object.values(validWordsObj)].reduce(
     (total, item) => {
         return total + item.length;
-    },
-    0
+    }
 );
 
-console.log("validWordsCount:", validWordsCount);
+// catigorizer
+export function catigirizer(rawStuff, destination) {
+    rawStuff.forEach(word => {
+        switch (word.length) {
+            case 5:
+                destination[5].push(word);
+                break;
+            case 6:
+                destination[6].push(word);
+                break;
+            case 7:
+                destination[7].push(word);
+                break;
+            case 8:
+                destination[8].push(word);
+                break;
+        }
+    });
+}
+
+// console.log("validWordsCount:", validWordsCount);

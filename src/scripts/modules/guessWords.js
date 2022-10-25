@@ -1,5 +1,5 @@
 // --------------- imports ---------------
-import { catigirizer } from "./fun.js";
+import { catigirizer } from "./validWords.js";
 
 export const guessWordsObj = {
     occupations: { 5: [], 6: [], 7: [], 8: [] },
