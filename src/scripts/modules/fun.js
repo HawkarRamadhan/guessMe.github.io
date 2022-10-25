@@ -24,8 +24,32 @@ const accentedKeys = queryAll(document, ".accented");
 const shiftKeyIcon = query(document, ".shift-icon");
 let shiftKeyPressed = false;
 
+let shiftKeyIconAnime;
+
 export let activeRow;
 export let activeRowSlots;
+
+// catigorizer
+export function catigirizer(rawStuff, destination) {
+    const unprocessedStr = rawStuff["raw"];
+
+    unprocessedStr.split(" _،_ ").forEach(word => {
+        switch (word.length) {
+            case 5:
+                destination[5].push(word);
+                break;
+            case 6:
+                destination[6].push(word);
+                break;
+            case 7:
+                destination[7].push(word);
+                break;
+            case 8:
+                destination[8].push(word);
+                break;
+        }
+    });
+}
 
 // active row call back
 function activeRowCBF(e) {
@@ -191,24 +215,26 @@ export function changeActiveSlot(activate, empty) {
 
 // accent shifter
 // come back to this!!!
-export function accentShifter(pressed, unpress) {
+export function accentShifter(target, unpress) {
     for (const key of accentedKeys) {
-        if (unpress === "unshift") {
-            // shiftKeyIcon.animate(...unscaledShiftKeyIcon);
-
-            key.children[0].style.display = "inline";
-            key.children[1].style.display = "none";
-
-            shiftKeyPressed = false;
-        } else if (!pressed) {
-            shiftKeyIcon.animate(...A.scaledShiftKeyIcon);
+        if (!shiftKeyPressed && target.matches(".shift, .shift-icon")) {
+            shiftKeyIconAnime = shiftKeyIcon.animate(...A.scaleShiftKeyIcon);
 
             key.children[0].style.display = "none";
             key.children[1].style.display = "inline";
 
             shiftKeyPressed = true;
-        } else if (pressed) {
-            shiftKeyIcon.animate(...A.unscaledShiftKeyIcon);
+        } else if (shiftKeyPressed && target.matches(".shift, .shift-icon")) {
+            shiftKeyIconAnime.reverse();
+
+            key.children[0].style.display = "inline";
+            key.children[1].style.display = "none";
+
+            shiftKeyPressed = false;
+        }
+
+        if (unpress && shiftKeyPressed) {
+            shiftKeyIconAnime.reverse();
 
             key.children[0].style.display = "inline";
             key.children[1].style.display = "none";
