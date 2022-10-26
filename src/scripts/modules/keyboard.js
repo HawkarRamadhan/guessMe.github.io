@@ -40,7 +40,7 @@ export function keyboardMechanics(e) {
             if (slot.classList.contains("active-slot")) {
                 slot.innerText = target.innerText;
 
-                F.accentShifter(F.shiftKeyPressed, "unshift");
+                F.accentShifter("unshift");
             }
         }
 
@@ -54,7 +54,7 @@ export function keyboardMechanics(e) {
 
     //  shift
     if (target.matches(".shift, .shift-icon")) {
-        F.accentShifter(F.shiftKeyPressed);
+        F.accentShifter("shift");
     }
 
     //  back space

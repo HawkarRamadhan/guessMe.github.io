@@ -2,4 +2,4 @@ import cardsToggler from "./modules/menu.js";
 
 setTimeout(() => {
     cardsToggler("on");
-}, 200);
+}, 100);

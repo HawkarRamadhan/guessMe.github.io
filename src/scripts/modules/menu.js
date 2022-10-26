@@ -34,9 +34,18 @@ export default function cardsToggler(state) {
         addClass(cardsContainer, "show-cards");
 
         cards.forEach((card, index) => {
+            const cardIcon = card.children[0];
+
+            const srcAttr = `./assets/icons/${card.getAttribute(
+                "class"
+            )}/i (${Math.round(Math.random() * 5 + 1)}).png`;
+
+            if (!card.classList.contains("random"))
+                cardIcon.setAttribute("src", srcAttr);
+
             setTimeout(() => {
                 addClass(card.children[0], "card-translation");
-            }, index * 380);
+            }, index * 200);
 
             addEl(card, "click", cardsEL);
         });

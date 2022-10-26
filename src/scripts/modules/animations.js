@@ -196,14 +196,11 @@ export const unveilWord = [
     },
 ];
 
-export const scaledShiftKeyIcon = [
+export const scaleShiftKeyIcon = [
     [
         {
-            transform: "rotate(0deg) ",
-        },
-        {
-            transform: "rotate(180deg) scale(1.3)",
-            color: "red",
+            transform: "rotate(0deg) scale(1)",
+            color: "white",
         },
         {
             transform: "rotate(180deg) scale(1.3)",
@@ -211,30 +208,22 @@ export const scaledShiftKeyIcon = [
         },
     ],
     {
-        duration: 700,
+        duration: 300,
         easing: "ease-in-out",
-        fill: "forwards",
+        fill: "both",
     },
 ];
 
-export const unscaledShiftKeyIcon = [
+export const unscaleShiftKeyIcon = [
     [
-        {
-            transform: "rotate(180deg) scale(1.3)",
-            color: "red",
-        },
-        {
-            transform: "rotate(0deg) scale(1)",
-            color: "white",
-        },
         {
             transform: "rotate(0deg) scale(1)",
             color: "white",
         },
     ],
     {
-        duration: 700,
+        duration: 300,
         easing: "ease-in-out",
-        fill: "forwards",
+        fill: "both",
     },
 ];

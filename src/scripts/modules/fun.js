@@ -214,17 +214,18 @@ export function changeActiveSlot(activate, empty) {
 }
 
 // accent shifter
-// come back to this!!!
-export function accentShifter(target, unpress) {
-    for (const key of accentedKeys) {
-        if (!shiftKeyPressed && target.matches(".shift, .shift-icon")) {
+export function accentShifter(command) {
+    if (command === "shift" && !shiftKeyPressed) {
+        for (const key of accentedKeys) {
             shiftKeyIconAnime = shiftKeyIcon.animate(...A.scaleShiftKeyIcon);
 
             key.children[0].style.display = "none";
             key.children[1].style.display = "inline";
 
             shiftKeyPressed = true;
-        } else if (shiftKeyPressed && target.matches(".shift, .shift-icon")) {
+        }
+    } else if (command === "shift" && shiftKeyPressed) {
+        for (const key of accentedKeys) {
             shiftKeyIconAnime.reverse();
 
             key.children[0].style.display = "inline";
@@ -232,9 +233,9 @@ export function accentShifter(target, unpress) {
 
             shiftKeyPressed = false;
         }
-
-        if (unpress && shiftKeyPressed) {
-            shiftKeyIconAnime.reverse();
+    } else if (command === "unshift" && shiftKeyIconAnime) {
+        for (const key of accentedKeys) {
+            shiftKeyIcon.animate(...A.unscaleShiftKeyIcon);
 
             key.children[0].style.display = "inline";
             key.children[1].style.display = "none";
