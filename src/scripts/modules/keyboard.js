@@ -27,6 +27,7 @@ export let playersGuessTracker = [];
 
 //  variables
 export const keyboard = query(document, ".keyboard");
+const keys = queryAll(keyboard, "span");
 const unregistered = query(document, ".unregistered");
 
 export function keyboardMechanics(e) {
@@ -146,6 +147,23 @@ export function keyboardMechanics(e) {
                 if (!guessWord.includes(letter)) {
                     setTimeout(() => {
                         slot.animate(...A.notIncluded);
+
+                        for (const key of keys) {
+                            if (key.innerText === letter) {
+                                key.animate(
+                                    {
+                                        color: "#333333",
+                                    },
+                                    {
+                                        duration: 500,
+                                        easing: "ease-in-out",
+                                        fill: "both",
+                                    }
+                                );
+
+                                addClass(key, "not-included");
+                            }
+                        }
                     }, index * 80);
                 }
 
@@ -154,8 +172,41 @@ export function keyboardMechanics(e) {
                     guessWord.includes(letter) &&
                     guessWord.indexOf(letter) !== index
                 ) {
-                    slot.animate(...A.incorrect);
-                    addClass(slot, "incorrect");
+                    setTimeout(() => {
+                        slot.animate(...A.incorrect);
+                        addClass(slot, "incorrect");
+
+                        for (const key of keys) {
+                            if (
+                                key.innerText === letter &&
+                                !key.classList.contains("correct")
+                            ) {
+                                key.animate(
+                                    [
+                                        {
+                                            transform: "scale(1)",
+                                            color: "white",
+                                        },
+                                        {
+                                            transform: "scale(0)",
+                                            color: "#fdc010",
+                                        },
+                                        {
+                                            transform: "scale(1)",
+                                            color: "#fdc010",
+                                        },
+                                    ],
+                                    {
+                                        duration: 500,
+                                        easing: "ease-in-out",
+                                        fill: "both",
+                                    }
+                                );
+
+                                addClass(key, "incorrect");
+                            }
+                        }
+                    }, index * 80);
 
                     F.duplicateRemover(
                         activeRowCounter,
@@ -168,8 +219,38 @@ export function keyboardMechanics(e) {
 
                 //  correct
                 if (guessWord.indexOf(letter) === index) {
-                    slot.animate(...A.correct);
-                    addClass(slot, "correct");
+                    setTimeout(() => {
+                        slot.animate(...A.correct);
+                        addClass(slot, "correct");
+
+                        for (const key of keys) {
+                            if (key.innerText === letter) {
+                                key.animate(
+                                    [
+                                        {
+                                            transform: "scale(1)",
+                                            color: "white",
+                                        },
+                                        {
+                                            transform: "scale(0)",
+                                            color: "#339900",
+                                        },
+                                        {
+                                            transform: "scale(1)",
+                                            color: "#339900",
+                                        },
+                                    ],
+                                    {
+                                        duration: 500,
+                                        easing: "ease-in-out",
+                                        fill: "both",
+                                    }
+                                );
+
+                                addClass(key, "correct");
+                            }
+                        }
+                    }, index * 80);
 
                     F.duplicateRemover(
                         activeRowCounter,
@@ -196,6 +277,9 @@ export function keyboardMechanics(e) {
             removeEl(keyboard, "click", keyboardMechanics);
             removeClass(keyboard, "show-keyboard");
 
+            addClass(M.downArrow, "show-down-arrow");
+            addEl(M.downArrow, "click", M.downArrowF);
+
             F.word.innerText = GG.guessWord;
             F.word.style.opacity = 1;
 
@@ -210,20 +294,20 @@ export function keyboardMechanics(e) {
                 F.wordCover.animate(...A.unveilWord);
             }, 800);
 
-            log("Game Won");
             //  game lost
         } else if (
             !hasEmptySlots &&
             !invalidGuess &&
             activeRowCounter + 1 === guessWord.length
         ) {
-            removeEl(keyboard, "click", keyboardMechanics);
-            removeClass(keyboard, "show-keyboard");
+            setTimeout(() => {
+                removeEl(keyboard, "click", keyboardMechanics);
+                removeClass(keyboard, "show-keyboard");
 
-            addClass(M.downArrow, "show-down-arrow");
-            addEl(M.downArrow, "click", M.downArrowF);
+                addClass(M.downArrow, "show-down-arrow");
+                addEl(M.downArrow, "click", M.downArrowF);
+            }, 1000);
 
-            log("Game Over");
             //  next guess
         } else if (
             !hasEmptySlots &&
@@ -245,5 +329,21 @@ export function gameReset() {
     // row clean up
     while (GG.guessContainer.firstChild) {
         GG.guessContainer.removeChild(GG.guessContainer.firstChild);
+    }
+
+    for (const key of keys) {
+        removeClass(key, "not-included");
+        removeClass(key, "incorrect");
+        removeClass(key, "correct");
+
+        key.animate(
+            {
+                color: "white",
+            },
+            {
+                duration: 0,
+                fill: "both",
+            }
+        );
     }
 }
