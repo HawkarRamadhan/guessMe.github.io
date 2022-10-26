@@ -18,6 +18,8 @@ import { guessGenerator } from "./guessGenerator.js";
 import * as K from "./keyboard.js";
 
 import * as F from "./fun.js";
+
+import { validWordsObj } from "./validWords.js";
 // --------------- imports ---------------
 
 export const downArrow = query(document, ".down-arrow");
