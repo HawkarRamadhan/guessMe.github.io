@@ -1,4 +1,4 @@
-const EF = {
+export const EF = {
     easing: "ease-in-out",
     fill: "both",
 };

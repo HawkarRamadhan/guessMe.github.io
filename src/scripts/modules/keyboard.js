@@ -20,6 +20,7 @@ import * as GG from "./guessGenerator.js";
 // animation controls
 let shiftKeyIconC;
 let unregisteredC;
+let wordRevealC;
 
 export let activeSlotC = [];
 
@@ -114,8 +115,8 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                // DB.validWords[GG.randomNum].includes(playersGuess.join(""))
-                DB.validWords[6].includes(playersGuess.join(""))
+                DB.validWords[GG.randomNum].includes(playersGuess.join(""))
+                // DB.validWords[6].includes(playersGuess.join(""))
             )
                 // valid
                 result = false;
@@ -233,35 +234,93 @@ export function keyboardMechanics(e) {
         if (greenSlotsTracker === guessWord.length) {
             // game won
             removeEl(keyboard, "click", keyboardMechanics);
-            removeClass(keyboard, "show-keyboard");
-
-            addClass(M.downArrow, "show-down-arrow");
-            addEl(M.downArrow, "click", M.downArrowF);
 
             GG.word.innerText = GG.guessWord;
             GG.word.style.opacity = 1;
 
             setTimeout(() => {
                 GG.activeRowSlots.forEach((slot, index) => {
-                    slot.animate(...A.winnerFlag);
+                    slot.animate(A.winningAnimeP, {
+                        duration: 500,
+                        delay: index * 120,
+                    });
                 });
 
-                GG.theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
-                GG.wordCover.animate(A.veilWordP, A.veilWordTF);
-            }, 800);
+                keyboard.animate(
+                    [
+                        {
+                            transform: "translateY(-2%)",
+                            offset: 0.8,
+                        },
+                        {
+                            transform: "translateY(0%)",
+                        },
+                        {
+                            transform: "translateY(100%)",
+                        },
+                    ],
+                    {
+                        duration: 1000,
+                        delay: 500,
+                        ...A.EF,
+                    }
+                );
+            }, 1000);
 
-            //  game lost
+            setTimeout(() => {
+                wordRevealC = GG.theNotch
+                    .animate(A.turnTheNotchP, {
+                        duration: 1500,
+                        ...A.EF,
+                    })
+                    .finished.then(() => {
+                        GG.wordCover.animate(
+                            [
+                                {
+                                    right: "100%",
+                                },
+                                {
+                                    right: "-10%",
+                                    offset: 0.8,
+                                },
+                                {
+                                    right: "0%",
+                                },
+                            ].reverse(),
+                            {
+                                duration: 1500,
+                                ...A.EF,
+                            }
+                        );
+                    });
+            }, 2500);
         } else if (
             !hasEmptySlots &&
             !invalidGuess &&
             activeRowCounter + 1 === guessWord.length
         ) {
+            //  game lost
             setTimeout(() => {
                 removeEl(keyboard, "click", keyboardMechanics);
-                removeClass(keyboard, "show-keyboard");
-
-                addClass(M.downArrow, "show-down-arrow");
-                addEl(M.downArrow, "click", M.downArrowF);
+                keyboard.animate(
+                    [
+                        {
+                            transform: "translateY(-2%)",
+                            offset: 0.8,
+                        },
+                        {
+                            transform: "translateY(0%)",
+                        },
+                        {
+                            transform: "translateY(100%)",
+                        },
+                    ],
+                    {
+                        duration: 1000,
+                        delay: 500,
+                        ...A.EF,
+                    }
+                );
             }, 1000);
 
             //  next guess
@@ -401,10 +460,11 @@ export function duplicateRemover(rows, letter, index, className) {
     }
 }
 
-function gameReset() {
+export function gameReset() {
     activeRowCounter = 0;
-
     playersGuessTracker = [];
+    GG.word.innerText = "Your Guess";
+    GG.word.style.opacity = 0;
 
     for (const key of keys) {
         removeClass(key, "key-not-included");
@@ -413,6 +473,4 @@ function gameReset() {
 
         key.animate(A.keyboardKeyResetP, A.keyboardKeyResetTF);
     }
-
-    removeEl(keyboard, "click", keyboardMechanics);
 }

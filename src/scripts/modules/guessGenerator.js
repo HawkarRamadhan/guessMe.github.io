@@ -16,12 +16,12 @@ import * as A from "./animations.js";
 import * as K from "./keyboard.js";
 // --------------- imports ---------------
 // animation controls
-let keyboardTogglerC;
-let veilWordC;
-let notchC;
+export let keyboardTogglerC;
+export let veilWordC;
+export let notchC;
 
 // variables
-export let randomNum = randomNumber();
+export let randomNum;
 export let guessWord;
 let guessWordLength;
 
@@ -36,12 +36,13 @@ export const theNotch = query(wordCover, "i");
 export const word = query(document, ".word");
 
 export function guessGenerator(PCH) {
-    // guess word
-    guessWord = "کولێرە";
-    // guessWord =
-    //     DB[PCH][randomNum][
-    //         Math.round(Math.random() * DB[PCH][randomNum].length - 1)
-    //     ];
+    K.gameReset();
+
+    randomNum = randomNumber();
+    guessWord =
+        DB[PCH][randomNum][
+            Math.round(Math.random() * DB[PCH][randomNum].length)
+        ];
     guessWordLength = guessWord.length;
 
     console.log("guessWord:", guessWord);
@@ -113,7 +114,7 @@ export function guessGenerator(PCH) {
         A.keyboardTogglerTF
     );
     veilWordC = wordCover.animate(A.veilWordP, A.veilWordTF);
-    theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
+    notchC = theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
 
     setTimeout(() => {
         rowActiveState(guessRows[K.activeRowCounter], "active");
