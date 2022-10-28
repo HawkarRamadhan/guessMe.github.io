@@ -9,39 +9,67 @@ import {
     removeEl,
 } from "./globalFun.js";
 
+import { dataBase as DB } from "./dataBase.js";
+
+import * as A from "./animations.js";
+
 import * as K from "./keyboard.js";
-
-import * as F from "./fun.js";
 // --------------- imports ---------------
+// animation controls
+let keyboardTogglerC;
+let veilWordC;
+let notchC;
 
+// variables
+export let randomNum = randomNumber();
 export let guessWord;
 let guessWordLength;
 
 export const guessContainer = query(document, ".guesses");
 export let guessRows;
 
-export function guessGenerator(PCH, GWO) {
-    guessWord = GWO[PCH][5][Math.round(Math.random() * GWO[PCH][5].length - 1)];
+export let activeRow;
+export let activeRowSlots;
+
+export const wordCover = query(document, ".word-cover");
+export const theNotch = query(wordCover, "i");
+export const word = query(document, ".word");
+
+export function guessGenerator(PCH) {
+    // guess word
+    guessWord = "کولێرە";
+    // guessWord =
+    //     DB[PCH][randomNum][
+    //         Math.round(Math.random() * DB[PCH][randomNum].length - 1)
+    //     ];
     guessWordLength = guessWord.length;
 
     console.log("guessWord:", guessWord);
     console.log("guessWordLength:", guessWordLength);
 
-    K.gameReset();
+    // guess clean up
+    while (guessContainer.firstChild) {
+        guessContainer.removeChild(guessContainer.firstChild);
+    }
 
+    // guess generation
     for (let rowIndex = 0; rowIndex < guessWordLength + 1; rowIndex++) {
-        // row
+        // rows
         const row = document.createElement("div");
         row.setAttribute("class", "guess-row");
-        row.setAttribute("id", `row-${rowIndex + 1}`);
+        row.setAttribute("id", `row-${rowIndex}`);
 
-        guessContainer.append(row);
-
+        // slots
         for (let slotIndex = guessWordLength; slotIndex > 0; slotIndex--) {
             const slot = document.createElement("span");
+            slot.setAttribute("id", `${slotIndex}`);
+
             row.append(slot);
         }
 
+        guessContainer.append(row);
+
+        // animation
         Array.from(row.children)
             .reverse()
             .forEach((slot, index) => {
@@ -80,7 +108,94 @@ export function guessGenerator(PCH, GWO) {
 
     guessRows = Array.from(guessContainer.children);
 
-    F.rowActiveState(guessRows[K.activeRowCounter], "active", true);
+    keyboardTogglerC = K.keyboard.animate(
+        A.keyboardTogglerP,
+        A.keyboardTogglerTF
+    );
+    veilWordC = wordCover.animate(A.veilWordP, A.veilWordTF);
+    theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
 
-    addEl(K.keyboard, "click", K.keyboardMechanics);
+    setTimeout(() => {
+        rowActiveState(guessRows[K.activeRowCounter], "active");
+    }, 1000);
+}
+
+// --------------- functions ---------------
+// random number
+export function randomNumber() {
+    const randomNumber = Math.round(Math.random() * 3);
+    switch (randomNumber) {
+        case 0:
+            return 5;
+            break;
+
+        case 1:
+            return 6;
+            break;
+
+        case 2:
+            return 7;
+            break;
+        case 3:
+            return 8;
+            break;
+    }
+}
+
+// row activator
+export function rowActiveState(row, state) {
+    activeRow = row;
+    activeRowSlots = Array.from(row.children).reverse();
+
+    if (state === "active") {
+        addEl(row, "click", activeRowCBF);
+
+        rowActivationA();
+
+        addClass(activeRow, "activated");
+    } else if (state === "deactive") {
+        removeEl(row, "click", activeRowCBF);
+        removeEl(K.keyboard, "click", K.keyboardMechanics);
+
+        K.deactivateSlots();
+
+        K.activeSlotC.fill("");
+    }
+}
+
+// row activation anime
+export function rowActivationA() {
+    activeRowSlots.forEach((slot, index, array) => {
+        slot.animate(A.rowActivationP, {
+            duration: 700,
+            delay: index * 120,
+            easing: "ease-in-out",
+            fill: "forwards",
+        });
+    });
+
+    setTimeout(() => {
+        addEl(K.keyboard, "click", K.keyboardMechanics);
+
+        K.activeSlotC[0] = activeRowSlots[0].animate(
+            A.activeSlotP,
+            A.activeSlotTF
+        );
+
+        addClass(activeRowSlots[0], "active-slot");
+    }, 500);
+}
+
+// active row call back
+function activeRowCBF(e) {
+    const target = e.target;
+
+    if (target.matches("span")) {
+        K.deactivateSlots();
+
+        K.activeSlotC[target.getAttribute("id") - 1] = target.animate(
+            A.activeSlotP,
+            A.activeSlotTF
+        );
+    }
 }

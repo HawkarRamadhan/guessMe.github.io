@@ -13,9 +13,9 @@ export function addClass(element, className) {
 export function removeClass(element, className) {
     return element.classList.remove(className);
 }
-export function addEl(element, eventType, callBack, bubbleOrCap) {
-    return element.addEventListener(eventType, callBack, bubbleOrCap);
+export function addEl(element, eventType, callBack, bubOrCap) {
+    return element.addEventListener(eventType, callBack, bubOrCap);
 }
-export function removeEl(element, eventType, callBack, bubbleOrCap) {
-    return element.removeEventListener(eventType, callBack, bubbleOrCap);
+export function removeEl(element, eventType, callBack, bubOrCap) {
+    return element.removeEventListener(eventType, callBack, bubOrCap);
 }

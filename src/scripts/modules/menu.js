@@ -9,64 +9,79 @@ import {
     removeEl,
 } from "./globalFun.js";
 
+import { dataBase as DB } from "./dataBase.js";
+
 import * as A from "./animations.js";
 
-import { guessWordsObj } from "./guessWords.js";
-
-import { guessGenerator } from "./guessGenerator.js";
+import * as GG from "./guessGenerator.js";
 
 import * as K from "./keyboard.js";
 
-import * as F from "./fun.js";
-
-import { validWordsObj } from "./validWords.js";
 // --------------- imports ---------------
+// animation controls
+let showCardC;
+let cardTranslationC = [];
+let showDownArrowC;
+let showUpArrowC;
 
-export const downArrow = query(document, ".down-arrow");
-export const upArrow = query(document, ".up-arrow");
 const cardsContainer = query(document, ".cards-container");
 const cards = queryAll(cardsContainer, "div");
 
+export const downArrow = query(document, ".down-arrow");
+export const upArrow = query(document, ".up-arrow");
+
 export let playersChoice;
 
-// card translation
-export default function cardsToggler(state) {
-    // on
-    if (state === "on") {
-        addClass(cardsContainer, "show-cards");
+// show cards
+export function showCards() {
+    // showCardC = cardsContainer.animate(A.showCardsP, A.showCardsTF);
 
-        cards.forEach((card, index) => {
-            const cardIcon = card.children[0];
+    cards.forEach((card, index) => {
+        // icon change
+        const cardIcon = card.children[0];
+        const randomNumber = Math.round(Math.random() * 5 + 1);
+        const srcAttr = `./assets/icons/${card.getAttribute(
+            "class"
+        )}/i (${randomNumber}).png`;
 
-            const srcAttr = `./assets/icons/${card.getAttribute(
-                "class"
-            )}/i (${Math.round(Math.random() * 5 + 1)}).png`;
+        if (!card.classList.contains("random"))
+            cardIcon.setAttribute("src", srcAttr);
 
-            if (!card.classList.contains("random"))
-                cardIcon.setAttribute("src", srcAttr);
+        // card animation
+        cardTranslationC.push(
+            card.children[0].animate(
+                [
+                    {
+                        transform: "translateY(0px)",
+                    },
+                    {
+                        transform: "translateY(10px)",
+                    },
+                    {
+                        transform: "translateY(0px)",
+                    },
+                ],
+                {
+                    duration: 1500,
+                    delay: index * 200,
+                    easing: "ease-in-out",
+                    fill: "both",
+                    iterations: Infinity,
+                }
+            )
+        );
 
-            setTimeout(() => {
-                addClass(card.children[0], "card-translation");
-            }, index * 200);
+        addEl(card, "click", cardsEL);
+    });
+}
 
-            addEl(card, "click", cardsEL);
-        });
-    }
+// hide cards
+export function hideCards() {
+    showCardC.reverse();
 
-    // off
-    if (state === "off") {
-        removeClass(cardsContainer, "show-cards");
+    for (const control of cardTranslationC) control.cancel();
 
-        for (const card of cards) {
-            removeClass(cardsContainer, "show-cards");
-
-            setTimeout(() => {
-                removeClass(card.children[0], "card-translation");
-
-                removeEl(card, "click", cardsEL);
-            }, 1000);
-        }
-    }
+    for (const card of cards) removeEl(card, "click", cardsEL);
 }
 
 // cards click event listener
@@ -74,52 +89,49 @@ function cardsEL(e) {
     const reassignedTarget = e.target.matches("div div")
         ? e.target
         : e.target.parentElement;
+    const className = reassignedTarget.getAttribute("class");
 
-    reassignedTarget.children[1].animate(...A.selectedChoice);
+    reassignedTarget.children[1].animate(A.selectedChoiceP, A.selectedChoiceTM);
 
-    playersChoice = reassignedTarget.getAttribute("class");
+    hideCards();
 
-    setTimeout(() => {
-        guessGenerator(playersChoice, guessWordsObj);
-        addClass(K.keyboard, "show-keyboard");
-        addClass(F.wordCover, "veil-word");
-        addClass(F.theNotch, "turn-the-notch");
-    }, 1200);
+    showDownArrowC = downArrow.animate(A.showDownArrowP, A.showDownArrowTF);
+    addEl(downArrow, "click", downArrowF);
 
-    setTimeout(() => {
-        removeClass(cardsContainer, "show-cards");
-        cardsToggler("off");
-    }, 300);
+    playersChoice = className === "random" ? "validWords" : className;
+    console.log("playersChoice:", playersChoice);
+
+    GG.guessGenerator(playersChoice);
 }
 
 // down arrow
 export function downArrowF() {
     removeEl(downArrow, "click", downArrowF);
-    removeClass(downArrow, "show-down-arrow");
+    showDownArrowC.reverse();
 
-    cardsToggler("on");
+    showCards();
 
-    addClass(upArrow, "show-up-arrow");
+    showUpArrowC = upArrow.animate(A.showUpArrowP, A.showUpArrowTF);
     addEl(upArrow, "click", upArrowF);
 }
 
 // up arrow
 export function upArrowF() {
-    removeEl(upArrow, "click", upArrowF);
+    showUpArrowC.reverse();
     removeClass(upArrow, "show-up-arrow");
 
-    cardsToggler("off");
+    hideCards();
 
-    addClass(downArrow, "show-down-arrow");
+    showDownArrowC.reverse();
     addEl(downArrow, "click", downArrowF);
 }
 
 // delete
-// playersChoice = "countries";
-//
-// setTimeout(() => {
-//     guessGenerator(playersChoice, guessWordsObj);
-//     addClass(K.keyboard, "show-keyboard");
-//     addClass(F.wordCover, "veil-word");
-//     addClass(F.theNotch, "turn-the-notch");
-// }, 0);
+playersChoice = "countries";
+
+setTimeout(() => {
+    GG.guessGenerator(playersChoice, DB);
+    addClass(K.keyboard, "show-keyboard");
+    addClass(GG.wordCover, "veil-word");
+    addClass(GG.theNotch, "turn-the-notch");
+}, 0);

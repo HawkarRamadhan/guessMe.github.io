@@ -9,88 +9,100 @@ import {
     removeEl,
 } from "./globalFun.js";
 
+import { dataBase as DB } from "./dataBase.js";
+
 import * as A from "./animations.js";
 
 import * as M from "./menu.js";
 
 import * as GG from "./guessGenerator.js";
-
-import * as F from "./fun.js";
-
-import { validWordsObj } from "./validWords.js";
 // --------------- imports ---------------
+// animation controls
+let shiftKeyIconC;
+let unregisteredC;
 
-export let activeRowCounter = 0;
-
-//  guess tracker
-export let playersGuessTracker = [];
+export let activeSlotC = [];
 
 //  variables
+export let activeRowCounter = 0;
+export let playersGuessTracker = [];
+
 export const keyboard = query(document, ".keyboard");
 const keys = queryAll(keyboard, "span");
+const accentedKeys = queryAll(document, ".accented");
+const shiftKeyIcon = query(document, ".shift-icon");
+
+let shiftKeyPress = false;
+
 const unregistered = query(document, ".unregistered");
 
 export function keyboardMechanics(e) {
-    removeClass(unregistered, "show-unregistered");
-
     const target = e.target;
+
+    if (unregisteredC && unregisteredC.currentTime !== 0) {
+        unregisteredC.cancel();
+    }
 
     //  letters
     if (target.matches(":not(div, .fourth-row *, .shift, .shift-icon)")) {
-        for (const slot of F.activeRowSlots) {
+        for (const slot of GG.activeRowSlots) {
             if (slot.classList.contains("active-slot")) {
                 slot.innerText = target.innerText;
 
-                F.accentShifter("unshift");
+                accentShifter("unshift");
             }
         }
 
-        F.changeActiveSlot(F.nextActiveSlot());
+        changeActiveSlot(nextActiveSlot());
     }
 
     //  space
     if (target.matches(".space, .space-icon")) {
-        F.changeActiveSlot(F.nextActiveSlot("loop"), "empty");
+        changeActiveSlot(nextActiveSlot("loop"), true);
     }
 
     //  shift
     if (target.matches(".shift, .shift-icon")) {
-        F.accentShifter("shift");
+        accentShifter("shift");
     }
 
     //  back space
     if (target.matches(".back-space, .back-space-icon")) {
-        F.changeActiveSlot(F.previousActiveSlot(), "empty");
+        changeActiveSlot(previousActiveSlot(), true);
     }
 
     //  enter
     if (target.matches(".enter, .enter-icon")) {
-        let playersGuess = [];
         const guessWord = [...GG.guessWord];
+        console.log("GW:", guessWord);
+        let playersGuess = [];
+        console.log("PG:", playersGuess);
 
-        let gameWon = 0;
+        let greenSlotsTracker = 0;
 
         //  empty or not
         const hasEmptySlots = (() => {
             let emptySlotsIndex = [];
 
-            F.activeRowSlots.forEach((slot, index) => {
+            GG.activeRowSlots.forEach((slot, index) => {
                 const letter = slot.innerText;
 
                 if (letter === "") {
-                    slot.animate(...A.emptySlot);
+                    slot.animate(A.emptySlotP, A.emptySlotTF);
 
                     emptySlotsIndex.push(index);
 
-                    F.changeActiveSlot(emptySlotsIndex[0]);
+                    changeActiveSlot(emptySlotsIndex[0]);
                 } else if (letter !== "") {
-                    if (letter === "هـ") playersGuess.push("ه");
-                    else playersGuess.push(letter);
+                    letter === "هـ"
+                        ? playersGuess.push("ه")
+                        : playersGuess.push(letter);
                 }
             });
 
-            if (!emptySlotsIndex.length) emptySlotsIndex = false;
-            else emptySlotsIndex = true;
+            !emptySlotsIndex.length
+                ? (emptySlotsIndex = false)
+                : (emptySlotsIndex = true);
 
             return emptySlotsIndex;
         })();
@@ -102,18 +114,23 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                validWordsObj[5].includes(playersGuess.join(""))
-            ) {
+                // DB.validWords[GG.randomNum].includes(playersGuess.join(""))
+                DB.validWords[6].includes(playersGuess.join(""))
+            )
+                // valid
                 result = false;
-            } else if (!hasEmptySlots) {
+            else if (!hasEmptySlots) {
                 //  invalid
                 unregistered.lastElementChild.innerText = `${playersGuess.join(
                     ""
                 )}`;
 
-                addClass(unregistered, "show-unregistered");
+                unregisteredC = unregistered.animate(
+                    A.unregisteredWordP,
+                    A.unregisteredWordTF
+                );
 
-                F.clearInvalidGuess();
+                clearInvalidGuess();
 
                 result = true;
             }
@@ -123,10 +140,11 @@ export function keyboardMechanics(e) {
                 playersGuessTracker.forEach(item => {
                     if (playersGuess.join("") === item[0]) {
                         GG.guessRows[item[1]].animate(
-                            ...A.registeredGuessAnime
+                            A.duplicateGuessP,
+                            A.duplicateGuessTF
                         );
 
-                        F.clearInvalidGuess();
+                        clearInvalidGuess();
 
                         result = true;
                     }
@@ -140,139 +158,79 @@ export function keyboardMechanics(e) {
         if (!hasEmptySlots && !invalidGuess) {
             const activatedRows = Array.from(queryAll(document, ".activated"));
 
-            F.activeRowSlots.forEach((slot, index, array) => {
+            GG.activeRowSlots.forEach((slot, index, array) => {
                 const letter = slot.innerText === "هـ" ? "ه" : slot.innerText;
 
                 //  no letters included
                 if (!guessWord.includes(letter)) {
-                    setTimeout(() => {
-                        slot.animate(...A.notIncluded);
+                    slot.animate(A.SlotNotIncludedP, A.SlotNotIncludedTF);
 
-                        for (const key of keys) {
-                            if (key.innerText === letter) {
-                                key.animate(
-                                    {
-                                        color: "#333333",
-                                    },
-                                    {
-                                        duration: 500,
-                                        easing: "ease-in-out",
-                                        fill: "both",
-                                    }
-                                );
-
-                                addClass(key, "not-included");
-                            }
+                    for (const key of keys) {
+                        if (key.innerText === letter) {
+                            key.animate(A.keyNotIncludedP, A.keyNotIncludedTF);
+                            addClass(key, "key-not-included");
                         }
-                    }, index * 80);
+                    }
                 }
 
                 //  incorrect
                 if (
                     guessWord.includes(letter) &&
-                    guessWord.indexOf(letter) !== index
+                    guessWord[index] !== playersGuess[index]
                 ) {
-                    setTimeout(() => {
-                        slot.animate(...A.incorrect);
-                        addClass(slot, "incorrect");
+                    slot.animate(A.incorrectSlotP, A.incorrectSlotTF);
+                    addClass(slot, "incorrect-key");
 
-                        for (const key of keys) {
-                            if (
-                                key.innerText === letter &&
-                                !key.classList.contains("correct")
-                            ) {
-                                key.animate(
-                                    [
-                                        {
-                                            transform: "scale(1)",
-                                            color: "white",
-                                        },
-                                        {
-                                            transform: "scale(0)",
-                                            color: "#fdc010",
-                                        },
-                                        {
-                                            transform: "scale(1)",
-                                            color: "#fdc010",
-                                        },
-                                    ],
-                                    {
-                                        duration: 500,
-                                        easing: "ease-in-out",
-                                        fill: "both",
-                                    }
-                                );
-
-                                addClass(key, "incorrect");
-                            }
+                    for (const key of keys) {
+                        if (
+                            key.innerText === letter &&
+                            !key.classList.contains("correct-key")
+                        ) {
+                            key.animate(A.incorrectKeyP, A.incorrectKeyTF);
+                            addClass(key, "incorrect-key");
                         }
-                    }, index * 80);
+                    }
 
-                    F.duplicateRemover(
-                        activeRowCounter,
+                    duplicateRemover(
                         activatedRows,
                         letter,
                         index,
-                        "incorrect"
+                        "incorrect-key"
                     );
                 }
 
                 //  correct
-                if (guessWord.indexOf(letter) === index) {
-                    setTimeout(() => {
-                        slot.animate(...A.correct);
-                        addClass(slot, "correct");
+                if (guessWord[index] === playersGuess[index]) {
+                    slot.animate(A.correctSlotP, A.correctSlotTF);
+                    addClass(slot, "correct-key");
 
-                        for (const key of keys) {
-                            if (key.innerText === letter) {
-                                key.animate(
-                                    [
-                                        {
-                                            transform: "scale(1)",
-                                            color: "white",
-                                        },
-                                        {
-                                            transform: "scale(0)",
-                                            color: "#339900",
-                                        },
-                                        {
-                                            transform: "scale(1)",
-                                            color: "#339900",
-                                        },
-                                    ],
-                                    {
-                                        duration: 500,
-                                        easing: "ease-in-out",
-                                        fill: "both",
-                                    }
-                                );
-
-                                addClass(key, "correct");
-                            }
+                    for (const key of keys) {
+                        if (key.innerText === letter) {
+                            key.animate(A.correctKeyP, A.correctKeyTF);
+                            addClass(key, "correct-key");
                         }
-                    }, index * 80);
+                    }
 
-                    F.duplicateRemover(
-                        activeRowCounter,
+                    duplicateRemover(
                         activatedRows,
                         letter,
                         index,
-                        "correct"
+                        "correct-key"
                     );
 
-                    guessWord[index] = "";
-
-                    gameWon++;
+                    greenSlotsTracker++;
                 }
             });
 
             playersGuessTracker.push([playersGuess.join(""), activeRowCounter]);
 
-            F.rowActiveState(GG.guessRows[activeRowCounter], "deactive");
+            GG.rowActiveState(GG.guessRows[activeRowCounter], "deactive");
+
+            for (const slot of GG.activeRowSlots) slot.style.border = "none";
         }
 
         //  game won or not
-        if (gameWon === guessWord.length) {
+        if (greenSlotsTracker === guessWord.length) {
             // game won
             removeEl(keyboard, "click", keyboardMechanics);
             removeClass(keyboard, "show-keyboard");
@@ -280,18 +238,16 @@ export function keyboardMechanics(e) {
             addClass(M.downArrow, "show-down-arrow");
             addEl(M.downArrow, "click", M.downArrowF);
 
-            F.word.innerText = GG.guessWord;
-            F.word.style.opacity = 1;
+            GG.word.innerText = GG.guessWord;
+            GG.word.style.opacity = 1;
 
             setTimeout(() => {
-                F.activeRowSlots.forEach((slot, index) => {
-                    setTimeout(() => {
-                        slot.animate(...A.winnerFlag);
-                    }, index * 120);
+                GG.activeRowSlots.forEach((slot, index) => {
+                    slot.animate(...A.winnerFlag);
                 });
 
-                F.theNotch.animate(...A.turnTheNotch);
-                F.wordCover.animate(...A.unveilWord);
+                GG.theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
+                GG.wordCover.animate(A.veilWordP, A.veilWordTF);
             }, 800);
 
             //  game lost
@@ -316,34 +272,147 @@ export function keyboardMechanics(e) {
         ) {
             activeRowCounter++;
 
-            F.rowActiveState(GG.guessRows[activeRowCounter], "active");
+            GG.rowActiveState(GG.guessRows[activeRowCounter], "active");
         }
     }
 }
 
-export function gameReset() {
-    playersGuessTracker = [];
+// --------------- functions ---------------
+// accent shifter
+export function accentShifter(command) {
+    if (command === "shift" && !shiftKeyPress) {
+        shiftKeyIconC = shiftKeyIcon.animate(A.shiftUpScaleP, A.shiftUpScaleTF);
 
+        for (const key of accentedKeys) {
+            key.children[0].style.display = "none";
+            key.children[1].style.display = "inline";
+        }
+
+        shiftKeyPress = true;
+    } else if (command === "shift" && shiftKeyPress) {
+        if (shiftKeyIconC && shiftKeyIconC.currentTime > 0)
+            shiftKeyIconC.reverse();
+
+        for (const key of accentedKeys) {
+            key.children[0].style.display = "inline";
+            key.children[1].style.display = "none";
+        }
+
+        shiftKeyPress = false;
+    } else if (command === "unshift" && shiftKeyIconC) {
+        if (shiftKeyIconC && shiftKeyIconC.currentTime > 0)
+            shiftKeyIconC.reverse();
+
+        for (const key of accentedKeys) {
+            key.children[0].style.display = "inline";
+            key.children[1].style.display = "none";
+        }
+
+        shiftKeyPress = false;
+    }
+}
+
+// change active slot
+function changeActiveSlot(activate, empty) {
+    for (const slot of GG.activeRowSlots) {
+        if (slot.classList.contains("active-slot")) {
+            deactivateSlots();
+            removeClass(slot, "active-slot");
+
+            if (empty) slot.innerText = "";
+        }
+    }
+
+    addClass(GG.activeRowSlots[activate], "active-slot");
+    activeSlotC[activate] = GG.activeRowSlots[activate].animate(
+        A.activeSlotP,
+        A.activeSlotTF
+    );
+}
+
+// deactivate slots
+export function deactivateSlots() {
+    for (const animation of activeSlotC) {
+        if (animation) animation.cancel();
+
+        for (const slot of GG.activeRowSlots) slot.style.border = "none";
+    }
+}
+
+// previous row
+export function previousActiveSlot() {
+    let previousActiveSlot;
+
+    GG.activeRowSlots.forEach((slot, index, array) => {
+        if (slot.classList.contains("active-slot")) {
+            previousActiveSlot = index === 0 ? index : index - 1;
+        }
+    });
+
+    return previousActiveSlot;
+}
+
+// next row
+export function nextActiveSlot(loop) {
+    let nextActiveSlot;
+
+    GG.activeRowSlots.forEach((slot, index, array) => {
+        if (slot.classList.contains("active-slot") && !loop) {
+            nextActiveSlot = index === array.length - 1 ? index : index + 1;
+        } else if (slot.classList.contains("active-slot") && loop === "loop") {
+            nextActiveSlot = index === array.length - 1 ? 0 : index + 1;
+        }
+    });
+
+    return nextActiveSlot;
+}
+
+// clear invalid guess
+export function clearInvalidGuess() {
+    GG.activeRowSlots.reverse().forEach((slot, index) => {
+        slot.innerText = "";
+    });
+
+    GG.activeRowSlots.reverse();
+    changeActiveSlot(0);
+}
+
+// dupllicate removal
+export function duplicateRemover(rows, letter, index, className) {
+    if (activeRowCounter > 0) {
+        rows.forEach((row, rowIndex) => {
+            const rowSlots = Array.from(row.children).reverse();
+
+            rowSlots.forEach((slot, slotIndex) => {
+                const slotletter =
+                    slot.innerText === "هـ" ? "ه" : slot.innerText;
+
+                if (
+                    rowIndex !== rows.length - 1 &&
+                    slotletter === letter &&
+                    slotIndex === index &&
+                    slot.classList.contains(className)
+                ) {
+                    slot.animate(A.SlotNotIncludedP, A.SlotNotIncludedTF);
+                    removeClass(slot, className);
+                }
+            });
+        });
+    }
+}
+
+function gameReset() {
     activeRowCounter = 0;
 
-    // row clean up
-    while (GG.guessContainer.firstChild) {
-        GG.guessContainer.removeChild(GG.guessContainer.firstChild);
-    }
+    playersGuessTracker = [];
 
     for (const key of keys) {
-        removeClass(key, "not-included");
-        removeClass(key, "incorrect");
-        removeClass(key, "correct");
+        removeClass(key, "key-not-included");
+        removeClass(key, "incorrect-key");
+        removeClass(key, "correct-key");
 
-        key.animate(
-            {
-                color: "white",
-            },
-            {
-                duration: 0,
-                fill: "both",
-            }
-        );
+        key.animate(A.keyboardKeyResetP, A.keyboardKeyResetTF);
     }
+
+    removeEl(keyboard, "click", keyboardMechanics);
 }

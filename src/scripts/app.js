@@ -1,5 +1,5 @@
-import cardsToggler from "./modules/menu.js";
-
-setTimeout(() => {
-    cardsToggler("on");
-}, 100);
+window.addEventListener("DOMContentLoaded", () => {
+    import("./modules/menu.js").then(obj => {
+        obj.showCards();
+    });
+});
