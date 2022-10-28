@@ -75,9 +75,7 @@ export function keyboardMechanics(e) {
     //  enter
     if (target.matches(".enter, .enter-icon")) {
         const guessWord = [...GG.guessWord];
-        console.log("GW:", guessWord);
         let playersGuess = [];
-        console.log("PG:", playersGuess);
 
         let greenSlotsTracker = 0;
 

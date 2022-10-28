@@ -39,7 +39,7 @@ export function showCards() {
     cards.forEach((card, index) => {
         // icon change
         const cardIcon = card.children[0];
-        const randomNumber = Math.round(Math.random() * 5 + 1);
+        const randomNumber = Math.round(Math.random() * 32 + 1);
         const srcAttr = `./assets/icons/${card.getAttribute(
             "class"
         )}/i (${randomNumber}).png`;
