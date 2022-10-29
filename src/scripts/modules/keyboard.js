@@ -146,8 +146,8 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                // DB.validWords[GG.randomNum].includes(playersGuess.join(""))
-                DB.validWords[5].includes(playersGuess.join(""))
+                DB.validWords[M.letterLength].includes(playersGuess.join(""))
+                // DB.validWords[5].includes(playersGuess.join(""))
             )
                 // valid
                 result = false;

@@ -20,6 +20,11 @@ html {
 }
 
 body {
+    @include query("xl") {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
     background-color: $myBlack;
 
     color: $myWhite;

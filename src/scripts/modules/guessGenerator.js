@@ -35,7 +35,7 @@ export const wordCover = query(document, ".word-cover");
 export const theNotch = query(wordCover, "i");
 export const word = query(document, ".word");
 
-export function guessGenerator(PCH) {
+export function guessGenerator(PCH, letterLength) {
     K.gameReset();
 
     randomNum = randomNumber();
@@ -43,7 +43,10 @@ export function guessGenerator(PCH) {
     //     DB[PCH][randomNum][
     //         Math.round(Math.random() * DB[PCH][randomNum].length)
     //     ];
-    guessWord = DB[PCH][5][Math.round(Math.random() * DB[PCH][5].length)];
+    guessWord =
+        DB[PCH][letterLength][
+            Math.round(Math.random() * DB[PCH][letterLength].length)
+        ];
     guessWordLength = guessWord.length;
 
     console.log("guessWord:", guessWord);

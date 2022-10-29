@@ -8,6 +8,8 @@
 
     width: 100%;
 
+    padding: 4rem 0;
+
     .word-container {
         @include flex(row, center, center);
 

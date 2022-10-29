@@ -25,6 +25,12 @@ body {
   left: 0;
   overflow: hidden;
 }
+@media screen and (min-width: 48em) {
+  body {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
 
 img {
   max-width: 100%;
@@ -41,6 +47,12 @@ header {
   right: 0;
   z-index: 95;
 }
+@media screen and (min-width: 37.5em) {
+  header {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
 header .title-container {
   display: flex;
   flex-direction: column;
@@ -51,6 +63,11 @@ header .title-container {
 header .title-container .title {
   font-size: 2.5rem;
 }
+@media screen and (min-width: 37.5em) {
+  header .title-container .title {
+    font-size: 4rem;
+  }
+}
 header .title-container .down-arrow {
   font-size: 2.5rem;
   transform: scale(0);
@@ -58,8 +75,13 @@ header .title-container .down-arrow {
   padding: 0 0.5rem 0.5rem 0.5rem;
   position: absolute;
   left: 50%;
-  bottom: -2.5rem;
+  bottom: -3.5rem;
   cursor: pointer;
+}
+@media screen and (min-width: 37.5em) {
+  header .title-container .down-arrow {
+    font-size: 4rem;
+  }
 }
 header .title-container .down-arrow:active {
   bottom: -3.5rem;
@@ -76,15 +98,22 @@ main {
   left: 0;
   overflow: hidden;
 }
+@media screen and (min-width: 37.5em) {
+  main {
+    padding-top: 8rem;
+  }
+}
 
 .cards-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
-  align-items: center;
+  grid-template-rows: auto 1fr;
+  justify-items: space-around;
+  align-content: center;
   background-color: rgba(20, 20, 20, 0.99);
   transform: translateY(-100%);
   transition: transform 0.5s 0.3s ease-in-out;
+  padding-top: 5%;
+  padding-bottom: 15%;
   position: absolute;
   top: 0;
   left: 0;
@@ -94,19 +123,95 @@ main {
 }
 @media screen and (min-width: 37.5em) {
   .cards-container {
-    padding: 0 10%;
+    padding-bottom: 10%;
   }
 }
-.cards-container div {
+.cards-container .letter-length {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  font-size: 2rem;
+}
+@media screen and (min-width: 37.5em) {
+  .cards-container .letter-length {
+    font-size: 3rem;
+  }
+}
+.cards-container .letter-length div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+}
+.cards-container .letter-length div span {
+  font-size: 2rem;
+  padding: 0 1rem;
   cursor: pointer;
 }
-.cards-container div img {
+@media screen and (min-width: 37.5em) {
+  .cards-container .letter-length div span {
+    font-size: 3rem;
+  }
+}
+.cards-container .cards {
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+.cards-container .cards .choice-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.cards-container .cards .choice-container div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.cards-container .cards .choice-container div img {
   width: 5rem;
+  cursor: pointer;
+}
+@media screen and (min-width: 37.5em) {
+  .cards-container .cards .choice-container div img {
+    width: 7rem;
+  }
+}
+.cards-container .cards .choice-container div h3 {
+  font-size: 2rem;
+  cursor: pointer;
+}
+@media screen and (min-width: 37.5em) {
+  .cards-container .cards .choice-container div h3 {
+    font-size: 3rem;
+  }
+}
+.cards-container .cards button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  background-color: transparent;
+  opacity: 0;
+  color: rgb(235, 235, 235);
+  font-size: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+@media screen and (min-width: 37.5em) {
+  .cards-container .cards button {
+    font-size: 2.5rem;
+  }
+}
+.cards-container .cards button .category {
+  order: 1;
+  margin-left: 1rem;
 }
 .cards-container .up-arrow {
   font-size: 2.5rem;
@@ -115,8 +220,13 @@ main {
   padding: 1rem;
   position: absolute;
   left: 50%;
-  bottom: 3rem;
+  bottom: 2rem;
   cursor: pointer;
+}
+@media screen and (min-width: 37.5em) {
+  .cards-container .up-arrow {
+    font-size: 4rem;
+  }
 }
 .cards-container .up-arrow:active {
   bottom: 5rem;
@@ -127,6 +237,7 @@ main {
   grid-template-rows: auto 1fr;
   align-content: space-around;
   width: 100%;
+  padding: 4rem 0;
 }
 .word-and-guesses .word-container {
   display: flex;
@@ -225,7 +336,7 @@ main {
   align-items: center;
   gap: 0.5rem;
   width: 100%;
-  max-width: 70rem;
+  max-width: 900px;
   padding: 1rem 1rem;
   transform: translateY(150%);
   transition: transform 0.5s 0.5s ease-in-out;
@@ -325,6 +436,11 @@ main {
 .keyboard .pin-code button {
   opacity: 0;
   cursor: default;
+}
+@media screen and (min-width: 37.5em) {
+  .keyboard .pin-code button {
+    padding: 1.5rem 0.5rem;
+  }
 }
 
 .unregistered {

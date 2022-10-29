@@ -3,6 +3,11 @@
 header {
     @include flex(row, center, center);
 
+    @include query("lg") {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
     position: fixed;
     top: 0;
     left: 0;
@@ -17,10 +22,16 @@ header {
 
         .title {
             font-size: 2.5rem;
+            @include query("lg") {
+                font-size: 4rem;
+            }
         }
 
         .down-arrow {
             font-size: 2.5rem;
+            @include query("lg") {
+                font-size: 4rem;
+            }
 
             transform: scale(0);
             transition: bottom 0.3s ease;
@@ -29,7 +40,7 @@ header {
 
             position: absolute;
             left: 50%;
-            bottom: -2.5rem;
+            bottom: -3.5rem;
 
             cursor: pointer;
 
@@ -45,6 +56,10 @@ main {
     grid-template-rows: 1fr auto;
 
     justify-items: center;
+
+    @include query("lg") {
+        padding-top: 8rem;
+    }
 
     position: absolute;
     top: 4.2rem;

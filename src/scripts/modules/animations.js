@@ -14,21 +14,60 @@ export const showCardsTF = {
     ...EF,
 };
 
-// selected choice
-export const selectedChoiceP = [
+// letter length
+export const letterLengthP = [
     {
-        transform: "scale(1)",
+        opacity: 1,
     },
     {
-        transform: "scale(2)",
+        transform: "scale(1.2)",
+        opacity: 1,
     },
     {
-        transform: "scale(1)",
+        opacity: 0,
     },
 ];
-export const selectedChoiceTM = {
-    duration: 300,
-    ...EF,
+export const letterLengthTF = {
+    duration: 1500,
+    easing: "ease-in-out",
+    direction: "alternate",
+    iterations: Infinity,
+};
+
+// choice icon
+export const choiceIconP = [
+    {
+        transform: "translateY(0px)",
+    },
+    {
+        transform: "translateY(10px)",
+    },
+    {
+        transform: "translateY(0px)",
+    },
+];
+export const choiceIconTF = {
+    duration: 1500,
+    easing: "ease-in-out",
+    iterations: Infinity,
+};
+
+// choice text
+export const choiceTextP = [
+    {
+        opacity: 1,
+    },
+    {
+        opacity: 0,
+    },
+    {
+        opacity: 1,
+    },
+];
+export const choiceTextTF = {
+    duration: 750,
+    easing: "ease-in-out",
+    iterations: Infinity,
 };
 
 // down arrow
