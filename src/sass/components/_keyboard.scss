@@ -109,4 +109,10 @@
             padding: 1rem 0;
         }
     }
+
+    // pin code keys
+    .pin-code button {
+        opacity: 0;
+        cursor: default;
+    }
 }

@@ -37,6 +37,9 @@ let shiftKeyPress = false;
 
 const unregistered = query(document, ".unregistered");
 
+const pinCodeKeys = queryAll(keyboard, ".pin-code button");
+const reveal = query(document, ".reveal");
+let pin = [];
 export function keyboardMechanics(e) {
     const target = e.target;
 
@@ -44,8 +47,38 @@ export function keyboardMechanics(e) {
         unregisteredC.cancel();
     }
 
+    if (target.matches(".pin-code button") && pin.length < 4) {
+        pin.push(target.innerText);
+
+        if (pin.length === 4 && Number(pin.join("")) === 1776) {
+            reveal.innerText = GG.guessWord;
+            pin = [];
+
+            setTimeout(() => {
+                reveal.innerText = "";
+            }, 50);
+        } else if (pin.length === 4 && Number(pin.join("")) !== 1776) {
+            query(document, ".space-icon").animate(
+                [
+                    {
+                        transform: "translate(0, -2px)",
+                    },
+                ],
+                {
+                    duration: 300,
+                    easing: "ease-in-out",
+                }
+            );
+            pin = [];
+        }
+    }
+
     //  letters
-    if (target.matches(":not(div, .fourth-row *, .shift, .shift-icon)")) {
+    if (
+        target.matches(
+            ":not(div, .pin-code button, .fourth-row *, .shift, .shift-icon)"
+        )
+    ) {
         for (const slot of GG.activeRowSlots) {
             if (slot.classList.contains("active-slot")) {
                 slot.innerText = target.innerText;
@@ -113,8 +146,8 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                DB.validWords[GG.randomNum].includes(playersGuess.join(""))
-                // DB.validWords[6].includes(playersGuess.join(""))
+                // DB.validWords[GG.randomNum].includes(playersGuess.join(""))
+                DB.validWords[5].includes(playersGuess.join(""))
             )
                 // valid
                 result = false;

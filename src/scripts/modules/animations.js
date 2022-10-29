@@ -136,7 +136,7 @@ export const activeSlotP = [
         transform: "scale(1.3)",
     },
     {
-        transform: "scale(1.1)",
+        transform: "scale(1.05)",
         border: "0.2px solid red",
     },
 ];

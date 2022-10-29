@@ -39,10 +39,11 @@ export function guessGenerator(PCH) {
     K.gameReset();
 
     randomNum = randomNumber();
-    guessWord =
-        DB[PCH][randomNum][
-            Math.round(Math.random() * DB[PCH][randomNum].length)
-        ];
+    // guessWord =
+    //     DB[PCH][randomNum][
+    //         Math.round(Math.random() * DB[PCH][randomNum].length)
+    //     ];
+    guessWord = DB[PCH][5][Math.round(Math.random() * DB[PCH][5].length)];
     guessWordLength = guessWord.length;
 
     console.log("guessWord:", guessWord);

@@ -34,17 +34,6 @@
         }
     }
 
-    .capitals {
-        display: none;
-    }
-    .capitals::before {
-        content: "hetaw";
-
-        position: absolute;
-        left: 50%;
-        top: -5%;
-    }
-
     .up-arrow {
         font-size: 2.5rem;
 

@@ -34,7 +34,7 @@ export let playersChoice;
 
 // show cards
 export function showCards() {
-    showCardC = cardsContainer.animate(A.showCardsP, A.showCardsTF);
+    // showCardC = cardsContainer.animate(A.showCardsP, A.showCardsTF);
 
     cards.forEach((card, index) => {
         // icon change
@@ -127,11 +127,11 @@ export function upArrowF() {
 }
 
 // delete
-// playersChoice = "countries";
-//
-// setTimeout(() => {
-//     GG.guessGenerator(playersChoice, DB);
-//     addClass(K.keyboard, "show-keyboard");
-//     addClass(GG.wordCover, "veil-word");
-//     addClass(GG.theNotch, "turn-the-notch");
-// }, 0);
+playersChoice = "countries";
+
+setTimeout(() => {
+    GG.guessGenerator(playersChoice, DB);
+    addClass(K.keyboard, "show-keyboard");
+    addClass(GG.wordCover, "veil-word");
+    addClass(GG.theNotch, "turn-the-notch");
+}, 0);
