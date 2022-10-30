@@ -58,7 +58,7 @@ main {
     justify-items: center;
 
     @include query("lg") {
-        padding-top: 8rem;
+        padding-top: 3rem;
     }
 
     position: absolute;

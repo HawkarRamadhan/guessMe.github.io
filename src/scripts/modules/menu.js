@@ -25,6 +25,7 @@ export let showDownArrowC;
 export let showUpArrowC;
 export let choicesC = [];
 let letterLengthC = [];
+let startBtnC;
 
 const cardsContainer = query(document, ".cards-container");
 const cards = queryAll(cardsContainer, ".choice-container > div");
@@ -74,32 +75,9 @@ export function hideCards() {
 function cardsEL(e) {
     let target = e.target;
 
-    // random
-    if (target.parentElement.matches(".random")) {
-    }
     // letter length
     if (target.matches(".letter-length span")) {
-        button.animate(
-            [
-                {
-                    transform: "scale(0)",
-                    opacity: 0,
-                },
-                {
-                    transform: "scale(1.3)",
-                    opacity: 1,
-                },
-                {
-                    transform: "scale(1)",
-                    opacity: 1,
-                },
-            ],
-            {
-                duration: 1000,
-                easing: "ease-in-out",
-                fill: "both",
-            }
-        );
+        startBtnC = button.animate(A.showStartBtnP, A.showStartBtnTF);
 
         // cancel animations
         letterLengthC.forEach(anime => {
@@ -130,38 +108,16 @@ function cardsEL(e) {
 
         letLenSpan.innerText = letLen;
         categorySpan.innerText = PCH !== "..." ? PCH : "...";
-        // choices
     } else if (target.matches(".cards img, .cards h3")) {
+        // choices
         const target = e.target.parentElement;
-        let KC = target.children[1].innerText;
 
-        button.animate(
-            [
-                {
-                    transform: "scale(0)",
-                    opacity: 0,
-                },
-                {
-                    transform: "scale(1.3)",
-                    opacity: 1,
-                },
-                {
-                    transform: "scale(1)",
-                    opacity: 1,
-                },
-            ],
-            {
-                duration: 1000,
-                easing: "ease-in-out",
-                fill: "both",
-            }
-        );
+        startBtnC = button.animate(A.showStartBtnP, A.showStartBtnTF);
 
         // play and cancel animation
         choicesC.push([
             target.children[0].animate(A.choiceIconP, A.choiceIconTF),
             target.children[1].animate(A.choiceTextP, A.choiceIconTF),
-
             choicesC.forEach(element => {
                 element.forEach(anime => {
                     for (const child of target.children) {
@@ -187,11 +143,6 @@ function cardsEL(e) {
         playersChoice = className === "random" ? "validWords" : className;
     }
 
-    console.log("letterLength:", letterLength);
-    console.log("className:", className);
-
-    console.log("playersChoice:", playersChoice);
-
     if (
         target.matches(".cards button, .cards button span") &&
         letterLength &&
@@ -201,6 +152,16 @@ function cardsEL(e) {
         showDownArrowC = downArrow.animate(A.showDownArrowP, A.showDownArrowTF);
         addEl(downArrow, "click", downArrowF);
         hideCards();
+
+        for (const choice of choicesC) {
+            for (const anime of choice) {
+                if (anime) anime.cancel();
+            }
+        }
+
+        for (const anime of letterLengthC) if (anime) anime.cancel();
+
+        startBtnC.reverse();
     }
 }
 

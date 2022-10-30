@@ -70,6 +70,26 @@ export const choiceTextTF = {
     iterations: Infinity,
 };
 
+export const showStartBtnP = [
+    {
+        transform: "scale(0)",
+        opacity: 0,
+    },
+    {
+        transform: "scale(1.3)",
+        opacity: 1,
+    },
+    {
+        transform: "scale(1)",
+        opacity: 1,
+    },
+];
+export const showStartBtnTF = {
+    duration: 1000,
+    easing: "ease-in-out",
+    fill: "both",
+};
+
 // down arrow
 export const showDownArrowP = [
     {

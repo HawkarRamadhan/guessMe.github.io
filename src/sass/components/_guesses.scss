@@ -14,11 +14,11 @@
         span {
             @include flex(row, center, center);
 
-            min-width: 37px;
-            min-height: 35px;
+            min-width: 47px;
+            min-height: 45px;
             @include query("sm") {
-                min-width: 42px;
-                min-height: 40px;
+                min-width: 62px;
+                min-height: 60px;
             }
 
             background-color: $myWhite;
@@ -26,7 +26,7 @@
             color: $myBlack;
             font-size: 1.5rem;
             @include query("sm") {
-                font-size: 2rem;
+                font-size: 3rem;
             }
 
             border-radius: 0.5rem;
