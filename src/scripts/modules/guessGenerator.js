@@ -14,6 +14,7 @@ import { dataBase as DB } from "./dataBase.js";
 import * as A from "./animations.js";
 
 import * as K from "./keyboard.js";
+import { button, fieldSet } from "./menu.js";
 // --------------- imports ---------------
 // animation controls
 export let keyboardTogglerC;
@@ -36,13 +37,10 @@ export const theNotch = query(wordCover, "i");
 export const word = query(document, ".word");
 
 export function guessGenerator(PCH, letterLength) {
+    fieldSet.style.opacity = 1;
     K.gameReset();
 
     randomNum = randomNumber();
-    // guessWord =
-    //     DB[PCH][randomNum][
-    //         Math.round(Math.random() * DB[PCH][randomNum].length)
-    //     ];
     guessWord =
         DB[PCH][letterLength][
             Math.round(Math.random() * DB[PCH][letterLength].length)

@@ -7,16 +7,23 @@
     background-color: $myWhite;
 
     color: $myBlack;
+    font-size: 1.5rem;
+    @include query("lg") {
+        font-size: 2rem;
+    }
 
     border-radius: 0.5rem;
 
-    padding: 1rem 3rem;
+    padding: 1.2rem 5rem;
+    @include query("lg") {
+        padding: 2rem 5rem;
+    }
 
-    transform: translateY(-200%);
+    transform: translateY(-500%);
     transition: transform 0.5s ease-in-out;
 
     position: absolute;
-    top: 2.75rem;
+    top: 5rem;
 
     z-index: 10;
 

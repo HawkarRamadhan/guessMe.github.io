@@ -33,7 +33,7 @@ const cards = queryAll(cardsContainer, ".choice-container > div");
 export const downArrow = query(document, ".down-arrow");
 export const upArrow = query(document, ".up-arrow");
 
-const button = query(cardsContainer, "button");
+export const button = query(cardsContainer, "button");
 const letLenSpan = query(cardsContainer, ".letter-length-span");
 const categorySpan = query(cardsContainer, ".category");
 let letLen = "...";
@@ -42,6 +42,9 @@ let PCH = "...";
 let className;
 export let letterLength;
 export let playersChoice;
+
+export const fieldSet = query(document, "fieldset");
+export const legend = query(document, "legend");
 
 // show cards
 export function showCards() {
@@ -153,16 +156,11 @@ function cardsEL(e) {
         addEl(downArrow, "click", downArrowF);
         hideCards();
 
-        for (const choice of choicesC) {
-            for (const anime of choice) {
-                if (anime) anime.cancel();
-            }
-        }
-
-        for (const anime of letterLengthC) if (anime) anime.cancel();
-
-        startBtnC.reverse();
+        stopAnimations();
     }
+
+    legend.innerText =
+        button.children[1].innerText + " " + button.children[0].innerText;
 }
 
 // down arrow
@@ -185,14 +183,27 @@ export function upArrowF() {
 
     showDownArrowC.reverse();
     addEl(downArrow, "click", downArrowF);
+
+    stopAnimations();
+}
+
+function stopAnimations() {
+    letLen = "...";
+    PCH = "...";
+
+    for (const choice of choicesC) {
+        for (const anime of choice) {
+            if (anime) anime.cancel();
+        }
+    }
+
+    for (const anime of letterLengthC) if (anime) anime.cancel();
+
+    startBtnC.reverse();
 }
 
 // delete
-// playersChoice = "countries";
-//
-// setTimeout(() => {
-//     GG.guessGenerator(playersChoice, DB);
-//     addClass(K.keyboard, "show-keyboard");
-//     addClass(GG.wordCover, "veil-word");
-//     addClass(GG.theNotch, "turn-the-notch");
-// }, 0);
+// GG.guessGenerator("occupations", 5);
+// addClass(K.keyboard, "show-keyboard");
+// addClass(GG.wordCover, "veil-word");
+// addClass(GG.theNotch, "turn-the-notch");

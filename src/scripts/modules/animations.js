@@ -340,7 +340,7 @@ export const shiftUpScaleTF = {
 // unregistered word
 export const unregisteredWordP = [
     {
-        transform: "translateY(-200%)",
+        transform: "translateY(-500%)",
     },
     {
         transform: "translateY(0%)",

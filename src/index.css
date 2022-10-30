@@ -237,7 +237,7 @@ main {
   grid-template-rows: auto 1fr;
   align-content: space-around;
   width: 100%;
-  padding: 4rem 0;
+  padding-top: 2rem;
 }
 .word-and-guesses .word-container {
   display: flex;
@@ -252,8 +252,13 @@ main {
   position: relative;
 }
 .word-and-guesses .word-container .word {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   opacity: 0;
+}
+@media screen and (min-width: 48em) {
+  .word-and-guesses .word-container .word {
+    font-size: 3rem;
+  }
 }
 .word-and-guesses .word-container .word-cover {
   display: flex;
@@ -279,6 +284,36 @@ main {
   top: 50%;
   right: 5%;
 }
+@media screen and (min-width: 48em) {
+  .word-and-guesses .word-container .word-cover .notch-container {
+    font-size: 2.3rem;
+  }
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  opacity: 0;
+  border: 0.1rem solid rgba(235, 235, 235, 0.1);
+  text-align: center;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+fieldset legend {
+  font-size: 1.5rem;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+@media screen and (min-width: 37.5em) {
+  fieldset legend {
+    font-size: 1.8rem;
+    padding: 0 1rem;
+  }
+}
 
 .guesses {
   display: flex;
@@ -286,8 +321,6 @@ main {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  justify-self: center;
-  align-self: center;
 }
 .guesses .guess-row {
   display: flex;
@@ -301,8 +334,8 @@ main {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  min-width: 47px;
-  min-height: 45px;
+  min-width: 37px;
+  min-height: 35px;
   background-color: rgb(235, 235, 235);
   color: rgb(20, 20, 20);
   font-size: 1.5rem;
@@ -311,15 +344,15 @@ main {
   opacity: 0;
   cursor: pointer;
 }
-@media screen and (min-width: 30em) {
+@media screen and (min-width: 37.5em) {
   .guesses .guess-row span {
-    min-width: 62px;
-    min-height: 60px;
+    min-width: 50px;
+    min-height: 50px;
   }
 }
 @media screen and (min-width: 30em) {
   .guesses .guess-row span {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 }
 @media screen and (min-width: 48em) {
@@ -357,7 +390,7 @@ main {
   align-items: center;
   flex: 1;
   min-width: 4rem;
-  background-color: rgba(120, 120, 120, 0.2);
+  background-color: rgba(120, 120, 120, 0.1);
   color: rgb(235, 235, 235);
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -367,6 +400,11 @@ main {
 @media screen and (min-width: 37.5em) {
   .keyboard .row button {
     padding: 0.5rem 0.5rem;
+  }
+}
+@media screen and (min-width: 37.5em) {
+  .keyboard .row button {
+    padding: 1.5rem 1.5rem;
   }
 }
 .keyboard .row button:active {
@@ -452,13 +490,24 @@ main {
   min-width: 20rem;
   background-color: rgb(235, 235, 235);
   color: rgb(20, 20, 20);
+  font-size: 1.5rem;
   border-radius: 0.5rem;
-  padding: 1rem 3rem;
-  transform: translateY(-200%);
+  padding: 1.2rem 5rem;
+  transform: translateY(-500%);
   transition: transform 0.5s ease-in-out;
   position: absolute;
-  top: 2.75rem;
+  top: 5rem;
   z-index: 10;
+}
+@media screen and (min-width: 37.5em) {
+  .unregistered {
+    font-size: 2rem;
+  }
+}
+@media screen and (min-width: 37.5em) {
+  .unregistered {
+    padding: 2rem 5rem;
+  }
 }
 .unregistered span:nth-child(1) {
   margin-right: 1rem;

@@ -2,6 +2,7 @@
 
 .cards-container {
     display: grid;
+    // display: none;
     grid-template-rows: auto 1fr;
 
     justify-items: space-around;

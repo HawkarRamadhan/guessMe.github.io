@@ -24,7 +24,7 @@
 
             min-width: 4rem;
 
-            background-color: rgba($myGrey, 0.2);
+            background-color: rgba($myGrey, 0.1);
 
             color: $myWhite;
 
@@ -33,6 +33,9 @@
             padding: 0.5rem;
             @include query("lg") {
                 padding: 0.5rem 0.5rem;
+            }
+            @include query("lg") {
+                padding: 1.5rem 1.5rem;
             }
 
             transition: transform 0.1s ease-in-out,
@@ -55,11 +58,10 @@
                 @include flex(row, center, center);
 
                 font-size: 2rem;
-                font-weight: bold;
-
                 @include query("sm") {
                     font-size: 3rem;
                 }
+                font-weight: bold;
             }
         }
 
