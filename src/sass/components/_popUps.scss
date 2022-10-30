@@ -8,22 +8,25 @@
 
     color: $myBlack;
     font-size: 1.5rem;
-    @include query("lg") {
+    @include query("xl") {
         font-size: 2rem;
     }
 
     border-radius: 0.5rem;
 
-    padding: 1.2rem 5rem;
-    @include query("lg") {
-        padding: 2rem 5rem;
-    }
+    padding: 1rem 3rem;
 
     transform: translateY(-500%);
     transition: transform 0.5s ease-in-out;
 
     position: absolute;
-    top: 5rem;
+    top: 8rem;
+    @include query("sm") {
+        top: 8rem;
+    }
+    @include query("lg") {
+        top: 10.5rem;
+    }
 
     z-index: 10;
 

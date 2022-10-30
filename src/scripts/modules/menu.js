@@ -203,7 +203,7 @@ function stopAnimations() {
 }
 
 // delete
-// GG.guessGenerator("occupations", 5);
+// GG.guessGenerator("occupations", 8);
 // addClass(K.keyboard, "show-keyboard");
 // addClass(GG.wordCover, "veil-word");
 // addClass(GG.theNotch, "turn-the-notch");

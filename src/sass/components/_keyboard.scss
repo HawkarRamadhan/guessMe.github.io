@@ -7,7 +7,7 @@
     width: 100%;
     max-width: 900px;
 
-    padding: 1rem 1rem;
+    padding: 1rem 1rem 2rem 1rem;
 
     transform: translateY(150%);
     transition: transform 0.5s 0.5s ease-in-out;
@@ -35,7 +35,7 @@
                 padding: 0.5rem 0.5rem;
             }
             @include query("lg") {
-                padding: 1.5rem 1.5rem;
+                padding: 1.2rem 1.5rem;
             }
 
             transition: transform 0.1s ease-in-out,
@@ -57,11 +57,10 @@
             span {
                 @include flex(row, center, center);
 
-                font-size: 2rem;
+                font-size: 1.7rem;
                 @include query("sm") {
-                    font-size: 3rem;
+                    font-size: 2.5rem;
                 }
-                font-weight: bold;
             }
         }
 

@@ -3,7 +3,7 @@
 header {
     @include flex(row, center, center);
 
-    @include query("lg") {
+    @include query("xl") {
         max-width: 900px;
         margin: 0 auto;
     }
@@ -22,14 +22,14 @@ header {
 
         .title {
             font-size: 2.5rem;
-            @include query("lg") {
+            @include query("xl") {
                 font-size: 4rem;
             }
         }
 
         .down-arrow {
             font-size: 2.5rem;
-            @include query("lg") {
+            @include query("xl") {
                 font-size: 4rem;
             }
 
@@ -40,7 +40,7 @@ header {
 
             position: absolute;
             left: 50%;
-            bottom: -3.5rem;
+            bottom: -3rem;
 
             cursor: pointer;
 
@@ -57,15 +57,13 @@ main {
 
     justify-items: center;
 
-    @include query("lg") {
-        padding-top: 3rem;
-    }
+    height: 100%;
 
-    position: absolute;
-    top: 4.2rem;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    padding-top: 4.1rem;
 
     overflow: hidden;
+
+    @include query("lg") {
+        padding-top: 6.7rem;
+    }
 }

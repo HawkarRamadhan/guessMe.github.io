@@ -351,7 +351,7 @@ export const unregisteredWordP = [
     },
 ];
 export const unregisteredWordTF = {
-    duration: 800,
+    duration: 1000,
     ...EF,
 };
 

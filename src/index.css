@@ -15,21 +15,13 @@ html {
 }
 
 body {
+  max-width: 900px;
+  height: 100vh;
   background-color: rgb(20, 20, 20);
   color: rgb(235, 235, 235);
   font-size: 1.6rem;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: hidden;
-}
-@media screen and (min-width: 48em) {
-  body {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  margin: 0 auto;
+  position: relative;
 }
 
 img {
@@ -47,7 +39,7 @@ header {
   right: 0;
   z-index: 95;
 }
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 48em) {
   header {
     max-width: 900px;
     margin: 0 auto;
@@ -63,7 +55,7 @@ header .title-container {
 header .title-container .title {
   font-size: 2.5rem;
 }
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 48em) {
   header .title-container .title {
     font-size: 4rem;
   }
@@ -75,10 +67,10 @@ header .title-container .down-arrow {
   padding: 0 0.5rem 0.5rem 0.5rem;
   position: absolute;
   left: 50%;
-  bottom: -3.5rem;
+  bottom: -3rem;
   cursor: pointer;
 }
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 48em) {
   header .title-container .down-arrow {
     font-size: 4rem;
   }
@@ -91,16 +83,13 @@ main {
   display: grid;
   grid-template-rows: 1fr auto;
   justify-items: center;
-  position: absolute;
-  top: 4.2rem;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  height: 100%;
+  padding-top: 4.1rem;
   overflow: hidden;
 }
 @media screen and (min-width: 37.5em) {
   main {
-    padding-top: 3rem;
+    padding-top: 6.7rem;
   }
 }
 
@@ -110,12 +99,12 @@ main {
   justify-items: space-around;
   align-content: center;
   background-color: rgba(20, 20, 20, 0.99);
-  transform: translateY(-100%);
+  transform: translateY(-200%);
   transition: transform 0.5s 0.3s ease-in-out;
   padding-top: 5%;
   padding-bottom: 15%;
   position: absolute;
-  top: 0;
+  top: 4rem;
   left: 0;
   right: 0;
   bottom: 0;
@@ -126,6 +115,11 @@ main {
     padding-bottom: 10%;
   }
 }
+@media screen and (min-width: 37.5em) {
+  .cards-container {
+    top: 6.5rem;
+  }
+}
 .cards-container .letter-length {
   display: flex;
   flex-direction: column;
@@ -134,7 +128,7 @@ main {
   gap: 1rem;
   font-size: 2rem;
 }
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 48em) {
   .cards-container .letter-length {
     font-size: 3rem;
   }
@@ -151,7 +145,7 @@ main {
   padding: 0 1rem;
   cursor: pointer;
 }
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 48em) {
   .cards-container .letter-length div span {
     font-size: 3rem;
   }
@@ -175,7 +169,7 @@ main {
   width: 5rem;
   cursor: pointer;
 }
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 48em) {
   .cards-container .cards .choice-container div img {
     width: 7rem;
   }
@@ -184,7 +178,7 @@ main {
   font-size: 2rem;
   cursor: pointer;
 }
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 48em) {
   .cards-container .cards .choice-container div h3 {
     font-size: 3rem;
   }
@@ -248,7 +242,7 @@ main {
   justify-self: center;
   width: 50%;
   max-width: 20rem;
-  margin-top: 3rem;
+  margin-top: 2rem;
   position: relative;
 }
 .word-and-guesses .word-container .word {
@@ -278,7 +272,7 @@ main {
   overflow: hidden;
 }
 .word-and-guesses .word-container .word-cover .notch-container {
-  font-size: 2rem;
+  font-size: 1.5rem;
   transform: translateY(-50%) rotate(86deg);
   position: absolute;
   top: 50%;
@@ -286,7 +280,7 @@ main {
 }
 @media screen and (min-width: 48em) {
   .word-and-guesses .word-container .word-cover .notch-container {
-    font-size: 2.3rem;
+    font-size: 2rem;
   }
 }
 
@@ -346,7 +340,7 @@ fieldset legend {
 }
 @media screen and (min-width: 37.5em) {
   .guesses .guess-row span {
-    min-width: 50px;
+    min-width: 52px;
     min-height: 50px;
   }
 }
@@ -371,7 +365,7 @@ fieldset legend {
   gap: 0.5rem;
   width: 100%;
   max-width: 900px;
-  padding: 1rem 1rem;
+  padding: 1rem 1rem 2rem 1rem;
   transform: translateY(150%);
   transition: transform 0.5s 0.5s ease-in-out;
 }
@@ -404,7 +398,7 @@ fieldset legend {
 }
 @media screen and (min-width: 37.5em) {
   .keyboard .row button {
-    padding: 1.5rem 1.5rem;
+    padding: 1.2rem 1.5rem;
   }
 }
 .keyboard .row button:active {
@@ -421,12 +415,11 @@ fieldset legend {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 1.7rem;
 }
 @media screen and (min-width: 30em) {
   .keyboard .row button span {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 }
 .keyboard .row .accented span:nth-of-type(2) {
@@ -492,21 +485,26 @@ fieldset legend {
   color: rgb(20, 20, 20);
   font-size: 1.5rem;
   border-radius: 0.5rem;
-  padding: 1.2rem 5rem;
+  padding: 1rem 3rem;
   transform: translateY(-500%);
   transition: transform 0.5s ease-in-out;
   position: absolute;
-  top: 5rem;
+  top: 8rem;
   z-index: 10;
 }
-@media screen and (min-width: 37.5em) {
+@media screen and (min-width: 48em) {
   .unregistered {
     font-size: 2rem;
   }
 }
+@media screen and (min-width: 30em) {
+  .unregistered {
+    top: 8rem;
+  }
+}
 @media screen and (min-width: 37.5em) {
   .unregistered {
-    padding: 2rem 5rem;
+    top: 10.5rem;
   }
 }
 .unregistered span:nth-child(1) {
