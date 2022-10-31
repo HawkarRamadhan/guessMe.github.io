@@ -423,3 +423,19 @@ export const keyboardKeyResetTF = {
     duration: 0,
     ...EF,
 };
+
+// --------------- imports ---------------
+import {
+    log,
+    query,
+    queryAll,
+    addClass,
+    removeClass,
+    addEl,
+    removeEl,
+    A,
+    DB,
+    M,
+    GG,
+    K,
+} from "./aggregator.js";

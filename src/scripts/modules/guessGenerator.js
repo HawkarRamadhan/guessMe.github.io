@@ -1,21 +1,3 @@
-// --------------- imports ---------------
-import {
-    log,
-    query,
-    queryAll,
-    addClass,
-    removeClass,
-    addEl,
-    removeEl,
-} from "./globalFun.js";
-
-import { dataBase as DB } from "./dataBase.js";
-
-import * as A from "./animations.js";
-
-import * as K from "./keyboard.js";
-import { button, fieldSet } from "./menu.js";
-// --------------- imports ---------------
 // animation controls
 export let keyboardTogglerC;
 export let veilWordC;
@@ -36,14 +18,18 @@ export const wordCover = query(document, ".word-cover");
 export const theNotch = query(wordCover, "i");
 export const word = query(document, ".word");
 
-export function guessGenerator(PCH, letterLength) {
-    fieldSet.style.opacity = 1;
+export function guessGenerator(playersChoice, letterLength) {
+    M.fieldSet.style.opacity = 1;
     K.gameReset();
 
     randomNum = randomNumber();
     guessWord =
-        DB[PCH][letterLength][
-            Math.round(Math.random() * DB[PCH][letterLength].length)
+        DB.dataBase[playersChoice][letterLength][
+            Math.round(
+                Math.random() *
+                    DB.dataBase[playersChoice][letterLength].length +
+                    1
+            )
         ];
     guessWordLength = guessWord.length;
 
@@ -202,3 +188,19 @@ function activeRowCBF(e) {
         );
     }
 }
+
+// --------------- imports ---------------
+import {
+    log,
+    query,
+    queryAll,
+    addClass,
+    removeClass,
+    addEl,
+    removeEl,
+    A,
+    DB,
+    M,
+    GG,
+    K,
+} from "./aggregator.js";

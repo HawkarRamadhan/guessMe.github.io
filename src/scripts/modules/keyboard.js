@@ -1,22 +1,3 @@
-// --------------- imports ---------------
-import {
-    log,
-    query,
-    queryAll,
-    addClass,
-    removeClass,
-    addEl,
-    removeEl,
-} from "./globalFun.js";
-
-import { dataBase as DB } from "./dataBase.js";
-
-import * as A from "./animations.js";
-
-import * as M from "./menu.js";
-
-import * as GG from "./guessGenerator.js";
-// --------------- imports ---------------
 // animation controls
 let shiftKeyIconC;
 let unregisteredC;
@@ -505,3 +486,19 @@ export function gameReset() {
         key.animate(A.keyboardKeyResetP, A.keyboardKeyResetTF);
     }
 }
+
+// --------------- imports ---------------
+import {
+    log,
+    query,
+    queryAll,
+    addClass,
+    removeClass,
+    addEl,
+    removeEl,
+    A,
+    DB,
+    M,
+    GG,
+    K,
+} from "./aggregator.js";

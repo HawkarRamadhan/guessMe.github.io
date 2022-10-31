@@ -1,31 +1,11 @@
-// --------------- imports ---------------
-import {
-    log,
-    query,
-    queryAll,
-    addClass,
-    removeClass,
-    addEl,
-    removeEl,
-} from "./globalFun.js";
-
-import { dataBase as DB } from "./dataBase.js";
-
-import * as A from "./animations.js";
-
-import * as GG from "./guessGenerator.js";
-
-import * as K from "./keyboard.js";
-
-// --------------- imports ---------------
 // animation controls
+let startBtnC;
 export let showCardC;
-export let cardTranslationC = [];
 export let showDownArrowC;
 export let showUpArrowC;
 export let choicesC = [];
+export let cardTranslationC = [];
 let letterLengthC = [];
-let startBtnC;
 
 const cardsContainer = query(document, ".cards-container");
 const cards = queryAll(cardsContainer, ".choice-container > div");
@@ -51,16 +31,7 @@ export function showCards() {
     showCardC = cardsContainer.animate(A.showCardsP, A.showCardsTF);
 
     cards.forEach((card, index) => {
-        // icon change
-        const cardIcon = card.children[0];
-        const randomNumber = Math.round(Math.random() * 32 + 1);
-        const srcAttr = `./assets/icons/${card.getAttribute(
-            "class"
-        )}/i (${randomNumber}).png`;
-
-        if (!card.classList.contains("random"))
-            cardIcon.setAttribute("src", srcAttr);
-
+        chooseRandomIcon(card);
         addEl(cardsContainer, "click", cardsEL);
     });
 }
@@ -90,22 +61,7 @@ function cardsEL(e) {
         // animate
         letterLengthC.push(target.animate(A.letterLengthP, A.letterLengthTF));
 
-        letterLength = (() => {
-            switch (target.innerText) {
-                case "پێنج":
-                    return 5;
-                    break;
-                case "شەش":
-                    return 6;
-                    break;
-                case "حەوت":
-                    return 7;
-                    break;
-                case "هەشت":
-                    return 8;
-                    break;
-            }
-        })();
+        letterLength = textToNumber(target);
 
         letLen = `${target.innerText}پیتی`;
 
@@ -161,6 +117,10 @@ function cardsEL(e) {
 
     legend.innerText =
         button.children[1].innerText + " " + button.children[0].innerText;
+
+    log(playersChoice);
+    log(letterLength);
+    log(DB);
 }
 
 // down arrow
@@ -187,6 +147,41 @@ export function upArrowF() {
     stopAnimations();
 }
 
+// delete
+// GG.guessGenerator("occupations", 8);
+// addClass(K.keyboard, "show-keyboard");
+// addClass(GG.wordCover, "veil-word");
+// addClass(GG.theNotch, "turn-the-notch");
+
+// --------------- helper functions ---------------
+function chooseRandomIcon(card) {
+    const cardIcon = card.children[0];
+    const randomNumber = Math.round(Math.random() * 32 + 1);
+    const srcAttr = `./assets/icons/${card.getAttribute(
+        "class"
+    )}/i (${randomNumber}).png`;
+
+    if (!card.classList.contains("random"))
+        cardIcon.setAttribute("src", srcAttr);
+}
+
+function textToNumber(length) {
+    switch (length.innerText) {
+        case "پێنج":
+            return 5;
+            break;
+        case "شەش":
+            return 6;
+            break;
+        case "حەوت":
+            return 7;
+            break;
+        case "هەشت":
+            return 8;
+            break;
+    }
+}
+
 function stopAnimations() {
     letLen = "...";
     PCH = "...";
@@ -202,8 +197,18 @@ function stopAnimations() {
     startBtnC.reverse();
 }
 
-// delete
-// GG.guessGenerator("occupations", 8);
-// addClass(K.keyboard, "show-keyboard");
-// addClass(GG.wordCover, "veil-word");
-// addClass(GG.theNotch, "turn-the-notch");
+// --------------- imports ---------------
+import {
+    log,
+    query,
+    queryAll,
+    addClass,
+    removeClass,
+    addEl,
+    removeEl,
+    A,
+    DB,
+    M,
+    GG,
+    K,
+} from "./aggregator.js";
