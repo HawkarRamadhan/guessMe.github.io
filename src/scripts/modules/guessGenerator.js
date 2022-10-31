@@ -1,7 +1,8 @@
 // animation controls
-export let keyboardTogglerC;
-export let veilWordC;
-export let notchC;
+export let keyboardTogglerAC;
+export let veilWordAC;
+export let notchAC;
+export let fieldSetAC;
 
 // variables
 export let randomNum;
@@ -19,18 +20,28 @@ export const theNotch = query(wordCover, "i");
 export const word = query(document, ".word");
 
 export function guessGenerator(playersChoice, letterLength) {
-    M.fieldSet.style.opacity = 1;
     K.gameReset();
+
+    fieldSetAC = M.fieldSet.animate(
+        {
+            opacity: 1,
+        },
+        {
+            duration: 300,
+            easing: "ease-in-out",
+            fill: "both",
+        }
+    );
 
     randomNum = randomNumber();
     guessWord =
         DB.dataBase[playersChoice][letterLength][
             Math.round(
-                Math.random() *
-                    DB.dataBase[playersChoice][letterLength].length +
-                    1
+                Math.random() * DB.dataBase[playersChoice][letterLength].length
             )
         ];
+    if (!guessWord) guessGenerator(playersChoice, letterLength);
+
     guessWordLength = guessWord.length;
 
     console.log("guessWord:", guessWord);
@@ -97,12 +108,12 @@ export function guessGenerator(playersChoice, letterLength) {
 
     guessRows = Array.from(guessContainer.children);
 
-    keyboardTogglerC = K.keyboard.animate(
+    keyboardTogglerAC = K.keyboard.animate(
         A.keyboardTogglerP,
         A.keyboardTogglerTF
     );
-    veilWordC = wordCover.animate(A.veilWordP, A.veilWordTF);
-    notchC = theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
+    veilWordAC = wordCover.animate(A.veilWordP, A.veilWordTF);
+    notchAC = theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
 
     setTimeout(() => {
         rowActiveState(guessRows[K.activeRowCounter], "active");

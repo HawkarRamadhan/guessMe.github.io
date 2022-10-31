@@ -1,0 +1,159 @@
+@use "../variablesMixinsFunctions.scss" as *;
+
+.menu {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    justify-items: center;
+
+    background-color: $myBlack;
+
+    padding: 10rem 0;
+
+    transform: translateY(-100%);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 50;
+
+    .choice-title {
+        font-size: 2rem;
+
+        transform: scaleX(0);
+    }
+
+    //     .lights {
+    //         font-size: 8rem;
+    //         color: white;
+    //
+    //         transform: translate(-50%, -50%);
+    //
+    //         position: absolute;
+    //         top: 48%;
+    //         left: 50%;
+    //
+    //         div:nth-of-type(1) {
+    //             width: 1.7rem;
+    //             height: 1.7rem;
+    //
+    //             border-radius: 50%;
+    //             background-color: white;
+    //
+    //             transform: translateX(-50%);
+    //
+    //             border: 0.2rem solid black;
+    //
+    //             position: absolute;
+    //             top: 11%;
+    //             left: 50%;
+    //         }
+    //
+    //         div:nth-of-type(2) {
+    //             width: 1.7rem;
+    //             height: 1.7rem;
+    //
+    //             border-radius: 50%;
+    //             background-color: white;
+    //
+    //             transform: translateX(-50%);
+    //
+    //             border: 0.2rem solid black;
+    //
+    //             position: absolute;
+    //             top: 38%;
+    //             left: 50%;
+    //         }
+    //
+    //         div:nth-of-type(3) {
+    //             width: 1.7rem;
+    //             height: 1.7rem;
+    //
+    //             border-radius: 50%;
+    //             background-color: white;
+    //
+    //             transform: translateX(-50%);
+    //
+    //             border: 0.2rem solid black;
+    //
+    //             position: absolute;
+    //             bottom: 15%;
+    //             left: 50%;
+    //         }
+    //     }
+
+    .categories {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        width: 100%;
+
+        justify-items: space-between;
+
+        div {
+            @include flex(column, center, center);
+            gap: 1rem;
+
+            img {
+                width: 4rem;
+            }
+
+            h3 {
+                font-size: 1.8rem;
+            }
+
+            div {
+                @include flex(row, center, center);
+
+                font-size: 1.5rem;
+
+                transform: scale(0);
+                opacity: 0;
+
+                position: relative;
+                bottom: 1rem;
+            }
+        }
+    }
+
+    .start-btn {
+        background-color: transparent;
+
+        transform: scale(0);
+        opacity: 0;
+
+        img {
+            width: 4rem;
+
+            transition: opacity 0.3s ease-in-out;
+
+            &:active {
+                opacity: 0;
+            }
+        }
+    }
+
+    .up-arrow {
+        font-size: 2.5rem;
+        @include query("lg") {
+            font-size: 4rem;
+        }
+
+        transform: scale(0);
+        transition: bottom 0.3s ease;
+
+        padding: 1rem;
+
+        position: absolute;
+        left: 50%;
+        bottom: 2rem;
+
+        cursor: pointer;
+
+        &:active {
+            bottom: 5rem;
+        }
+    }
+}

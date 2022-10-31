@@ -93,121 +93,67 @@ main {
   }
 }
 
-.cards-container {
+.menu {
   display: grid;
-  grid-template-rows: auto 1fr;
-  justify-items: space-around;
-  align-content: center;
-  background-color: rgba(20, 20, 20, 0.99);
-  transform: translateY(-200%);
-  transition: transform 0.5s 0.3s ease-in-out;
-  padding-top: 5%;
-  padding-bottom: 15%;
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
+  background-color: rgb(20, 20, 20);
+  padding: 10rem 0;
+  transform: translateY(-100%);
   position: absolute;
-  top: 4rem;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 90;
+  z-index: 50;
 }
-@media screen and (min-width: 37.5em) {
-  .cards-container {
-    padding-bottom: 10%;
-  }
+.menu .choice-title {
+  font-size: 2rem;
+  transform: scaleX(0);
 }
-@media screen and (min-width: 37.5em) {
-  .cards-container {
-    top: 6.5rem;
-  }
+.menu .categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  justify-items: space-between;
 }
-.cards-container .letter-length {
+.menu .categories div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  font-size: 2rem;
 }
-@media screen and (min-width: 48em) {
-  .cards-container .letter-length {
-    font-size: 3rem;
-  }
+.menu .categories div img {
+  width: 4rem;
 }
-.cards-container .letter-length div {
+.menu .categories div h3 {
+  font-size: 1.8rem;
+}
+.menu .categories div div {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 4rem;
-}
-.cards-container .letter-length div span {
-  font-size: 2rem;
-  padding: 0 1rem;
-  cursor: pointer;
-}
-@media screen and (min-width: 48em) {
-  .cards-container .letter-length div span {
-    font-size: 3rem;
-  }
-}
-.cards-container .cards {
-  display: grid;
-  grid-template-rows: 1fr auto;
-}
-.cards-container .cards .choice-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-.cards-container .cards .choice-container div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-}
-.cards-container .cards .choice-container div img {
-  width: 5rem;
-  cursor: pointer;
-}
-@media screen and (min-width: 48em) {
-  .cards-container .cards .choice-container div img {
-    width: 7rem;
-  }
-}
-.cards-container .cards .choice-container div h3 {
-  font-size: 2rem;
-  cursor: pointer;
-}
-@media screen and (min-width: 48em) {
-  .cards-container .cards .choice-container div h3 {
-    font-size: 3rem;
-  }
-}
-.cards-container .cards button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  justify-self: center;
-  align-self: center;
-  background-color: transparent;
+  font-size: 1.5rem;
+  transform: scale(0);
   opacity: 0;
-  color: rgb(235, 235, 235);
-  font-size: 2rem;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  cursor: pointer;
+  position: relative;
+  bottom: 1rem;
 }
-@media screen and (min-width: 37.5em) {
-  .cards-container .cards button {
-    font-size: 2.5rem;
-  }
+.menu .start-btn {
+  background-color: transparent;
+  transform: scale(0);
+  opacity: 0;
 }
-.cards-container .cards button .category {
-  order: 1;
-  margin-left: 1rem;
+.menu .start-btn img {
+  width: 4rem;
+  transition: opacity 0.3s ease-in-out;
 }
-.cards-container .up-arrow {
+.menu .start-btn img:active {
+  opacity: 0;
+}
+.menu .up-arrow {
   font-size: 2.5rem;
   transform: scale(0);
   transition: bottom 0.3s ease;
@@ -218,11 +164,11 @@ main {
   cursor: pointer;
 }
 @media screen and (min-width: 37.5em) {
-  .cards-container .up-arrow {
+  .menu .up-arrow {
     font-size: 4rem;
   }
 }
-.cards-container .up-arrow:active {
+.menu .up-arrow:active {
   bottom: 5rem;
 }
 

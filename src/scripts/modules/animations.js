@@ -5,72 +5,63 @@ export const EF = {
 
 // ----- menu -----
 // menu toggler
-export const showCardsP = {
+export const showMenuP = {
     transform: "translateY(0)",
 };
-export const showCardsTF = {
+export const showMenuTF = {
     duration: 500,
-    delay: 500,
+    delay: 100,
     ...EF,
 };
 
-// letter length
-export const letterLengthP = [
+// choice title
+export const choiceTitleP = [
     {
-        opacity: 1,
+        transform: "scale(0)",
     },
     {
         transform: "scale(1.2)",
-        opacity: 1,
     },
     {
-        opacity: 0,
+        transform: "scale(1)",
     },
 ];
-export const letterLengthTF = {
+export const choiceTitleTF = {
+    duration: 500,
+    delay: 600,
+    ...EF,
+};
+
+// choice length
+export const choiceLengthP = [
+    { opacity: 1 },
+    { transform: "scale(1)", opacity: 1 },
+];
+export const choiceLengthTF = {
+    duration: 200,
+    ...EF,
+};
+
+// category icon
+export const categoryIconP = [
+    {
+        transform: "translateY(0rem)",
+    },
+    {
+        transform: "translateY(-1rem) scale(1.1)",
+    },
+    {
+        transform: "translateY(0rem)",
+    },
+];
+export const categoryIconTF = {
     duration: 1500,
-    easing: "ease-in-out",
-    direction: "alternate",
+    ...EF,
     iterations: Infinity,
 };
 
-// choice icon
-export const choiceIconP = [
-    {
-        transform: "translateY(0px)",
-    },
-    {
-        transform: "translateY(10px)",
-    },
-    {
-        transform: "translateY(0px)",
-    },
-];
-export const choiceIconTF = {
-    duration: 1500,
-    easing: "ease-in-out",
-    iterations: Infinity,
-};
-
-// choice text
-export const choiceTextP = [
-    {
-        opacity: 1,
-    },
-    {
-        opacity: 0,
-    },
-    {
-        opacity: 1,
-    },
-];
-export const choiceTextTF = {
-    duration: 750,
-    easing: "ease-in-out",
-    iterations: Infinity,
-};
-
-export const showStartBtnP = [
+// start button
+export const startBtnP = [
     {
         transform: "scale(0)",
         opacity: 0,
@@ -84,10 +75,9 @@ export const showStartBtnP = [
         opacity: 1,
     },
 ];
-export const showStartBtnTF = {
-    duration: 1000,
-    easing: "ease-in-out",
-    fill: "both",
+export const startBtnTF = {
+    duration: 500,
+    ...EF,
 };
 
 // down arrow

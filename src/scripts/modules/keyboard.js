@@ -127,7 +127,9 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                DB.validWords[M.letterLength].includes(playersGuess.join(""))
+                DB.dataBase.validWords[M.letterLength].includes(
+                    playersGuess.join("")
+                )
                 // DB.validWords[5].includes(playersGuess.join(""))
             )
                 // valid
@@ -478,6 +480,8 @@ export function gameReset() {
     GG.word.innerText = "Your Guess";
     GG.word.style.opacity = 0;
 
+    fieldSet.style.opacity = 0;
+
     for (const key of keys) {
         removeClass(key, "key-not-included");
         removeClass(key, "incorrect-key");
@@ -502,3 +506,4 @@ import {
     GG,
     K,
 } from "./aggregator.js";
+import { fieldSet } from "./menu.js";
