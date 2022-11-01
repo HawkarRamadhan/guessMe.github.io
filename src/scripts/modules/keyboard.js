@@ -1,7 +1,7 @@
 // animation controls
-let shiftKeyIconC;
-let unregisteredC;
-let wordRevealC;
+let shiftKeyIconAC;
+let unregisteredAC;
+let wordRevealAC;
 
 export let activeSlotC = [];
 
@@ -24,8 +24,8 @@ let pin = [];
 export function keyboardMechanics(e) {
     const target = e.target;
 
-    if (unregisteredC && unregisteredC.currentTime !== 0) {
-        unregisteredC.cancel();
+    if (unregisteredAC && unregisteredAC.currentTime !== 0) {
+        unregisteredAC.cancel();
     }
 
     if (target.matches(".pin-code button") && pin.length < 4) {
@@ -140,9 +140,23 @@ export function keyboardMechanics(e) {
                     ""
                 )}`;
 
-                unregisteredC = unregistered.animate(
+                unregisteredAC = unregistered.animate(
                     A.unregisteredWordP,
                     A.unregisteredWordTF
+                );
+
+                unregistered.animate(
+                    [
+                        {
+                            transform: "translateY(-500%)",
+                        },
+                    ],
+                    {
+                        duration: 500,
+                        delay: 5000,
+                        easing: "ease-in-out",
+                        fill: "both",
+                    }
                 );
 
                 clearInvalidGuess();
@@ -282,7 +296,7 @@ export function keyboardMechanics(e) {
             }, 1000);
 
             setTimeout(() => {
-                wordRevealC = GG.theNotch
+                wordRevealAC = GG.theNotch
                     .animate(A.turnTheNotchP, {
                         duration: 1500,
                         ...A.EF,
@@ -354,7 +368,10 @@ export function keyboardMechanics(e) {
 // accent shifter
 export function accentShifter(command) {
     if (command === "shift" && !shiftKeyPress) {
-        shiftKeyIconC = shiftKeyIcon.animate(A.shiftUpScaleP, A.shiftUpScaleTF);
+        shiftKeyIconAC = shiftKeyIcon.animate(
+            A.shiftUpScaleP,
+            A.shiftUpScaleTF
+        );
 
         for (const key of accentedKeys) {
             key.children[0].style.display = "none";
@@ -363,8 +380,8 @@ export function accentShifter(command) {
 
         shiftKeyPress = true;
     } else if (command === "shift" && shiftKeyPress) {
-        if (shiftKeyIconC && shiftKeyIconC.currentTime > 0)
-            shiftKeyIconC.reverse();
+        if (shiftKeyIconAC && shiftKeyIconAC.currentTime > 0)
+            shiftKeyIconAC.reverse();
 
         for (const key of accentedKeys) {
             key.children[0].style.display = "inline";
@@ -372,9 +389,9 @@ export function accentShifter(command) {
         }
 
         shiftKeyPress = false;
-    } else if (command === "unshift" && shiftKeyIconC) {
-        if (shiftKeyIconC && shiftKeyIconC.currentTime > 0)
-            shiftKeyIconC.reverse();
+    } else if (command === "unshift" && shiftKeyIconAC) {
+        if (shiftKeyIconAC && shiftKeyIconAC.currentTime > 0)
+            shiftKeyIconAC.reverse();
 
         for (const key of accentedKeys) {
             key.children[0].style.display = "inline";
@@ -488,6 +505,11 @@ export function gameReset() {
         removeClass(key, "correct-key");
 
         key.animate(A.keyboardKeyResetP, A.keyboardKeyResetTF);
+    }
+
+    if (shiftKeyIconAC) {
+        shiftKeyIconAC.reverse();
+        shiftKeyPress = false;
     }
 }
 

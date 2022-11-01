@@ -23,23 +23,30 @@ export const fieldSet = query(document, "fieldset");
 export const legend = query(document, "legend");
 
 // show categories
-export function showMenu() {
+export function showMenu(gameOpening) {
+    // randomize icons
+    categories.forEach(card => {
+        chooseRandomIcon(card);
+    });
+
     menuAC = menu.animate(A.showMenuP, A.showMenuTF);
     addEl(menu, "click", menuEL);
 
     choiceTitleAC = choiceTitle.animate(A.choiceTitleP, A.choiceTitleTF);
 
-    categories.forEach((card, index) => {
-        chooseRandomIcon(card);
-    });
+    addEl(startBtn, "click", gameStarter);
 }
 
 // hide categories
 export function hideMenu() {
+    choiceTitleAC.reverse();
+    choiceTitleAC;
+
+    if (startBtnAC) startBtnAC.reverse();
+    removeEl(startBtn, "click", gameStarter);
+
     menuAC.reverse();
     removeEl(menu, "click", menuEL);
-
-    choiceTitleAC.reverse();
 }
 
 // categories click event listener
@@ -47,7 +54,7 @@ function menuEL(e) {
     let target = e.target;
 
     if (target.matches(".categories > div img, .categories > div h3")) {
-        menuReset(target);
+        menuReset();
 
         iconAndTextAC.push([
             target.parentElement.children[0].animate(
@@ -76,8 +83,6 @@ function menuEL(e) {
     }
 
     if (target.matches("h3 + div > span")) {
-        choiceTitle.children[1].innerText = `${target.innerText} پیتی`;
-
         for (const choice of target.parentElement.children) {
             choice.style.color = "white";
         }
@@ -86,9 +91,11 @@ function menuEL(e) {
 
         letterLength = textToNumber(target);
 
-        startBtnAC = startBtn.animate(A.startBtnP, A.startBtnTF);
+        if (!startBtnAC) {
+            startBtnAC = startBtn.animate(A.startBtnP, A.startBtnTF);
+        }
 
-        addEl(startBtn, "click", gameStarter);
+        choiceTitle.children[1].innerText = `${target.innerText} پیتی`;
     }
 }
 
@@ -106,10 +113,8 @@ export function downArrowF() {
 // up arrow
 export function upArrowF() {
     upArrowAC.reverse();
-    removeClass(upArrow, "show-up-arrow");
 
     hideMenu();
-    menuReset();
 
     downArrowAC.reverse();
     addEl(downArrow, "click", downArrowF);
@@ -154,14 +159,13 @@ function textToNumber(length) {
 
 // menu reseter
 function menuReset(target) {
-    if (
-        target &&
-        !target.parentElement.classList.contains("active-category") &&
-        startBtnAC
-    ) {
+    if (startBtnAC && startBtnAC.currentTime !== 0) {
         startBtnAC.reverse();
-        startBtnAC = [];
+        startBtnAC = undefined;
     }
+
+    choiceTitle.children[0].innerText = "وشەیەکی";
+    choiceTitle.children[1].innerText = "چەند پیتی؟";
 
     for (const item of iconAndTextAC) {
         item.forEach(anime => {
@@ -172,29 +176,23 @@ function menuReset(target) {
             for (const h3 of queryAll(document, "h3 + div > span"))
                 h3.style.color = "white";
         });
-
-        choiceTitle.children[0].innerText = "وشەیەکی";
-        choiceTitle.children[1].innerText = "چەند پیتی؟";
     }
-
-    removeEl(startBtn, "click", gameStarter);
 }
 
 // game starter
 function gameStarter(e) {
     setTimeout(() => {
         playersChoice = className === "random" ? "validWords" : className;
+
+        GG.guessGenerator(playersChoice, letterLength);
+        legend.innerText = choiceTitle.innerText;
+
+        menuReset();
+        hideMenu();
+
         downArrowAC = downArrow.animate(A.showDownArrowP, A.showDownArrowTF);
         addEl(downArrow, "click", downArrowF);
-        hideMenu();
-        GG.guessGenerator(playersChoice, letterLength);
     }, 500);
-
-    startBtnAC.reverse();
-    legend.innerText = choiceTitle.innerText;
-    startBtnAC = [];
-
-    menuReset();
 }
 
 // --------------- imports ---------------
