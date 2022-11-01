@@ -508,7 +508,8 @@ export function gameReset() {
     }
 
     if (shiftKeyIconAC) {
-        shiftKeyIconAC.reverse();
+        shiftKeyIconAC.cancel();
+        shiftKeyIconAC;
         shiftKeyPress = false;
     }
 }

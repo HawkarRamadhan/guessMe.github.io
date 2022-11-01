@@ -40,84 +40,89 @@ export function guessGenerator(playersChoice, letterLength) {
                 Math.random() * DB.dataBase[playersChoice][letterLength].length
             )
         ];
-    if (!guessWord) guessGenerator(playersChoice, letterLength);
 
-    guessWordLength = guessWord.length;
+    if (guessWord === undefined) {
+        // recursive
+        guessGenerator(playersChoice, letterLength);
+    } else {
+        guessWordLength = guessWord.length;
 
-    console.log("guessWord:", guessWord);
-    console.log("guessWordLength:", guessWordLength);
+        console.log("guessWord:", guessWord);
+        console.log("guessWordLength:", guessWordLength);
 
-    // guess clean up
-    while (guessContainer.firstChild) {
-        guessContainer.removeChild(guessContainer.firstChild);
-    }
-
-    // guess generation
-    for (let rowIndex = 0; rowIndex < guessWordLength + 1; rowIndex++) {
-        // rows
-        const row = document.createElement("div");
-        row.setAttribute("class", "guess-row");
-        row.setAttribute("id", `row-${rowIndex}`);
-
-        // slots
-        for (let slotIndex = guessWordLength; slotIndex > 0; slotIndex--) {
-            const slot = document.createElement("span");
-            slot.setAttribute("id", `${slotIndex}`);
-
-            row.append(slot);
+        // guess clean up
+        while (guessContainer.firstChild) {
+            guessContainer.removeChild(guessContainer.firstChild);
         }
 
-        guessContainer.append(row);
+        // guess generation
+        for (let rowIndex = 0; rowIndex < guessWordLength + 1; rowIndex++) {
+            // rows
+            const row = document.createElement("div");
+            row.setAttribute("class", "guess-row");
+            row.setAttribute("id", `row-${rowIndex}`);
 
-        // animation
-        Array.from(row.children)
-            .reverse()
-            .forEach((slot, index) => {
-                slot.animate(
-                    [
+            // slots
+            for (let slotIndex = guessWordLength; slotIndex > 0; slotIndex--) {
+                const slot = document.createElement("span");
+                slot.setAttribute("id", `${slotIndex}`);
+
+                row.append(slot);
+            }
+
+            guessContainer.append(row);
+
+            // animation
+            Array.from(row.children)
+                .reverse()
+                .forEach((slot, index) => {
+                    slot.animate(
+                        [
+                            {
+                                opacity: 0.2,
+                                transform: "scale(0)",
+                            },
+                            {
+                                opacity: 1,
+                                transform: "scale(0)",
+                            },
+                            {
+                                opacity: 1,
+                                transform: "scale(1.1)",
+                            },
+                            {
+                                opacity: 0.05,
+                                transform: "scale(0.9)",
+                            },
+                        ],
                         {
-                            opacity: 0.2,
-                            transform: "scale(0)",
-                        },
-                        {
-                            opacity: 1,
-                            transform: "scale(0)",
-                        },
-                        {
-                            opacity: 1,
-                            transform: "scale(1.1)",
-                        },
-                        {
-                            opacity: 0.05,
-                            transform: "scale(0.9)",
-                        },
-                    ],
-                    {
-                        duration: 1200,
-                        delay: index * 120,
-                        easing: "ease-in-out",
-                        fill: "forwards",
-                    }
-                );
-            });
+                            duration: 1200,
+                            delay: index * 120,
+                            easing: "ease-in-out",
+                            fill: "forwards",
+                        }
+                    );
+                });
+        }
+
+        // invisible row
+        guessContainer.children[
+            guessContainer.children.length - 1
+        ].style.display = "none";
+
+        guessRows = Array.from(guessContainer.children);
+
+        keyboardTogglerAC = K.keyboard.animate(
+            A.keyboardTogglerP,
+            A.keyboardTogglerTF
+        );
+        veilWordAC = wordCover.animate(A.veilWordP, A.veilWordTF);
+        notchAC = theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
+
+        setTimeout(() => {
+            rowActiveState(guessRows[K.activeRowCounter], "active");
+        }, 1000);
     }
-
-    // invisible row
-    guessContainer.children[guessContainer.children.length - 1].style.display =
-        "none";
-
-    guessRows = Array.from(guessContainer.children);
-
-    keyboardTogglerAC = K.keyboard.animate(
-        A.keyboardTogglerP,
-        A.keyboardTogglerTF
-    );
-    veilWordAC = wordCover.animate(A.veilWordP, A.veilWordTF);
-    notchAC = theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
-
-    setTimeout(() => {
-        rowActiveState(guessRows[K.activeRowCounter], "active");
-    }, 1000);
 }
 
 // --------------- functions ---------------

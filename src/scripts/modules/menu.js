@@ -42,11 +42,10 @@ export function hideMenu() {
     choiceTitleAC.reverse();
     choiceTitleAC;
 
-    if (startBtnAC) startBtnAC.reverse();
-    removeEl(startBtn, "click", gameStarter);
-
     menuAC.reverse();
     removeEl(menu, "click", menuEL);
+
+    menuReset();
 }
 
 // categories click event listener
@@ -158,7 +157,7 @@ function textToNumber(length) {
 }
 
 // menu reseter
-function menuReset(target) {
+function menuReset() {
     if (startBtnAC && startBtnAC.currentTime !== 0) {
         startBtnAC.reverse();
         startBtnAC = undefined;

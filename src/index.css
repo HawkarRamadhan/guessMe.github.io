@@ -57,7 +57,7 @@ header .title-container .title {
 }
 @media screen and (min-width: 48em) {
   header .title-container .title {
-    font-size: 4rem;
+    font-size: 3.3rem;
   }
 }
 header .title-container .down-arrow {
@@ -111,6 +111,11 @@ main {
   font-size: 2rem;
   transform: scaleX(0);
 }
+@media screen and (min-width: 48em) {
+  .menu .choice-title {
+    font-size: 2.5rem;
+  }
+}
 .menu .categories {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -141,6 +146,34 @@ main {
   position: relative;
   bottom: 1rem;
 }
+@media screen and (min-width: 48em) {
+  .menu .categories div img {
+    width: 6rem;
+    cursor: pointer;
+  }
+  .menu .categories div h3 {
+    font-size: 2.5rem;
+    cursor: pointer;
+  }
+  .menu .categories div div {
+    font-size: 2rem;
+    cursor: pointer;
+  }
+  .menu .categories div div span {
+    transition: opacity 0.1s ease-in-out;
+  }
+  .menu .categories div div span:hover {
+    opacity: 0.5;
+  }
+  .menu .categories div img,
+.menu .categories div h3 {
+    transition: opacity 0.1s ease-in-out;
+  }
+  .menu .categories div img:hover,
+.menu .categories div h3:hover {
+    opacity: 0.5;
+  }
+}
 .menu .start-btn {
   background-color: transparent;
   transform: scale(0);
@@ -148,10 +181,16 @@ main {
 }
 .menu .start-btn img {
   width: 4rem;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
 }
 .menu .start-btn img:active {
   opacity: 0;
+}
+@media screen and (min-width: 48em) {
+  .menu .start-btn img {
+    width: 5.3rem;
+    cursor: pointer;
+  }
 }
 .menu .up-arrow {
   font-size: 2.5rem;
@@ -250,7 +289,7 @@ fieldset legend {
 }
 @media screen and (min-width: 37.5em) {
   fieldset legend {
-    font-size: 1.8rem;
+    font-size: 2rem;
     padding: 0 1rem;
   }
 }
@@ -333,14 +372,9 @@ fieldset legend {
   background-color: rgba(120, 120, 120, 0.1);
   color: rgb(235, 235, 235);
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 1.2rem;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
   cursor: pointer;
-}
-@media screen and (min-width: 37.5em) {
-  .keyboard .row button {
-    padding: 0.5rem 0.5rem;
-  }
 }
 @media screen and (min-width: 37.5em) {
   .keyboard .row button {

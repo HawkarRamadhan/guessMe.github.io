@@ -112,7 +112,7 @@ export const showUpArrowP = [
 ];
 export const showUpArrowTF = {
     duration: 700,
-    delay: 1000,
+    delay: 700,
     ...EF,
 };
 
