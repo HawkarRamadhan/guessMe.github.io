@@ -2,19 +2,18 @@
 
 .keyboard {
     @include flex(column, center, center);
-    gap: 0.5rem;
+    gap: 0.3em;
 
     width: 100%;
-    max-width: 900px;
 
-    padding: 1rem 1rem 2rem 1rem;
+    padding: 0 0.5em 1em 0.5em;
 
     transform: translateY(150%);
     transition: transform 0.5s 0.5s ease-in-out;
 
     .row {
         @include flex(row, space-between, stretch);
-        gap: 0.5rem;
+        gap: 0.3em;
 
         width: 100%;
 
@@ -22,18 +21,15 @@
             @include flex(row, center, center);
             flex: 1;
 
-            min-width: 4rem;
+            min-width: 1em;
+            min-height: 1em;
 
             background-color: rgba($myGrey, 0.1);
 
             color: $myWhite;
+            font-size: 1em;
 
-            border-radius: 0.5rem;
-
-            padding: 1.2rem;
-            @include query("lg") {
-                padding: 1.2rem 1.5rem;
-            }
+            border-radius: 0.5em;
 
             transition: transform 0.1s ease-in-out,
                 background-color 0.1s ease-in-out;
@@ -41,22 +37,28 @@
             cursor: pointer;
 
             &:active {
-                transform: translateY(-0.6rem);
-                background-color: rgba($myGrey, 0);
-            }
+                transform: translateY(-0.3rem);
 
-            @include query("lg") {
-                &:hover {
-                    background-color: rgba($myGrey, 0);
-                }
+                background-color: rgba($myGrey, 0);
             }
 
             span {
                 @include flex(row, center, center);
 
-                font-size: 1.7rem;
-                @include query("sm") {
-                    font-size: 2.5rem;
+                padding: 0.5em;
+            }
+
+            @include query("lg") {
+                font-size: 1.1em;
+                &:hover {
+                    background-color: rgba($myGrey, 0);
+                }
+            }
+
+            @include query("xl") {
+                font-size: 1.2em;
+                &:hover {
+                    background-color: rgba($myGrey, 0);
                 }
             }
         }
@@ -65,56 +67,40 @@
             display: none;
         }
 
-        .shift {
-            flex: 2;
+        .shift,
+        .back-space,
+        .space,
+        .enter {
+            padding: 0.7em 0.5em;
+        }
 
-            font-size: 2.5rem;
-            @include query("sm") {
-                font-size: 4rem;
-            }
+        .shift-icon {
+            font-size: 1.2em;
         }
 
         .back-space {
-            font-size: 2rem;
-            @include query("sm") {
-                font-size: 2.5rem;
-            }
-
-            padding: 1rem 0;
+            flex: 1.2;
         }
 
         .space {
             flex: 3;
-
-            font-size: 2rem;
-            @include query("sm") {
-                font-size: 3rem;
-            }
-
-            padding: 1rem 0;
         }
 
         .enter {
-            font-size: 2rem;
-            @include query("sm") {
-                font-size: 3rem;
-            }
+            flex: 1.2;
 
             i {
                 transform: rotateY(180deg) rotate(90deg);
             }
-
-            padding: 1rem 0;
         }
     }
 
     // pin code keys
     .pin-code button {
-        @include query("lg") {
-            padding: 1.5rem 0.5rem;
-        }
-
         opacity: 0;
+
+        padding: 0.2em 1em;
+
         cursor: default;
     }
 }

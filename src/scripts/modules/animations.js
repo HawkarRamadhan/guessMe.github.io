@@ -45,13 +45,13 @@ export const choiceLengthTF = {
 // category icon
 export const categoryIconP = [
     {
-        transform: "translateY(0rem)",
+        transform: "translateY(0em)",
     },
     {
-        transform: "translateY(-1rem) scale(1.1)",
+        transform: "translateY(-0.5em) scale(1.1)",
     },
     {
-        transform: "translateY(0rem)",
+        transform: "translateY(0em)",
     },
 ];
 export const categoryIconTF = {
@@ -182,7 +182,7 @@ export const activeSlotP = [
         transform: "scale(1)",
     },
     {
-        transform: "scale(1.3)",
+        transform: "scale(1.1)",
     },
     {
         transform: "scale(1.05)",

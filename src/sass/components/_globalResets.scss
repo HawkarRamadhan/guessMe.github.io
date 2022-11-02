@@ -2,7 +2,8 @@
 
 html {
     font-family: "Noto Naskh Arabic", serif;
-    font-size: 10px;
+
+    box-sizing: border-box;
 }
 
 *,
@@ -16,23 +17,26 @@ html {
 
     list-style-type: none;
 
-    box-sizing: border-box;
+    box-sizing: inherit;
 }
 
 body {
-    max-width: 900px;
-    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    max-width: 40em;
 
     background-color: $myBlack;
 
     color: $myWhite;
-    font-size: 1.6rem;
 
     margin: 0 auto;
 
-    position: relative;
-
-    // overflow: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 }
 
 img {

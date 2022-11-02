@@ -56,7 +56,7 @@ export function guessGenerator(playersChoice, letterLength) {
         }
 
         // guess generation
-        for (let rowIndex = 0; rowIndex < guessWordLength + 1; rowIndex++) {
+        for (let rowIndex = 0; rowIndex < guessWordLength + 3; rowIndex++) {
             // rows
             const row = document.createElement("div");
             row.setAttribute("class", "guess-row");

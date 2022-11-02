@@ -2,36 +2,28 @@
 
 .unregistered {
     @include flex(row, center, center);
-    min-width: 20rem;
+
+    min-width: 10em;
 
     background-color: $myWhite;
 
     color: $myBlack;
-    font-size: 1.5rem;
-    @include query("xl") {
-        font-size: 2rem;
-    }
+    font-size: 0.8em;
 
     border-radius: 0.5rem;
 
-    padding: 1rem 3rem;
+    padding: 0.5em 2em;
 
     transform: translateY(-500%);
     transition: transform 0.5s ease-in-out;
 
     position: absolute;
-    top: 8rem;
-    @include query("sm") {
-        top: 8rem;
-    }
-    @include query("lg") {
-        top: 10.5rem;
-    }
+    top: 3.6em;
 
     z-index: 10;
 
     span:nth-child(1) {
-        margin-right: 1rem;
+        margin-right: 0.5em;
     }
 
     span:last-child {

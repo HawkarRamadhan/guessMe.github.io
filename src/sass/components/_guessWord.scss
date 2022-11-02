@@ -4,31 +4,21 @@
     display: grid;
     grid-template-rows: auto 1fr;
 
-    align-content: space-around;
+    justify-items: center;
 
     width: 100%;
-
-    padding-top: 2rem;
 
     .word-container {
         @include flex(row, center, center);
 
-        align-self: center;
-        justify-self: center;
+        width: 30%;
+        max-width: 7em;
 
-        width: 50%;
-        max-width: 20rem;
-
-        margin-top: 2rem;
+        margin-top: 3em;
 
         position: relative;
 
         .word {
-            font-size: 2.5rem;
-            @include query("xl") {
-                font-size: 3rem;
-            }
-
             opacity: 0;
         }
 
@@ -37,9 +27,10 @@
 
             background-color: $myWhite;
 
-            border-radius: 0.5rem;
+            border-radius: 0.5em;
 
             color: $myBlack;
+            font-size: 1em;
             font-weight: bold;
 
             transition: right 0.5s 1s ease-in-out;
@@ -53,11 +44,7 @@
             overflow: hidden;
 
             .notch-container {
-                font-size: 1.5rem;
-                @include query("xl") {
-                    font-size: 2rem;
-                }
-
+                font-size: 0.8em;
                 transform: translateY(-50%) rotate(86deg);
 
                 position: absolute;

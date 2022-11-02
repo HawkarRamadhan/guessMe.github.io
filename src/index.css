@@ -1,6 +1,6 @@
 html {
   font-family: "Noto Naskh Arabic", serif;
-  font-size: 10px;
+  box-sizing: border-box;
 }
 
 *,
@@ -11,17 +11,21 @@ html {
   border: none;
   outline: none;
   list-style-type: none;
-  box-sizing: border-box;
+  box-sizing: inherit;
 }
 
 body {
-  max-width: 900px;
-  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  max-width: 40em;
   background-color: rgb(20, 20, 20);
   color: rgb(235, 235, 235);
-  font-size: 1.6rem;
   margin: 0 auto;
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 img {
@@ -35,15 +39,9 @@ header {
   align-items: center;
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
+  left: 0;
   z-index: 95;
-}
-@media screen and (min-width: 48em) {
-  header {
-    max-width: 900px;
-    margin: 0 auto;
-  }
 }
 header .title-container {
   display: flex;
@@ -53,53 +51,44 @@ header .title-container {
   position: relative;
 }
 header .title-container .title {
-  font-size: 2.5rem;
-}
-@media screen and (min-width: 48em) {
-  header .title-container .title {
-    font-size: 3.3rem;
-  }
+  font-size: 1.5em;
 }
 header .title-container .down-arrow {
-  font-size: 2.5rem;
+  font-size: 1.5em;
   transform: scale(0);
   transition: bottom 0.3s ease;
-  padding: 0 0.5rem 0.5rem 0.5rem;
+  padding: 0 0.5em 0.5em 0.5em;
   position: absolute;
   left: 50%;
-  bottom: -3rem;
+  bottom: -1.2em;
+  z-index: 10;
   cursor: pointer;
 }
-@media screen and (min-width: 48em) {
-  header .title-container .down-arrow {
-    font-size: 4rem;
-  }
-}
 header .title-container .down-arrow:active {
-  bottom: -3.5rem;
+  bottom: -1.5em;
 }
 
 main {
   display: grid;
   grid-template-rows: 1fr auto;
   justify-items: center;
-  height: 100%;
-  padding-top: 4.1rem;
+  position: absolute;
+  top: 2.55em;
+  right: 0em;
+  bottom: 0em;
+  left: 0em;
   overflow: hidden;
-}
-@media screen and (min-width: 37.5em) {
-  main {
-    padding-top: 6.7rem;
-  }
 }
 
 .menu {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  place-content: center;
   justify-items: center;
+  height: 100%;
   background-color: rgb(20, 20, 20);
-  padding: 10rem 0;
   transform: translateY(-100%);
+  padding: 3em 0 4em 0;
   position: absolute;
   top: 0;
   left: 0;
@@ -108,55 +97,49 @@ main {
   z-index: 50;
 }
 .menu .choice-title {
-  font-size: 2rem;
+  font-size: 1em;
   transform: scaleX(0);
-}
-@media screen and (min-width: 48em) {
-  .menu .choice-title {
-    font-size: 2.5rem;
-  }
 }
 .menu .categories {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  width: 100%;
   justify-items: space-between;
+  width: 100%;
+  padding: 2em;
 }
 .menu .categories div {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1em;
 }
 .menu .categories div img {
-  width: 4rem;
+  width: 2em;
 }
 .menu .categories div h3 {
-  font-size: 1.8rem;
+  font-size: 1em;
 }
 .menu .categories div div {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
+  gap: 0.5em;
   transform: scale(0);
   opacity: 0;
   position: relative;
-  bottom: 1rem;
+  bottom: 1em;
 }
 @media screen and (min-width: 48em) {
   .menu .categories div img {
-    width: 6rem;
+    width: 3em;
     cursor: pointer;
   }
   .menu .categories div h3 {
-    font-size: 2.5rem;
     cursor: pointer;
   }
   .menu .categories div div {
-    font-size: 2rem;
     cursor: pointer;
   }
   .menu .categories div div span {
@@ -180,64 +163,48 @@ main {
   opacity: 0;
 }
 .menu .start-btn img {
-  width: 4rem;
+  width: 2.5em;
   transition: opacity 0.1s ease-in-out;
 }
 .menu .start-btn img:active {
   opacity: 0;
 }
-@media screen and (min-width: 48em) {
+@media screen and (min-width: 37.5em) {
   .menu .start-btn img {
-    width: 5.3rem;
-    cursor: pointer;
+    width: 3em;
   }
 }
 .menu .up-arrow {
-  font-size: 2.5rem;
+  font-size: 1.5em;
   transform: scale(0);
   transition: bottom 0.3s ease;
-  padding: 1rem;
   position: absolute;
   left: 50%;
-  bottom: 2rem;
+  bottom: 1em;
   cursor: pointer;
 }
-@media screen and (min-width: 37.5em) {
-  .menu .up-arrow {
-    font-size: 4rem;
-  }
-}
 .menu .up-arrow:active {
-  bottom: 5rem;
+  bottom: 1.5em;
 }
 
 .word-and-guesses {
   display: grid;
   grid-template-rows: auto 1fr;
-  align-content: space-around;
+  justify-items: center;
   width: 100%;
-  padding-top: 2rem;
 }
 .word-and-guesses .word-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  align-self: center;
-  justify-self: center;
-  width: 50%;
-  max-width: 20rem;
-  margin-top: 2rem;
+  width: 30%;
+  max-width: 7em;
+  margin-top: 3em;
   position: relative;
 }
 .word-and-guesses .word-container .word {
-  font-size: 2.5rem;
   opacity: 0;
-}
-@media screen and (min-width: 48em) {
-  .word-and-guesses .word-container .word {
-    font-size: 3rem;
-  }
 }
 .word-and-guesses .word-container .word-cover {
   display: flex;
@@ -245,8 +212,9 @@ main {
   justify-content: center;
   align-items: center;
   background-color: rgb(235, 235, 235);
-  border-radius: 0.5rem;
+  border-radius: 0.5em;
   color: rgb(20, 20, 20);
+  font-size: 1em;
   font-weight: bold;
   transition: right 0.5s 1s ease-in-out;
   position: absolute;
@@ -257,16 +225,11 @@ main {
   overflow: hidden;
 }
 .word-and-guesses .word-container .word-cover .notch-container {
-  font-size: 1.5rem;
+  font-size: 0.8em;
   transform: translateY(-50%) rotate(86deg);
   position: absolute;
   top: 50%;
   right: 5%;
-}
-@media screen and (min-width: 48em) {
-  .word-and-guesses .word-container .word-cover .notch-container {
-    font-size: 2rem;
-  }
 }
 
 fieldset {
@@ -277,20 +240,20 @@ fieldset {
   justify-self: center;
   align-self: center;
   opacity: 0;
-  border: 0.1rem solid rgba(235, 235, 235, 0.1);
+  box-shadow: 0 0 0.2em 0.2em rgba(255, 255, 0, 0.02);
+  border: 0.05em solid rgba(235, 235, 235, 0.1);
   text-align: center;
-  padding: 2rem;
-  border-radius: 1rem;
+  border-radius: 1em;
+  padding: 1em;
 }
 fieldset legend {
-  font-size: 1.5rem;
-  padding: 0 1rem;
+  font-size: 0.9em;
+  padding-inline: 1em;
   margin: 0 auto;
 }
 @media screen and (min-width: 37.5em) {
   fieldset legend {
-    font-size: 2rem;
-    padding: 0 1rem;
+    font-size: 0.9em;
   }
 }
 
@@ -299,42 +262,35 @@ fieldset legend {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.2em;
 }
 .guesses .guess-row {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.2em;
 }
 .guesses .guess-row span {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  min-width: 37px;
-  min-height: 35px;
+  max-width: 1em;
+  max-height: 1em;
+  padding: 0.9em;
   background-color: rgb(235, 235, 235);
   color: rgb(20, 20, 20);
-  font-size: 1.5rem;
-  border-radius: 0.5rem;
+  font-size: 1em;
+  border-radius: 0.2rem;
   transition: border 0.3s ease-in-out;
   opacity: 0;
   cursor: pointer;
 }
-@media screen and (min-width: 37.5em) {
-  .guesses .guess-row span {
-    min-width: 52px;
-    min-height: 50px;
-  }
-}
-@media screen and (min-width: 30em) {
-  .guesses .guess-row span {
-    font-size: 2rem;
-  }
-}
 @media screen and (min-width: 48em) {
+  .guesses .guess-row span {
+    padding: 1em;
+  }
   .guesses .guess-row span:hover {
     transition: background-color 0.2s ease-in-out, color 0.2s ease;
     background-color: rgba(235, 235, 235, 0.2);
@@ -347,10 +303,9 @@ fieldset legend {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3em;
   width: 100%;
-  max-width: 900px;
-  padding: 1rem 1rem 2rem 1rem;
+  padding: 0 0.5em 1em 0.5em;
   transform: translateY(150%);
   transition: transform 0.5s 0.5s ease-in-out;
 }
@@ -359,7 +314,7 @@ fieldset legend {
   flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
-  gap: 0.5rem;
+  gap: 0.3em;
   width: 100%;
 }
 .keyboard .row button {
@@ -368,91 +323,70 @@ fieldset legend {
   justify-content: center;
   align-items: center;
   flex: 1;
-  min-width: 4rem;
+  min-width: 1em;
+  min-height: 1em;
   background-color: rgba(120, 120, 120, 0.1);
   color: rgb(235, 235, 235);
-  border-radius: 0.5rem;
-  padding: 1.2rem;
+  font-size: 1em;
+  border-radius: 0.5em;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
   cursor: pointer;
 }
-@media screen and (min-width: 37.5em) {
-  .keyboard .row button {
-    padding: 1.2rem 1.5rem;
-  }
-}
 .keyboard .row button:active {
-  transform: translateY(-0.6rem);
+  transform: translateY(-0.3rem);
   background-color: rgba(120, 120, 120, 0);
-}
-@media screen and (min-width: 37.5em) {
-  .keyboard .row button:hover {
-    background-color: rgba(120, 120, 120, 0);
-  }
 }
 .keyboard .row button span {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  font-size: 1.7rem;
+  padding: 0.5em;
 }
-@media screen and (min-width: 30em) {
-  .keyboard .row button span {
-    font-size: 2.5rem;
+@media screen and (min-width: 37.5em) {
+  .keyboard .row button {
+    font-size: 1.1em;
+  }
+  .keyboard .row button:hover {
+    background-color: rgba(120, 120, 120, 0);
+  }
+}
+@media screen and (min-width: 48em) {
+  .keyboard .row button {
+    font-size: 1.2em;
+  }
+  .keyboard .row button:hover {
+    background-color: rgba(120, 120, 120, 0);
   }
 }
 .keyboard .row .accented span:nth-of-type(2) {
   display: none;
 }
-.keyboard .row .shift {
-  flex: 2;
-  font-size: 2.5rem;
+.keyboard .row .shift,
+.keyboard .row .back-space,
+.keyboard .row .space,
+.keyboard .row .enter {
+  padding: 0.7em 0.5em;
 }
-@media screen and (min-width: 30em) {
-  .keyboard .row .shift {
-    font-size: 4rem;
-  }
+.keyboard .row .shift-icon {
+  font-size: 1.2em;
 }
 .keyboard .row .back-space {
-  font-size: 2rem;
-  padding: 1rem 0;
-}
-@media screen and (min-width: 30em) {
-  .keyboard .row .back-space {
-    font-size: 2.5rem;
-  }
+  flex: 1.2;
 }
 .keyboard .row .space {
   flex: 3;
-  font-size: 2rem;
-  padding: 1rem 0;
-}
-@media screen and (min-width: 30em) {
-  .keyboard .row .space {
-    font-size: 3rem;
-  }
 }
 .keyboard .row .enter {
-  font-size: 2rem;
-  padding: 1rem 0;
-}
-@media screen and (min-width: 30em) {
-  .keyboard .row .enter {
-    font-size: 3rem;
-  }
+  flex: 1.2;
 }
 .keyboard .row .enter i {
   transform: rotateY(180deg) rotate(90deg);
 }
 .keyboard .pin-code button {
   opacity: 0;
+  padding: 0.2em 1em;
   cursor: default;
-}
-@media screen and (min-width: 37.5em) {
-  .keyboard .pin-code button {
-    padding: 1.5rem 0.5rem;
-  }
 }
 
 .unregistered {
@@ -460,35 +394,20 @@ fieldset legend {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  min-width: 20rem;
+  min-width: 10em;
   background-color: rgb(235, 235, 235);
   color: rgb(20, 20, 20);
-  font-size: 1.5rem;
+  font-size: 0.8em;
   border-radius: 0.5rem;
-  padding: 1rem 3rem;
+  padding: 0.5em 2em;
   transform: translateY(-500%);
   transition: transform 0.5s ease-in-out;
   position: absolute;
-  top: 8rem;
+  top: 3.6em;
   z-index: 10;
 }
-@media screen and (min-width: 48em) {
-  .unregistered {
-    font-size: 2rem;
-  }
-}
-@media screen and (min-width: 30em) {
-  .unregistered {
-    top: 8rem;
-  }
-}
-@media screen and (min-width: 37.5em) {
-  .unregistered {
-    top: 10.5rem;
-  }
-}
 .unregistered span:nth-child(1) {
-  margin-right: 1rem;
+  margin-right: 0.5em;
 }
 .unregistered span:last-child {
   color: red;
