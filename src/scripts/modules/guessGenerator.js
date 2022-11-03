@@ -116,6 +116,7 @@ export function guessGenerator(playersChoice, letterLength) {
             A.keyboardTogglerP,
             A.keyboardTogglerTF
         );
+
         veilWordAC = wordCover.animate(A.veilWordP, A.veilWordTF);
         notchAC = theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
 

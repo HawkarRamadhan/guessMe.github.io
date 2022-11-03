@@ -120,10 +120,10 @@ export function upArrowF() {
 }
 
 // delete
-// GG.guessGenerator("occupations", 8);
-// addClass(K.keyboard, "show-keyboard");
-// addClass(GG.wordCover, "veil-word");
-// addClass(GG.theNotch, "turn-the-notch");
+GG.guessGenerator("occupations", 5);
+addClass(K.keyboard, "show-keyboard");
+addClass(GG.wordCover, "veil-word");
+addClass(GG.theNotch, "turn-the-notch");
 
 // --------------- helper functions ---------------
 // icon randomizer

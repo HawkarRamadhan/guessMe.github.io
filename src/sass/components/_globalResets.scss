@@ -2,22 +2,6 @@
 
 html {
     font-family: "Noto Naskh Arabic", serif;
-
-    box-sizing: border-box;
-}
-
-*,
-::before,
-::after {
-    margin: 0;
-    padding: 0;
-
-    border: none;
-    outline: none;
-
-    list-style-type: none;
-
-    box-sizing: inherit;
 }
 
 body {
@@ -37,6 +21,22 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
+
+    box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    outline: none;
+
+    list-style-type: none;
+
+    box-sizing: inherit;
 }
 
 img {

@@ -186,7 +186,7 @@ export const activeSlotP = [
     },
     {
         transform: "scale(1.05)",
-        border: "0.2px solid red",
+        border: "0.1px solid red",
     },
 ];
 export const activeSlotTF = {
@@ -330,18 +330,18 @@ export const shiftUpScaleTF = {
 // unregistered word
 export const unregisteredWordP = [
     {
-        transform: "translateY(-500%)",
+        transform: "translate(-50%, -50%) scale(0)",
     },
     {
-        transform: "translateY(0%)",
+        transform: "translate(-50%, -50%) scale(1.2)",
         offset: 0.7,
     },
     {
-        transform: "translateY(0%)",
+        transform: "translate(-50%, -50%) scale(1)",
     },
 ];
 export const unregisteredWordTF = {
-    duration: 1000,
+    duration: 350,
     ...EF,
 };
 

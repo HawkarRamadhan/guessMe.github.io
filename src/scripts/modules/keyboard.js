@@ -127,38 +127,16 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                DB.dataBase.validWords[M.letterLength].includes(
-                    playersGuess.join("")
-                )
-                // DB.dataBase.validWords[8].includes(playersGuess.join(""))
+                // DB.dataBase.validWords[M.letterLength].includes(
+                //     playersGuess.join("")
+                // )
+                DB.dataBase.validWords[8].includes(playersGuess.join(""))
             )
                 // valid
                 result = false;
             else if (!hasEmptySlots) {
                 //  invalid
-                unregistered.lastElementChild.innerText = `${playersGuess.join(
-                    ""
-                )}`;
-
-                unregisteredAC = unregistered.animate(
-                    A.unregisteredWordP,
-                    A.unregisteredWordTF
-                );
-
-                unregistered.animate(
-                    [
-                        {
-                            transform: "translateY(-500%)",
-                        },
-                    ],
-                    {
-                        duration: 500,
-                        delay: 5000,
-                        easing: "ease-in-out",
-                        fill: "both",
-                    }
-                );
-
+                unregisteredPopUp(playersGuess);
                 clearInvalidGuess();
 
                 result = true;
@@ -465,6 +443,19 @@ export function clearInvalidGuess() {
 
     GG.activeRowSlots.reverse();
     changeActiveSlot(0);
+}
+
+function unregisteredPopUp(PG) {
+    unregistered.lastElementChild.innerText = `"${PG.join("")}"`;
+
+    unregisteredAC = unregistered.animate(
+        A.unregisteredWordP,
+        A.unregisteredWordTF
+    );
+
+    setTimeout(() => {
+        unregisteredAC.reverse();
+    }, 5000);
 }
 
 // dupllicate removal

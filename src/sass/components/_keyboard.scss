@@ -11,12 +11,14 @@
     transform: translateY(150%);
     transition: transform 0.5s 0.5s ease-in-out;
 
+    // key row
     .row {
         @include flex(row, space-between, stretch);
         gap: 0.3em;
 
         width: 100%;
 
+        // key
         button {
             @include flex(row, center, center);
             flex: 1;
@@ -42,6 +44,7 @@
                 background-color: rgba($myGrey, 0);
             }
 
+            // letter
             span {
                 @include flex(row, center, center);
 
@@ -96,11 +99,27 @@
     }
 
     // pin code keys
-    .pin-code button {
-        opacity: 0;
+    .pin-code {
+        @include flex(row, space-between, center);
 
-        padding: 0.2em 1em;
+        overflow: hidden;
 
-        cursor: default;
+        position: relative;
+
+        button {
+            @include flex(row, center, center);
+            flex: 1;
+
+            min-width: 1em;
+            min-height: 1em;
+
+            font-size: 1em;
+
+            opacity: 0;
+
+            padding: 0.5em 1em;
+
+            cursor: default;
+        }
     }
 }

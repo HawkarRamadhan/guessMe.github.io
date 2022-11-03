@@ -5,28 +5,22 @@
 
     min-width: 10em;
 
-    background-color: $myWhite;
-
-    color: $myBlack;
-    font-size: 0.8em;
+    font-size: 1em;
 
     border-radius: 0.5rem;
 
-    padding: 0.5em 2em;
-
-    transform: translateY(-500%);
+    transform: translate(-50%, -50%) scale(0);
     transition: transform 0.5s ease-in-out;
 
     position: absolute;
-    top: 3.6em;
+    top: 50%;
+    left: 50%;
 
-    z-index: 10;
-
-    span:nth-child(1) {
+    span:first-child {
         margin-right: 0.5em;
     }
 
     span:last-child {
-        color: red;
+        color: $myRed;
     }
 }
