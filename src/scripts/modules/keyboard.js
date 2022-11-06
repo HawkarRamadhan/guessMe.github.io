@@ -3,7 +3,7 @@ let shiftKeyIconAC;
 let unregisteredAC;
 let wordRevealAC;
 
-export let activeSlotC = [];
+export let activeSlotsC = [];
 
 //  variables
 export let activeRowCounter = 0;
@@ -18,16 +18,19 @@ let shiftKeyPress = false;
 
 const unregistered = query(document, ".unregistered");
 
+// pin
 const pinCodeKeys = queryAll(keyboard, ".pin-code button");
 const reveal = query(document, ".reveal");
 let pin = [];
 export function keyboardMechanics(e) {
     const target = e.target;
 
-    if (unregisteredAC && unregisteredAC.currentTime !== 0) {
-        unregisteredAC.cancel();
+    if (unregistered.classList.contains("visible")) {
+        unregisteredAC.reverse();
+        removeClass(unregistered, "visible");
     }
 
+    // pin code
     if (target.matches(".pin-code button") && pin.length < 4) {
         pin.push(target.innerText);
 
@@ -37,7 +40,7 @@ export function keyboardMechanics(e) {
 
             setTimeout(() => {
                 reveal.innerText = "";
-            }, 50);
+            }, 10);
         } else if (pin.length === 4 && Number(pin.join("")) !== 1776) {
             query(document, ".space-icon").animate(
                 [
@@ -127,10 +130,10 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                // DB.dataBase.validWords[M.letterLength].includes(
-                //     playersGuess.join("")
-                // )
-                DB.dataBase.validWords[8].includes(playersGuess.join(""))
+                DB.dataBase.validWords[M.letterLength].includes(
+                    playersGuess.join("")
+                )
+                // DB.dataBase.validWords[8].includes(playersGuess.join(""))
             )
                 // valid
                 result = false;
@@ -236,109 +239,100 @@ export function keyboardMechanics(e) {
             for (const slot of GG.activeRowSlots) slot.style.border = "none";
         }
 
-        //  game won or not
-        if (greenSlotsTracker === guessWord.length) {
-            // game won
-            removeEl(keyboard, "click", keyboardMechanics);
+        //  game won
+        const gameWon = (() => {
+            let gameWon = false;
 
-            GG.word.innerText = GG.guessWord;
-            GG.word.style.opacity = 1;
-
-            setTimeout(() => {
-                GG.activeRowSlots.forEach((slot, index) => {
-                    slot.animate(A.winningAnimeP, {
-                        duration: 500,
-                        delay: index * 120,
-                    });
-                });
-
-                keyboard.animate(
-                    [
-                        {
-                            transform: "translateY(-2%)",
-                            offset: 0.8,
-                        },
-                        {
-                            transform: "translateY(0%)",
-                        },
-                        {
-                            transform: "translateY(100%)",
-                        },
-                    ],
-                    {
-                        duration: 1000,
-                        delay: 500,
-                        ...A.EF,
-                    }
-                );
-            }, 1000);
-
-            setTimeout(() => {
-                wordRevealAC = GG.theNotch
-                    .animate(A.turnTheNotchP, {
-                        duration: 1500,
-                        ...A.EF,
-                    })
-                    .finished.then(() => {
-                        GG.wordCover.animate(
-                            [
-                                {
-                                    right: "100%",
-                                },
-                                {
-                                    right: "-10%",
-                                    offset: 0.8,
-                                },
-                                {
-                                    right: "0%",
-                                },
-                            ].reverse(),
-                            {
-                                duration: 1500,
-                                ...A.EF,
-                            }
-                        );
-                    });
-            }, 2500);
-        } else if (
-            !hasEmptySlots &&
-            !invalidGuess &&
-            activeRowCounter + 1 === guessWord.length
-        ) {
-            //  game lost
-            setTimeout(() => {
+            if (greenSlotsTracker === guessWord.length) {
+                // game won
                 removeEl(keyboard, "click", keyboardMechanics);
-                keyboard.animate(
-                    [
-                        {
-                            transform: "translateY(-2%)",
-                            offset: 0.8,
-                        },
-                        {
-                            transform: "translateY(0%)",
-                        },
-                        {
-                            transform: "translateY(100%)",
-                        },
-                    ],
-                    {
-                        duration: 1000,
-                        delay: 500,
-                        ...A.EF,
-                    }
-                );
-            }, 1000);
 
-            //  next guess
-        } else if (
-            !hasEmptySlots &&
-            !invalidGuess &&
-            activeRowCounter < GG.guessRows.length - 1
-        ) {
-            activeRowCounter++;
+                GG.word.innerText = GG.guessWord;
+                GG.word.style.opacity = 1;
 
-            GG.rowActiveState(GG.guessRows[activeRowCounter], "active");
-        }
+                setTimeout(() => {
+                    // greened slots
+                    GG.activeRowSlots.forEach((slot, index) => {
+                        slot.animate(A.winningAnimeP, {
+                            duration: 500,
+                            // delay based
+                            delay: index * 120,
+                        });
+                    });
+
+                    keyboard.animate(A.hideKeyboardTF, A.hideKeyboardTF);
+                }, 1000);
+
+                setTimeout(() => {
+                    wordRevealAC = GG.theNotch
+                        .animate(A.turnTheNotchP, {
+                            duration: 1500,
+                            ...A.EF,
+                        })
+                        .finished.then(() => {
+                            GG.wordCover.animate(
+                                [
+                                    {
+                                        right: "100%",
+                                    },
+                                    {
+                                        right: "-10%",
+                                        offset: 0.8,
+                                    },
+                                    {
+                                        right: "0%",
+                                    },
+                                ].reverse(),
+                                {
+                                    duration: 1500,
+                                    ...A.EF,
+                                }
+                            );
+                        });
+                }, 2500);
+
+                gameWon = true;
+            }
+
+            return gameWon;
+        })();
+
+        //  game lost
+        const gameLost = (() => {
+            let gameLost = false;
+
+            if (
+                !hasEmptySlots &&
+                !invalidGuess &&
+                !gameWon &&
+                activeRowCounter + 1 === guessWord.length
+            ) {
+                setTimeout(() => {
+                    removeEl(keyboard, "click", keyboardMechanics);
+
+                    keyboard.animate(A.hideKeyboardP, A.hideKeyboardTF);
+                }, 1000);
+
+                gameLost = true;
+            }
+
+            return gameLost;
+        })();
+
+        // next guess
+        const nextGuess = (() => {
+            if (
+                !hasEmptySlots &&
+                !invalidGuess &&
+                !gameLost &&
+                !gameWon &&
+                activeRowCounter < GG.guessRows.length - 1
+            ) {
+                activeRowCounter++;
+
+                GG.rowActiveState(GG.guessRows[activeRowCounter], "active");
+            }
+        })();
     }
 }
 
@@ -358,8 +352,9 @@ export function accentShifter(command) {
 
         shiftKeyPress = true;
     } else if (command === "shift" && shiftKeyPress) {
-        if (shiftKeyIconAC && shiftKeyIconAC.currentTime > 0)
+        if (shiftKeyIconAC && shiftKeyIconAC.currentTime > 0) {
             shiftKeyIconAC.reverse();
+        }
 
         for (const key of accentedKeys) {
             key.children[0].style.display = "inline";
@@ -385,14 +380,13 @@ function changeActiveSlot(activate, empty) {
     for (const slot of GG.activeRowSlots) {
         if (slot.classList.contains("active-slot")) {
             deactivateSlots();
-            removeClass(slot, "active-slot");
 
             if (empty) slot.innerText = "";
         }
     }
 
     addClass(GG.activeRowSlots[activate], "active-slot");
-    activeSlotC[activate] = GG.activeRowSlots[activate].animate(
+    activeSlotsC[activate] = GG.activeRowSlots[activate].animate(
         A.activeSlotP,
         A.activeSlotTF
     );
@@ -400,10 +394,10 @@ function changeActiveSlot(activate, empty) {
 
 // deactivate slots
 export function deactivateSlots() {
-    for (const animation of activeSlotC) {
+    for (const animation of activeSlotsC) {
         if (animation) animation.cancel();
 
-        for (const slot of GG.activeRowSlots) slot.style.border = "none";
+        for (const slot of GG.activeRowSlots) removeClass(slot, "active-slot");
     }
 }
 
@@ -452,9 +446,13 @@ function unregisteredPopUp(PG) {
         A.unregisteredWordP,
         A.unregisteredWordTF
     );
+    addClass(unregistered, "visible");
 
     setTimeout(() => {
-        unregisteredAC.reverse();
+        if (unregistered.classList.contains("visible")) {
+            unregisteredAC.reverse();
+            removeClass(unregistered, "visible");
+        }
     }, 5000);
 }
 
@@ -488,7 +486,7 @@ export function gameReset() {
     GG.word.innerText = "Your Guess";
     GG.word.style.opacity = 0;
 
-    fieldSet.style.opacity = 0;
+    M.fieldSet.style.opacity = 0;
 
     for (const key of keys) {
         removeClass(key, "key-not-included");
@@ -520,4 +518,3 @@ import {
     GG,
     K,
 } from "./aggregator.js";
-import { fieldSet } from "./menu.js";

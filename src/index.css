@@ -82,7 +82,6 @@ main {
 
 .menu {
   display: grid;
-  display: none;
   grid-template-rows: auto 1fr auto;
   place-content: center;
   justify-items: center;

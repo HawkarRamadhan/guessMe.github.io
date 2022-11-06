@@ -405,6 +405,25 @@ export const keyNotIncludedTF = {
     fill: "both",
 };
 
+// winning flag
+export const hideKeyboardP = [
+    {
+        transform: "translateY(-2%)",
+        offset: 0.8,
+    },
+    {
+        transform: "translateY(0%)",
+    },
+    {
+        transform: "translateY(100%)",
+    },
+];
+export const hideKeyboardTF = {
+    duration: 1000,
+    delay: 500,
+    ...A.EF,
+};
+
 // keys reset
 export const keyboardKeyResetP = {
     color: "white",

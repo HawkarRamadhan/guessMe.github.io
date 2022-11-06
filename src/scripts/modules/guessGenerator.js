@@ -11,6 +11,7 @@ let guessWordLength;
 
 export const guessContainer = query(document, ".guesses");
 export let guessRows;
+export let extraRows;
 
 export let activeRow;
 export let activeRowSlots;
@@ -41,7 +42,7 @@ export function guessGenerator(playersChoice, letterLength) {
             )
         ];
 
-    if (guessWord === undefined) {
+    if (!guessWord) {
         // recursive
         guessGenerator(playersChoice, letterLength);
     } else {
@@ -97,6 +98,7 @@ export function guessGenerator(playersChoice, letterLength) {
                         ],
                         {
                             duration: 1200,
+                            // delay based
                             delay: index * 120,
                             easing: "ease-in-out",
                             fill: "forwards",
@@ -105,12 +107,13 @@ export function guessGenerator(playersChoice, letterLength) {
                 });
         }
 
-        // invisible row
-        guessContainer.children[
-            guessContainer.children.length - 1
-        ].style.display = "none";
-
         guessRows = Array.from(guessContainer.children);
+        extraRows = guessRows.splice(guessRows.length - 3);
+
+        // invisible row
+        extraRows.forEach(row => {
+            row.style.display = "none";
+        });
 
         keyboardTogglerAC = K.keyboard.animate(
             A.keyboardTogglerP,
@@ -130,6 +133,8 @@ export function guessGenerator(playersChoice, letterLength) {
 // random number
 export function randomNumber() {
     const randomNumber = Math.round(Math.random() * 3);
+
+    // reassignment
     switch (randomNumber) {
         case 0:
             return 5;
@@ -151,39 +156,43 @@ export function randomNumber() {
 // row activator
 export function rowActiveState(row, state) {
     activeRow = row;
-    activeRowSlots = Array.from(row.children).reverse();
+    activeRowSlots = Array.from(activeRow.children).reverse();
 
+    // activate
     if (state === "active") {
-        addEl(row, "click", activeRowCBF);
+        addEl(activeRow, "click", activeRowCBF);
 
         rowActivationA();
 
         addClass(activeRow, "activated");
     } else if (state === "deactive") {
-        removeEl(row, "click", activeRowCBF);
+        // deactivate
+        removeEl(activeRow, "click", activeRowCBF);
         removeEl(K.keyboard, "click", K.keyboardMechanics);
 
         K.deactivateSlots();
 
-        K.activeSlotC.fill("");
+        K.activeSlotsC.fill("");
     }
 }
 
 // row activation anime
 export function rowActivationA() {
-    activeRowSlots.forEach((slot, index, array) => {
+    // slot animation
+    activeRowSlots.forEach((slot, index) => {
         slot.animate(A.rowActivationP, {
             duration: 700,
+            // delay based
             delay: index * 120,
-            easing: "ease-in-out",
-            fill: "forwards",
+            ...A.EF,
         });
     });
 
     setTimeout(() => {
         addEl(K.keyboard, "click", K.keyboardMechanics);
 
-        K.activeSlotC[0] = activeRowSlots[0].animate(
+        // first slot activation
+        K.activeSlotsC[0] = activeRowSlots[0].animate(
             A.activeSlotP,
             A.activeSlotTF
         );
@@ -199,10 +208,11 @@ function activeRowCBF(e) {
     if (target.matches("span")) {
         K.deactivateSlots();
 
-        K.activeSlotC[target.getAttribute("id") - 1] = target.animate(
+        K.activeSlotsC[target.getAttribute("id") - 1] = target.animate(
             A.activeSlotP,
             A.activeSlotTF
         );
+        addClass(target, "active-slot");
     }
 }
 
