@@ -130,9 +130,9 @@ export function upArrowF() {
 function chooseRandomIcon(card) {
     const cardIcon = card.children[0];
     const randomNumber = Math.round(Math.random() * 32 + 1);
-    const srcAttr = `./assets/icons/${card.getAttribute(
+    const srcAttr = `/src/assets/icons/${card.getAttribute(
         "class"
-    )}/i (${randomNumber}).png`;
+    )}/i-(${randomNumber}).png`;
 
     if (!card.classList.contains("random"))
         cardIcon.setAttribute("src", srcAttr);
