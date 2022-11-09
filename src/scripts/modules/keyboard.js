@@ -130,10 +130,10 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                DB.dataBase.validWords[M.letterLength].includes(
-                    playersGuess.join("")
-                )
-                // DB.dataBase.validWords[8].includes(playersGuess.join(""))
+                // DB.dataBase.validWords[M.letterLength].includes(
+                //     playersGuess.join("")
+                // )
+                DB.dataBase.validWords[5].includes(playersGuess.join(""))
             )
                 // valid
                 result = false;

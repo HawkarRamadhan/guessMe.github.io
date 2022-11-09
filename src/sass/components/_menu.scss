@@ -2,17 +2,16 @@
 
 .menu {
     display: grid;
-    // display: none;
+    display: none;
     grid-template-rows: auto 1fr auto;
 
-    place-content: center;
     justify-items: center;
-
-    height: 100%;
+    align-content: center;
 
     background-color: $myBlack;
 
     transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
 
     padding: 3em 0 4em 0;
 
@@ -26,40 +25,81 @@
 
     .choice-title {
         font-size: 1em;
-        transform: scaleX(0);
+
+        transform: scale(0);
+
+        transition: transform 0.3s ease-in-out;
+    }
+    .show-choice-title {
+        transform: scale(1);
+
+        transition: transform 0.3s 0.5s ease-in-out;
     }
 
+    // catrgories
     .categories {
         display: grid;
         grid-template-columns: 1fr 1fr;
 
-        justify-items: space-between;
-
-        width: 100%;
-
-        padding: 2em;
-
+        // category
         div {
             @include flex(column, center, center);
-            gap: 1em;
 
             img {
                 width: 2em;
+
+                transition: transform 0.3s ease-in-out;
+            }
+            .translate-scale-icon {
+                animation: translate-scale-icon 1.3s 0.1s ease-in-out infinite;
+
+                @keyframes translate-scale-icon {
+                    50% {
+                        transform: translateY(-0.5em) scale(1.3);
+                    }
+                    100% {
+                        transform: translate(0) scale(1);
+                    }
+                }
             }
 
             h3 {
                 font-size: 1em;
+
+                transition: color 0.3s ease-in-out;
+
+                padding: 0.5em 0.5em 0em 0.5em;
+            }
+            .select-category {
+                color: #ffbf00;
+
+                transition: color 0.3s ease-in-out;
             }
 
+            // length
             div {
                 @include flex(row, center, center);
-                gap: 0.5em;
 
                 transform: scale(0);
                 opacity: 0;
 
-                position: relative;
-                bottom: 1em;
+                transition: transform 0.3s ease-in-out, opacity 0.1s ease-in-out,
+                    color 0.3s ease-in-out;
+
+                span {
+                    padding: 0 0.5em;
+                }
+            }
+            .show-lengths {
+                transform: scale(1);
+                opacity: 1;
+
+                transition: transform 0.3s ease-in-out, opacity 0.1s ease-in-out;
+            }
+            .select-length {
+                color: #ffbf00;
+
+                transition: color 0.3s ease-in-out;
             }
 
             @include query("xl") {
@@ -102,10 +142,12 @@
         transform: scale(0);
         opacity: 0;
 
+        transition: transform 0.3s ease-in-out, opacity 0.1s ease-in-out;
+
         img {
             width: 2.5em;
 
-            transition: opacity 0.1s ease-in-out;
+            transition: opacity 0.5s ease-in-out;
 
             &:active {
                 opacity: 0;
@@ -116,12 +158,19 @@
             }
         }
     }
+    .show-start-btn {
+        transform: scale(1);
+
+        opacity: 1;
+
+        transition: transform 0.3s ease-in-out, opacity 0.1s ease-in-out;
+    }
 
     .up-arrow {
         font-size: 1.5em;
 
-        transform: scale(0);
-        transition: bottom 0.3s ease;
+        transform: translateX(-50%) scale(0);
+        transition: bottom 0.3s ease-in-out, transform 0.3s ease-in-out;
 
         position: absolute;
         left: 50%;
@@ -133,4 +182,18 @@
             bottom: 1.5em;
         }
     }
+    .show-up-arrow {
+        transform: translateX(-50%) scale(1);
+
+        transition: transform 0.3s 0.5s ease-in-out, bottom 0.3s ease-in-out;
+
+        position: absolute;
+        left: 50%;
+        bottom: 1em;
+    }
+}
+.open-menu {
+    transform: translateY(0%);
+
+    transition: transform 0.3s 0.1s ease-in-out;
 }

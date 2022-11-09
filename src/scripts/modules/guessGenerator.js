@@ -125,7 +125,7 @@ export function guessGenerator(playersChoice, letterLength) {
 
         setTimeout(() => {
             rowActiveState(guessRows[K.activeRowCounter], "active");
-        }, 1000);
+        }, 1800);
     }
 }
 

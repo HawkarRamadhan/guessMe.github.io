@@ -3,6 +3,10 @@
 header {
     @include flex(row, center, center);
 
+    max-width: 40em;
+
+    margin: 0 auto;
+
     position: fixed;
     top: 0;
     right: 0;
@@ -22,8 +26,8 @@ header {
         .down-arrow {
             font-size: 1.5em;
 
-            transform: scale(0);
-            transition: bottom 0.3s ease;
+            transform: translateX(-50%) scale(0);
+            transition: bottom 0.3s ease-in-out, transform 0.5s ease-in-out;
 
             padding: 0 0.5em 0.5em 0.5em;
 
@@ -38,6 +42,11 @@ header {
             &:active {
                 bottom: -1.5em;
             }
+        }
+        .show-down-arrow {
+            transform: translateX(-50%) scale(1);
+
+            transition: bottom 0.3s ease-in-out, transform 0.5s ease-in-out;
         }
     }
 }

@@ -74,6 +74,23 @@ fieldset {
                     }
                 }
             }
+
+            .active-slot {
+                animation: 0.5s ease-in-out both;
+
+                @keyframes active-slot {
+                    40% {
+                        transform: "scale(1)";
+                    }
+                    70% {
+                        transform: "scale(1.1)";
+                    }
+                    100% {
+                        transform: "scale(1.05)";
+                        border: "0.1px solid red";
+                    }
+                }
+            }
         }
     }
 }

@@ -1,11 +1,3 @@
-// animation controls
-export let menuAC;
-export let downArrowAC;
-export let upArrowAC;
-export let iconAndTextAC = [];
-let choiceTitleAC;
-let startBtnAC;
-
 const menu = query(document, ".menu");
 const categories = queryAll(menu, ".categories > div");
 
@@ -29,101 +21,90 @@ export function showMenu(gameOpening) {
         chooseRandomIcon(card);
     });
 
-    menuAC = menu.animate(A.showMenuP, A.showMenuTF);
-    addEl(menu, "click", menuEL);
+    addClass(menu, "open-menu");
+    addEl(menu, "transitionend", function menuTransitionEnd() {
+        addEl(menu, "click", menuEL);
 
-    choiceTitleAC = choiceTitle.animate(A.choiceTitleP, A.choiceTitleTF);
+        removeEl(menu, "transitionend", menuTransitionEnd);
+    });
 
-    addEl(startBtn, "click", gameStarter);
-}
+    addClass(choiceTitle, "show-choice-title");
 
-// hide categories
-export function hideMenu() {
-    choiceTitleAC.reverse();
-    choiceTitleAC;
-
-    menuAC.reverse();
-    removeEl(menu, "click", menuEL);
-
-    menuReset();
+    if (!gameOpening) {
+        addClass(upArrow, "show-up-arrow");
+        addEl(upArrow, "click", upArrowF);
+    }
 }
 
 // categories click event listener
 function menuEL(e) {
     let target = e.target;
 
-    if (target.matches(".categories > div img, .categories > div h3")) {
-        menuReset();
+    if (target.matches("div > div img,h3")) {
+        clearCategories();
 
-        iconAndTextAC.push([
-            target.parentElement.children[0].animate(
-                A.categoryIconP,
-                A.categoryIconTF
-            ),
-            target.parentElement.children[2].animate(
-                A.choiceLengthP,
-                A.choiceLengthTF
-            ),
-        ]);
+        addClass(target.parentElement.children[0], "translate-scale-icon");
 
-        target.parentElement.children[1].style.color = "#ffbf00";
+        addClass(target.parentElement.children[1], "select-category");
 
-        if (target.parentElement.classList.contains("occupations")) {
-            choiceTitle.children[0].innerText =
-                target.parentElement.children[1].innerText + "یەکی";
-        } else if (target.parentElement.classList.contains("random")) {
-            choiceTitle.children[0].innerText = "وشەیەکی";
-        } else {
-            choiceTitle.children[0].innerText =
-                target.parentElement.children[1].innerText + "ێکی";
+        target.parentElement.classList[0] === "random"
+            ? (playersChoice = "validWords")
+            : (playersChoice = target.parentElement.classList[0]);
+
+        // choice title
+        switch (target.parentElement.classList[0]) {
+            case "occupations":
+                choiceTitle.children[0].innerText =
+                    target.parentElement.children[1].innerText + "یەکی";
+                break;
+            case "random":
+                choiceTitle.children[0].innerText = "وشەیەکی";
+                break;
+
+            default:
+                choiceTitle.children[0].innerText =
+                    target.parentElement.children[1].innerText + "ێکی";
         }
 
-        className = target.parentElement.getAttribute("class");
-    }
-
-    if (target.matches("h3 + div > span")) {
-        for (const choice of target.parentElement.children) {
-            choice.style.color = "white";
-        }
-
-        target.style.color = "#ffbf00";
-
-        letterLength = textToNumber(target);
-
-        if (!startBtnAC) {
-            startBtnAC = startBtn.animate(A.startBtnP, A.startBtnTF);
-        }
-
-        choiceTitle.children[1].innerText = `${target.innerText} پیتی`;
+        // choice length
+        addClass(target.parentElement.children[2], "show-lengths");
+        addEl(target.parentElement.children[2], "click", selectLength);
     }
 }
 
 // down arrow
 export function downArrowF() {
+    removeClass(downArrow, "show-down-arrow");
     removeEl(downArrow, "click", downArrowF);
-    downArrowAC.reverse();
 
-    showMenu();
+    addEl(downArrow, "transitionend", function downArrowTransitionEnd() {
+        showMenu(false);
 
-    upArrowAC = upArrow.animate(A.showUpArrowP, A.showUpArrowTF);
-    addEl(upArrow, "click", upArrowF);
+        removeEl(downArrow, "transitionend", downArrowTransitionEnd);
+    });
 }
 
 // up arrow
 export function upArrowF() {
-    upArrowAC.reverse();
+    clearCategories();
 
-    hideMenu();
+    removeClass(upArrow, "show-up-arrow");
+    removeEl(upArrow, "click", upArrowF);
 
-    downArrowAC.reverse();
-    addEl(downArrow, "click", downArrowF);
+    removeClass(choiceTitle, "show-choice-title");
+    addEl(choiceTitle, "transitionend", function choiceTitleTranEnd() {
+        removeClass(menu, "open-menu");
+
+        addEl(menu, "transitionend", function menuTranEnd() {
+            addClass(downArrow, "show-down-arrow");
+            addEl(downArrow, "click", downArrowF);
+
+            removeEl(menu, "transitionend", menuTranEnd);
+        });
+
+        removeEl(choiceTitle, "transitionend", choiceTitleTranEnd);
+    });
 }
-
-// delete
-// GG.guessGenerator("occupations", 5);
-// addClass(K.keyboard, "show-keyboard");
-// addClass(GG.wordCover, "veil-word");
-// addClass(GG.theNotch, "turn-the-notch");
 
 // --------------- helper functions ---------------
 // icon randomizer
@@ -136,6 +117,21 @@ function chooseRandomIcon(card) {
 
     if (!card.classList.contains("random"))
         cardIcon.setAttribute("src", srcAttr);
+}
+
+// select length
+function selectLength(e) {
+    for (const length of e.target.parentElement.children) {
+        if (length !== e.target) removeClass(length, "select-length");
+    }
+
+    letterLength = textToNumber(e.target);
+    choiceTitle.children[1].innerText = e.target.innerText + "پیتی";
+
+    addClass(e.target, "select-length");
+
+    addClass(startBtn, "show-start-btn");
+    addEl(startBtn, "click", startBtnF);
 }
 
 // choice translator
@@ -156,43 +152,66 @@ function textToNumber(length) {
     }
 }
 
-// menu reseter
-function menuReset() {
-    if (startBtnAC && startBtnAC.currentTime !== 0) {
-        startBtnAC.reverse();
-        startBtnAC = undefined;
+// clear choices
+function clearCategories() {
+    for (const category of categories) {
+        for (const child of category.children) {
+            removeClass(child, "translate-scale-icon");
+
+            removeClass(child, "select-category");
+
+            removeClass(child, "show-lengths");
+
+            for (const length of child.children) {
+                removeClass(length, "select-length");
+
+                removeEl(length, "click", selectLength);
+            }
+        }
     }
 
     choiceTitle.children[0].innerText = "وشەیەکی";
     choiceTitle.children[1].innerText = "چەند پیتی؟";
 
-    for (const item of iconAndTextAC) {
-        item.forEach(anime => {
-            if (anime) anime.cancel();
+    removeClass(startBtn, "show-start-btn");
+    removeEl(startBtn, "click", startBtnF);
+}
 
-            for (const h3 of queryAll(document, ".categories h3"))
-                h3.style.color = "white";
-            for (const h3 of queryAll(document, "h3 + div > span"))
-                h3.style.color = "white";
+function startBtnF() {
+    removeClass(startBtn, "show-start-btn");
+
+    addEl(startBtn, "transitionend", function startBtnTranEnd() {
+        clearCategories();
+
+        removeClass(choiceTitle, "show-choice-title");
+
+        addEl(choiceTitle, "transitionend", function choiceTitleTransEnd() {
+            removeClass(menu, "open-menu");
+
+            removeClass(upArrow, "show-up-arrow");
+            removeEl(upArrow, "click", upArrowF);
+
+            addEl(menu, "transitionend", function menuTranEnd() {
+                GG.guessGenerator(playersChoice, letterLength);
+
+                addClass(downArrow, "show-down-arrow");
+                addEl(downArrow, "click", downArrowF);
+
+                removeEl(menu, "transitionend", menuTranEnd);
+            });
+
+            removeEl(choiceTitle, "transitionend", choiceTitleTransEnd);
         });
-    }
+
+        removeEl(startBtn, "transitionend", startBtnTranEnd);
+    });
 }
 
-// game starter
-function gameStarter(e) {
-    setTimeout(() => {
-        playersChoice = className === "random" ? "validWords" : className;
-
-        GG.guessGenerator(playersChoice, letterLength);
-        legend.innerText = choiceTitle.innerText;
-
-        menuReset();
-        hideMenu();
-
-        downArrowAC = downArrow.animate(A.showDownArrowP, A.showDownArrowTF);
-        addEl(downArrow, "click", downArrowF);
-    }, 500);
-}
+// delete
+GG.guessGenerator("occupations", 5);
+addClass(K.keyboard, "show-keyboard");
+addClass(GG.wordCover, "veil-word");
+addClass(GG.theNotch, "turn-the-notch");
 
 // --------------- imports ---------------
 import {
