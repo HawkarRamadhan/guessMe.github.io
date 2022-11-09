@@ -3,119 +3,6 @@ export const EF = {
     fill: "both",
 };
 
-// ----- menu -----
-// menu toggler
-export const showMenuP = {
-    transform: "translateY(0)",
-};
-export const showMenuTF = {
-    duration: 500,
-    delay: 100,
-    ...EF,
-};
-
-// choice title
-export const choiceTitleP = [
-    {
-        transform: "scale(0)",
-    },
-    {
-        transform: "scale(1.2)",
-    },
-    {
-        transform: "scale(1)",
-    },
-];
-export const choiceTitleTF = {
-    duration: 500,
-    delay: 600,
-    ...EF,
-};
-
-// choice length
-export const choiceLengthP = [
-    { opacity: 1 },
-    { transform: "scale(1)", opacity: 1 },
-];
-export const choiceLengthTF = {
-    duration: 200,
-    ...EF,
-};
-
-// category icon
-export const categoryIconP = [
-    {
-        transform: "translateY(0em)",
-    },
-    {
-        transform: "translateY(-0.5em) scale(1.1)",
-    },
-    {
-        transform: "translateY(0em)",
-    },
-];
-export const categoryIconTF = {
-    duration: 1500,
-    ...EF,
-    iterations: Infinity,
-};
-
-// start button
-export const startBtnP = [
-    {
-        transform: "scale(0)",
-        opacity: 0,
-    },
-    {
-        transform: "scale(1.3)",
-        opacity: 1,
-    },
-    {
-        transform: "scale(1)",
-        opacity: 1,
-    },
-];
-export const startBtnTF = {
-    duration: 500,
-    ...EF,
-};
-
-// down arrow
-export const showDownArrowP = [
-    {
-        transform: "translateX(-50%) scale(0)",
-    },
-    {
-        transform: "translateX(-50%) scale(2)",
-    },
-    {
-        transform: "translateX(-50%) scale(1)",
-    },
-];
-export const showDownArrowTF = {
-    duration: 700,
-    delay: 500,
-    ...EF,
-};
-
-// up arrow
-export const showUpArrowP = [
-    {
-        transform: "translateX(-50%) scale(0)",
-    },
-    {
-        transform: "translateX(-50%) scale(2)",
-    },
-    {
-        transform: "translateX(-50%) scale(1)",
-    },
-];
-export const showUpArrowTF = {
-    duration: 700,
-    delay: 700,
-    ...EF,
-};
-
 // ----- guess generator -----
 // veil word
 export const veilWordP = [
@@ -132,7 +19,7 @@ export const veilWordP = [
 ];
 export const veilWordTF = {
     duration: 700,
-    delay: 2000,
+    delay: 1500,
     ...EF,
 };
 
@@ -150,30 +37,9 @@ export const turnTheNotchP = [
     },
 ];
 export const turnTheNotchTF = {
-    duration: 1500,
-    delay: 2700,
+    duration: 1000,
     ...EF,
 };
-
-// ----- row activation -----
-export const rowActivationP = [
-    {
-        opacity: 0.2,
-        transform: "scale(0)",
-    },
-    {
-        opacity: 1,
-        transform: "scale(0)",
-    },
-    {
-        opacity: 1,
-        transform: "scale(1.1)",
-    },
-    {
-        opacity: 1,
-        transform: "scale(1)",
-    },
-];
 
 // ----- guesses -----
 // active slots
@@ -292,59 +158,6 @@ export const winningAnimeTF = {
 };
 
 // ----- keyboard -----
-// keyboard toggler
-export const keyboardTogglerP = [
-    {
-        transform: "translateY(100%)",
-    },
-    {
-        transform: "translateY(-2%)",
-        offset: 0.8,
-    },
-    {
-        transform: "translateY(0%)",
-    },
-];
-export const keyboardTogglerTF = {
-    duration: 500,
-    delay: 2000,
-    ...EF,
-};
-
-// shift up scale
-export const shiftUpScaleP = [
-    {
-        transform: "rotate(0deg) scale(1)",
-        color: "white",
-    },
-    {
-        transform: "rotate(180deg) scale(1.3)",
-        color: "red",
-    },
-];
-export const shiftUpScaleTF = {
-    duration: 300,
-    ...EF,
-};
-
-// unregistered word
-export const unregisteredWordP = [
-    {
-        transform: "translate(-50%, -50%) scale(0)",
-    },
-    {
-        transform: "translate(-50%, -50%) scale(1.2)",
-        offset: 0.7,
-    },
-    {
-        transform: "translate(-50%, -50%) scale(1)",
-    },
-];
-export const unregisteredWordTF = {
-    duration: 350,
-    ...EF,
-};
-
 // duplicate guess
 export const duplicateGuessP = [{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }];
 export const duplicateGuessTF = {

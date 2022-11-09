@@ -1,5 +1,4 @@
 // animation controls
-export let keyboardTogglerAC;
 export let veilWordAC;
 export let notchAC;
 export let fieldSetAC;
@@ -23,17 +22,6 @@ export const word = query(document, ".word");
 export function guessGenerator(playersChoice, letterLength) {
     K.gameReset();
 
-    fieldSetAC = M.fieldSet.animate(
-        {
-            opacity: 1,
-        },
-        {
-            duration: 300,
-            easing: "ease-in-out",
-            fill: "both",
-        }
-    );
-
     randomNum = randomNumber();
     guessWord =
         DB.dataBase[playersChoice][letterLength][
@@ -50,6 +38,28 @@ export function guessGenerator(playersChoice, letterLength) {
 
         console.log("guessWord:", guessWord);
         console.log("guessWordLength:", guessWordLength);
+
+        fieldSetAC = M.fieldSet.animate(
+            [
+                {
+                    opacity: 0,
+                    transform: "scale(0)",
+                },
+                {
+                    opacity: 0.5,
+                    transform: "scale(1.1)",
+                },
+                {
+                    opacity: 1,
+                    transform: "scale(1)",
+                },
+            ],
+            {
+                duration: 1000,
+                easing: "ease-in-out",
+                fill: "both",
+            }
+        );
 
         // guess clean up
         while (guessContainer.firstChild) {
@@ -77,7 +87,7 @@ export function guessGenerator(playersChoice, letterLength) {
             Array.from(row.children)
                 .reverse()
                 .forEach((slot, index) => {
-                    slot.animate(
+                    const slotAnime = slot.animate(
                         [
                             {
                                 opacity: 0.2,
@@ -97,13 +107,37 @@ export function guessGenerator(playersChoice, letterLength) {
                             },
                         ],
                         {
-                            duration: 1200,
+                            duration: 1500,
                             // delay based
                             delay: index * 120,
                             easing: "ease-in-out",
                             fill: "forwards",
                         }
                     );
+
+                    if (rowIndex === guessWordLength) {
+                        veilWordAC = wordCover.animate(
+                            A.veilWordP,
+                            A.veilWordTF
+                        );
+
+                        veilWordAC.finished.then(() => {
+                            notchAC = theNotch.animate(
+                                A.turnTheNotchP,
+                                A.turnTheNotchTF
+                            );
+                            notchAC.finished.then(() => {});
+                            rowActiveState(
+                                guessRows[K.activeRowCounter],
+                                "active"
+                            );
+
+                            M.legend.innerText = M.legendText;
+                            addClass(M.legend, "show-legend");
+
+                            addClass(K.keyboard, "show-keyboard");
+                        });
+                    }
                 });
         }
 
@@ -114,18 +148,6 @@ export function guessGenerator(playersChoice, letterLength) {
         extraRows.forEach(row => {
             row.style.display = "none";
         });
-
-        keyboardTogglerAC = K.keyboard.animate(
-            A.keyboardTogglerP,
-            A.keyboardTogglerTF
-        );
-
-        veilWordAC = wordCover.animate(A.veilWordP, A.veilWordTF);
-        notchAC = theNotch.animate(A.turnTheNotchP, A.turnTheNotchTF);
-
-        setTimeout(() => {
-            rowActiveState(guessRows[K.activeRowCounter], "active");
-        }, 1800);
     }
 }
 
@@ -171,8 +193,6 @@ export function rowActiveState(row, state) {
         removeEl(K.keyboard, "click", K.keyboardMechanics);
 
         K.deactivateSlots();
-
-        K.activeSlotsC.fill("");
     }
 }
 
@@ -180,25 +200,29 @@ export function rowActiveState(row, state) {
 export function rowActivationA() {
     // slot animation
     activeRowSlots.forEach((slot, index) => {
-        slot.animate(A.rowActivationP, {
-            duration: 700,
-            // delay based
-            delay: index * 120,
-            ...A.EF,
-        });
-    });
-
-    setTimeout(() => {
-        addEl(K.keyboard, "click", K.keyboardMechanics);
-
-        // first slot activation
-        K.activeSlotsC[0] = activeRowSlots[0].animate(
-            A.activeSlotP,
-            A.activeSlotTF
+        const slotAnime = slot.animate(
+            {
+                opacity: 0.2,
+            },
+            {
+                opacity: 1,
+            },
+            {
+                duration: 500,
+                // delay based
+                delay: index * 80,
+                ...A.EF,
+            }
         );
 
-        addClass(activeRowSlots[0], "active-slot");
-    }, 500);
+        if (index === activeRowSlots.length - 1) {
+            slotAnime.finished.then(() => {
+                addClass(activeRowSlots[0], "active-slot");
+
+                addEl(K.keyboard, "click", K.keyboardMechanics);
+            });
+        }
+    });
 }
 
 // active row call back
@@ -208,10 +232,6 @@ function activeRowCBF(e) {
     if (target.matches("span")) {
         K.deactivateSlots();
 
-        K.activeSlotsC[target.getAttribute("id") - 1] = target.animate(
-            A.activeSlotP,
-            A.activeSlotTF
-        );
         addClass(target, "active-slot");
     }
 }
@@ -231,3 +251,4 @@ import {
     GG,
     K,
 } from "./aggregator.js";
+import { legend } from "./menu.js";

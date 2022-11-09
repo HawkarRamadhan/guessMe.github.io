@@ -1,9 +1,5 @@
 // animation controls
-let shiftKeyIconAC;
-let unregisteredAC;
 let wordRevealAC;
-
-export let activeSlotsC = [];
 
 //  variables
 export let activeRowCounter = 0;
@@ -24,11 +20,6 @@ const reveal = query(document, ".reveal");
 let pin = [];
 export function keyboardMechanics(e) {
     const target = e.target;
-
-    if (unregistered.classList.contains("visible")) {
-        unregisteredAC.reverse();
-        removeClass(unregistered, "visible");
-    }
 
     // pin code
     if (target.matches(".pin-code button") && pin.length < 4) {
@@ -63,6 +54,8 @@ export function keyboardMechanics(e) {
             ":not(div, .pin-code button, .fourth-row *, .shift, .shift-icon)"
         )
     ) {
+        removeClass(unregistered, "show-unregistered");
+
         for (const slot of GG.activeRowSlots) {
             if (slot.classList.contains("active-slot")) {
                 slot.innerText = target.innerText;
@@ -130,10 +123,10 @@ export function keyboardMechanics(e) {
             //  valid
             if (
                 !hasEmptySlots &&
-                // DB.dataBase.validWords[M.letterLength].includes(
-                //     playersGuess.join("")
-                // )
-                DB.dataBase.validWords[5].includes(playersGuess.join(""))
+                DB.dataBase.validWords[M.letterLength].includes(
+                    playersGuess.join("")
+                )
+                // DB.dataBase.validWords[5].includes(playersGuess.join(""))
             )
                 // valid
                 result = false;
@@ -331,6 +324,7 @@ export function keyboardMechanics(e) {
                 activeRowCounter++;
 
                 GG.rowActiveState(GG.guessRows[activeRowCounter], "active");
+                setTimeout(() => {}, 1000);
             }
         })();
     }
@@ -340,10 +334,7 @@ export function keyboardMechanics(e) {
 // accent shifter
 export function accentShifter(command) {
     if (command === "shift" && !shiftKeyPress) {
-        shiftKeyIconAC = shiftKeyIcon.animate(
-            A.shiftUpScaleP,
-            A.shiftUpScaleTF
-        );
+        addClass(shiftKeyIcon, "shift-key-pressed");
 
         for (const key of accentedKeys) {
             key.children[0].style.display = "none";
@@ -352,9 +343,7 @@ export function accentShifter(command) {
 
         shiftKeyPress = true;
     } else if (command === "shift" && shiftKeyPress) {
-        if (shiftKeyIconAC && shiftKeyIconAC.currentTime > 0) {
-            shiftKeyIconAC.reverse();
-        }
+        removeClass(shiftKeyIcon, "shift-key-pressed");
 
         for (const key of accentedKeys) {
             key.children[0].style.display = "inline";
@@ -362,9 +351,8 @@ export function accentShifter(command) {
         }
 
         shiftKeyPress = false;
-    } else if (command === "unshift" && shiftKeyIconAC) {
-        if (shiftKeyIconAC && shiftKeyIconAC.currentTime > 0)
-            shiftKeyIconAC.reverse();
+    } else if (command === "unshift") {
+        removeClass(shiftKeyIcon, "shift-key-pressed");
 
         for (const key of accentedKeys) {
             key.children[0].style.display = "inline";
@@ -386,19 +374,11 @@ function changeActiveSlot(activate, empty) {
     }
 
     addClass(GG.activeRowSlots[activate], "active-slot");
-    activeSlotsC[activate] = GG.activeRowSlots[activate].animate(
-        A.activeSlotP,
-        A.activeSlotTF
-    );
 }
 
 // deactivate slots
 export function deactivateSlots() {
-    for (const animation of activeSlotsC) {
-        if (animation) animation.cancel();
-
-        for (const slot of GG.activeRowSlots) removeClass(slot, "active-slot");
-    }
+    for (const slot of GG.activeRowSlots) removeClass(slot, "active-slot");
 }
 
 // previous row
@@ -442,18 +422,15 @@ export function clearInvalidGuess() {
 function unregisteredPopUp(PG) {
     unregistered.lastElementChild.innerText = `"${PG.join("")}"`;
 
-    unregisteredAC = unregistered.animate(
-        A.unregisteredWordP,
-        A.unregisteredWordTF
-    );
-    addClass(unregistered, "visible");
+    addClass(unregistered, "show-unregistered");
 
-    setTimeout(() => {
-        if (unregistered.classList.contains("visible")) {
-            unregisteredAC.reverse();
-            removeClass(unregistered, "visible");
-        }
-    }, 5000);
+    addEl(unregistered, "transitionend", function unregAnimeEnd(e) {
+        setTimeout(() => {
+            removeClass(unregistered, "show-unregistered");
+        }, 3000);
+
+        removeEl(unregistered, "transitionend", unregAnimeEnd);
+    });
 }
 
 // dupllicate removal
@@ -486,21 +463,18 @@ export function gameReset() {
     GG.word.innerText = "Your Guess";
     GG.word.style.opacity = 0;
 
-    M.fieldSet.style.opacity = 0;
+    // M.fieldSet.style.opacity = 0;
+    removeClass(M.legend, "show-legend");
 
     for (const key of keys) {
         removeClass(key, "key-not-included");
         removeClass(key, "incorrect-key");
         removeClass(key, "correct-key");
 
-        key.animate(A.keyboardKeyResetP, A.keyboardKeyResetTF);
+        removeClass(keyboard, "show-keyboard");
     }
 
-    if (shiftKeyIconAC) {
-        shiftKeyIconAC.cancel();
-        shiftKeyIconAC;
-        shiftKeyPress = false;
-    }
+    removeClass(shiftKeyIcon, "shift-key-pressed");
 }
 
 // --------------- imports ---------------

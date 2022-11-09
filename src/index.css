@@ -88,7 +88,6 @@ main {
 
 .menu {
   display: grid;
-  display: none;
   grid-template-rows: auto 1fr auto;
   justify-items: center;
   align-content: center;
@@ -294,6 +293,7 @@ fieldset {
   justify-self: center;
   align-self: center;
   opacity: 0;
+  transform: scale(0);
   box-shadow: 0 0 0.2em 0.2em rgba(255, 255, 0, 0.02);
   border: 0.05em solid rgba(235, 235, 235, 0.1);
   text-align: center;
@@ -301,14 +301,22 @@ fieldset {
   padding: 1em;
 }
 fieldset legend {
-  font-size: 0.9em;
-  padding-inline: 1em;
+  width: 40%;
+  font-size: 0.8em;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.3s ease-in-out, transform 0.5s ease-in-out, width 0.5s ease;
   margin: 0 auto;
 }
 @media screen and (min-width: 37.5em) {
   fieldset legend {
-    font-size: 0.9em;
+    font-size: 0.8em;
   }
+}
+fieldset .show-legend {
+  transform: scale(1);
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out, transform 0.5s ease-in-out;
 }
 fieldset .guesses {
   display: grid;
@@ -333,7 +341,7 @@ fieldset .guesses .guess-row span {
   color: rgb(20, 20, 20);
   font-size: 1em;
   border-radius: 0.2rem;
-  transition: border 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, border 0.1s 0.2s ease-in-out;
   opacity: 0;
   cursor: pointer;
 }
@@ -345,19 +353,9 @@ fieldset .guesses .guess-row span {
   }
 }
 fieldset .guesses .guess-row .active-slot {
-  animation: 0.5s ease-in-out both;
-}
-@keyframes active-slot {
-  40% {
-    transform: "scale(1)";
-  }
-  70% {
-    transform: "scale(1.1)";
-  }
-  100% {
-    transform: "scale(1.05)";
-    border: "0.1px solid red";
-  }
+  transform: scale(1.3);
+  border: 0.02em solid red;
+  transition: transform 0.3s ease-in-out, border 0.1s 0.2s ease-in-out;
 }
 
 .keyboard {
@@ -432,6 +430,12 @@ fieldset .guesses .guess-row .active-slot {
 }
 .keyboard .row .shift-icon {
   font-size: 1.2em;
+  transition: transform 0.3s ease-in-out, color 0.2s 0.3s ease-in-out;
+}
+.keyboard .row .shift-key-pressed {
+  transform: rotate(180deg) scale(1.7);
+  color: red;
+  transition: transform 0.3s ease-in-out, color 0.2s 0.3s ease-in-out;
 }
 .keyboard .row .back-space {
   flex: 1.2;
@@ -467,6 +471,11 @@ fieldset .guesses .guess-row .active-slot {
   cursor: default;
 }
 
+.show-keyboard {
+  transform: translateY(0%);
+  transition: transform 0.5s ease-in-out;
+}
+
 .unregistered {
   display: flex;
   flex-direction: row;
@@ -476,7 +485,7 @@ fieldset .guesses .guess-row .active-slot {
   font-size: 1em;
   border-radius: 0.5rem;
   transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -486,6 +495,11 @@ fieldset .guesses .guess-row .active-slot {
 }
 .unregistered span:last-child {
   color: rgb(220, 0, 0);
+}
+
+.show-unregistered {
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 0.3s ease-in-out;
 }
 
 /*# sourceMappingURL=index.css.map */

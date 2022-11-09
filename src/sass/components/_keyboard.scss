@@ -79,6 +79,14 @@
 
         .shift-icon {
             font-size: 1.2em;
+
+            transition: transform 0.3s ease-in-out, color 0.2s 0.3s ease-in-out;
+        }
+        .shift-key-pressed {
+            transform: rotate(180deg) scale(1.7);
+            color: red;
+
+            transition: transform 0.3s ease-in-out, color 0.2s 0.3s ease-in-out;
         }
 
         .back-space {
@@ -122,4 +130,10 @@
             cursor: default;
         }
     }
+}
+
+.show-keyboard {
+    transform: translateY(0%);
+
+    transition: transform 0.5s ease-in-out;
 }

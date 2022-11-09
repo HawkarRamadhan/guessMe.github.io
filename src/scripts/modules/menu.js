@@ -13,6 +13,7 @@ export let playersChoice;
 
 export const fieldSet = query(document, "fieldset");
 export const legend = query(document, "legend");
+export let legendText;
 
 // show categories
 export function showMenu(gameOpening) {
@@ -177,7 +178,9 @@ function clearCategories() {
     removeEl(startBtn, "click", startBtnF);
 }
 
+// start button
 function startBtnF() {
+    legendText = choiceTitle.innerText;
     removeClass(startBtn, "show-start-btn");
 
     addEl(startBtn, "transitionend", function startBtnTranEnd() {
@@ -208,10 +211,9 @@ function startBtnF() {
 }
 
 // delete
-GG.guessGenerator("occupations", 5);
-addClass(K.keyboard, "show-keyboard");
-addClass(GG.wordCover, "veil-word");
-addClass(GG.theNotch, "turn-the-notch");
+// GG.guessGenerator("occupations", 5);
+// addClass(GG.wordCover, "veil-word");
+// addClass(GG.theNotch, "turn-the-notch");
 
 // --------------- imports ---------------
 import {
