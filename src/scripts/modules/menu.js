@@ -17,11 +17,6 @@ export let legendText;
 
 // show categories
 export function showMenu(gameOpening) {
-    // randomize icons
-    categories.forEach(card => {
-        chooseRandomIcon(card);
-    });
-
     addClass(menu, "open-menu");
     addEl(menu, "transitionend", function menuTransitionEnd() {
         addEl(menu, "click", menuEL);
@@ -75,6 +70,8 @@ function menuEL(e) {
 
 // down arrow
 export function downArrowF() {
+    removeClass(K.keyboard, "show-keyboard");
+
     removeClass(downArrow, "show-down-arrow");
     removeEl(downArrow, "click", downArrowF);
 
@@ -99,6 +96,16 @@ export function upArrowF() {
         addEl(menu, "transitionend", function menuTranEnd() {
             addClass(downArrow, "show-down-arrow");
             addEl(downArrow, "click", downArrowF);
+            if (
+                !guessRows[guessRows.length - 1].classList.contains("activated")
+            ) {
+                addClass(K.keyboard, "show-keyboard");
+            }
+
+            // randomize icons
+            categories.forEach(card => {
+                chooseRandomIcon(card);
+            });
 
             removeEl(menu, "transitionend", menuTranEnd);
         });
@@ -200,6 +207,11 @@ function startBtnF() {
                 addClass(downArrow, "show-down-arrow");
                 addEl(downArrow, "click", downArrowF);
 
+                // randomize icons
+                categories.forEach(card => {
+                    chooseRandomIcon(card);
+                });
+
                 removeEl(menu, "transitionend", menuTranEnd);
             });
 
@@ -230,3 +242,5 @@ import {
     GG,
     K,
 } from "./aggregator.js";
+import { guessRows } from "./guessGenerator.js";
+import { activeRowCounter } from "./keyboard.js";

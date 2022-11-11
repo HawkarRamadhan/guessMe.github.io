@@ -4,6 +4,47 @@ export const EF = {
 };
 
 // ----- guess generator -----
+// show fieldset
+export const showFieldSetP = [
+    {
+        opacity: 0,
+        transform: "scale(0)",
+    },
+    {
+        opacity: 0.5,
+        transform: "scale(1.1)",
+    },
+    {
+        opacity: 1,
+        transform: "scale(1)",
+    },
+];
+export const showFieldSetTF = {
+    duration: 1000,
+    easing: "ease-in-out",
+    fill: "both",
+};
+
+// show fieldset
+export const inicialRowAnimationP = [
+    {
+        opacity: 0.2,
+        transform: "scale(0)",
+    },
+    {
+        opacity: 1,
+        transform: "scale(0)",
+    },
+    {
+        opacity: 1,
+        transform: "scale(1.1)",
+    },
+    {
+        opacity: 0.05,
+        transform: "scale(0.9)",
+    },
+];
+
 // veil word
 export const veilWordP = [
     {
@@ -19,7 +60,7 @@ export const veilWordP = [
 ];
 export const veilWordTF = {
     duration: 700,
-    delay: 1500,
+    // delay: 500,
     ...EF,
 };
 
@@ -42,24 +83,6 @@ export const turnTheNotchTF = {
 };
 
 // ----- guesses -----
-// active slots
-export const activeSlotP = [
-    {
-        transform: "scale(1)",
-    },
-    {
-        transform: "scale(1.1)",
-    },
-    {
-        transform: "scale(1.05)",
-        border: "0.1px solid red",
-    },
-];
-export const activeSlotTF = {
-    duration: 500,
-    ...EF,
-};
-
 // empty slots warning
 export const emptySlotP = [
     {
@@ -210,7 +233,9 @@ export const incorrectKeyTF = {
 
 // key not included
 export const keyNotIncludedP = {
-    color: "#333333",
+    backgroundColor: "rgb(20, 20, 20)",
+
+    color: "white",
 };
 export const keyNotIncludedTF = {
     duration: 500,
@@ -235,6 +260,24 @@ export const hideKeyboardTF = {
     duration: 1000,
     delay: 500,
     ...A.EF,
+};
+
+// scaling down arrow
+export const scalingDownArrowP = [
+    {
+        transform: "translateX(-50%) scale(1)",
+    },
+    {
+        transform: "translateX(-50%) scale(1.3)",
+    },
+    {
+        transform: "translateX(-50%) scale(1)",
+    },
+];
+export const scalingDownArrowTF = {
+    duration: 1000,
+    delay: 2000,
+    iterations: Infinity,
 };
 
 // keys reset

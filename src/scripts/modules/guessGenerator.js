@@ -6,7 +6,7 @@ export let fieldSetAC;
 // variables
 export let randomNum;
 export let guessWord;
-let guessWordLength;
+export let guessWordLength;
 
 export const guessContainer = query(document, ".guesses");
 export let guessRows;
@@ -39,27 +39,7 @@ export function guessGenerator(playersChoice, letterLength) {
         console.log("guessWord:", guessWord);
         console.log("guessWordLength:", guessWordLength);
 
-        fieldSetAC = M.fieldSet.animate(
-            [
-                {
-                    opacity: 0,
-                    transform: "scale(0)",
-                },
-                {
-                    opacity: 0.5,
-                    transform: "scale(1.1)",
-                },
-                {
-                    opacity: 1,
-                    transform: "scale(1)",
-                },
-            ],
-            {
-                duration: 1000,
-                easing: "ease-in-out",
-                fill: "both",
-            }
-        );
+        fieldSetAC = M.fieldSet.animate(A.showFieldSetP, A.showFieldSetTF);
 
         // guess clean up
         while (guessContainer.firstChild) {
@@ -83,39 +63,23 @@ export function guessGenerator(playersChoice, letterLength) {
 
             guessContainer.append(row);
 
-            // animation
-            Array.from(row.children)
-                .reverse()
-                .forEach((slot, index) => {
-                    const slotAnime = slot.animate(
-                        [
-                            {
-                                opacity: 0.2,
-                                transform: "scale(0)",
-                            },
-                            {
-                                opacity: 1,
-                                transform: "scale(0)",
-                            },
-                            {
-                                opacity: 1,
-                                transform: "scale(1.1)",
-                            },
-                            {
-                                opacity: 0.05,
-                                transform: "scale(0.9)",
-                            },
-                        ],
-                        {
-                            duration: 1500,
-                            // delay based
-                            delay: index * 120,
-                            easing: "ease-in-out",
-                            fill: "forwards",
-                        }
-                    );
+            const rowSlots = Array.from(row.children);
 
-                    if (rowIndex === guessWordLength) {
+            // animation
+            rowSlots.reverse().forEach((slot, index) => {
+                const slotCapture = slot.animate(inicialRowAnimationP, {
+                    duration: 1500,
+                    // delay based
+                    delay: index * 120,
+                    easing: "ease-in-out",
+                    fill: "forwards",
+                });
+
+                if (
+                    rowIndex === guessWordLength + 2 &&
+                    index === rowSlots.length - 1
+                ) {
+                    slotCapture.finished.then(() => {
                         veilWordAC = wordCover.animate(
                             A.veilWordP,
                             A.veilWordTF
@@ -126,19 +90,22 @@ export function guessGenerator(playersChoice, letterLength) {
                                 A.turnTheNotchP,
                                 A.turnTheNotchTF
                             );
-                            notchAC.finished.then(() => {});
-                            rowActiveState(
-                                guessRows[K.activeRowCounter],
-                                "active"
-                            );
 
-                            M.legend.innerText = M.legendText;
-                            addClass(M.legend, "show-legend");
+                            notchAC.finished.then(() => {
+                                rowActiveState(
+                                    guessRows[K.activeRowCounter],
+                                    "active",
+                                    true
+                                );
 
-                            addClass(K.keyboard, "show-keyboard");
+                                M.legend.innerText = M.legendText || "";
+
+                                addClass(M.legend, "show-legend");
+                            });
                         });
-                    }
-                });
+                    });
+                }
+            });
         }
 
         guessRows = Array.from(guessContainer.children);
@@ -176,7 +143,7 @@ export function randomNumber() {
 }
 
 // row activator
-export function rowActiveState(row, state) {
+export function rowActiveState(row, state, keyboardTog) {
     activeRow = row;
     activeRowSlots = Array.from(activeRow.children).reverse();
 
@@ -184,7 +151,7 @@ export function rowActiveState(row, state) {
     if (state === "active") {
         addEl(activeRow, "click", activeRowCBF);
 
-        rowActivationA();
+        rowActivationA(keyboardTog);
 
         addClass(activeRow, "activated");
     } else if (state === "deactive") {
@@ -197,16 +164,18 @@ export function rowActiveState(row, state) {
 }
 
 // row activation anime
-export function rowActivationA() {
+export function rowActivationA(keyboardTog) {
     // slot animation
     activeRowSlots.forEach((slot, index) => {
         const slotAnime = slot.animate(
-            {
-                opacity: 0.2,
-            },
-            {
-                opacity: 1,
-            },
+            [
+                {
+                    opacity: 0.2,
+                },
+                {
+                    opacity: 1,
+                },
+            ],
             {
                 duration: 500,
                 // delay based
@@ -223,6 +192,8 @@ export function rowActivationA() {
             });
         }
     });
+
+    if (keyboardTog) addClass(K.keyboard, "show-keyboard");
 }
 
 // active row call back
@@ -251,4 +222,4 @@ import {
     GG,
     K,
 } from "./aggregator.js";
-import { legend } from "./menu.js";
+import { inicialRowAnimationP } from "./animations.js";

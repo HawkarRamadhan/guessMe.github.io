@@ -100,7 +100,6 @@ export function keyboardMechanics(e) {
                     slot.animate(A.emptySlotP, A.emptySlotTF);
 
                     emptySlotsIndex.push(index);
-
                     changeActiveSlot(emptySlotsIndex[0]);
                 } else if (letter !== "") {
                     letter === "هـ"
@@ -148,7 +147,6 @@ export function keyboardMechanics(e) {
                         );
 
                         clearInvalidGuess();
-
                         result = true;
                     }
                 });
@@ -166,14 +164,21 @@ export function keyboardMechanics(e) {
 
                 //  no letters included
                 if (!guessWord.includes(letter)) {
-                    slot.animate(A.SlotNotIncludedP, A.SlotNotIncludedTF);
+                    slot.animate(
+                        A.SlotNotIncludedP,
+                        A.SlotNotIncludedTF
+                    ).finished.then(() => {
+                        for (const key of keys) {
+                            if (key.innerText === letter) {
+                                key.animate(
+                                    A.keyNotIncludedP,
+                                    A.keyNotIncludedTF
+                                );
 
-                    for (const key of keys) {
-                        if (key.innerText === letter) {
-                            key.animate(A.keyNotIncludedP, A.keyNotIncludedTF);
-                            addClass(key, "key-not-included");
+                                addClass(key, "key-not-included");
+                            }
                         }
-                    }
+                    });
                 }
 
                 //  incorrect
@@ -181,44 +186,55 @@ export function keyboardMechanics(e) {
                     guessWord.includes(letter) &&
                     guessWord[index] !== playersGuess[index]
                 ) {
-                    slot.animate(A.incorrectSlotP, A.incorrectSlotTF);
-                    addClass(slot, "incorrect-key");
+                    slot.animate(
+                        A.incorrectSlotP,
+                        A.incorrectSlotTF
+                    ).finished.then(() => {
+                        addClass(slot, "incorrect-key");
 
-                    for (const key of keys) {
-                        if (
-                            key.innerText === letter &&
-                            !key.classList.contains("correct-key")
-                        ) {
-                            key.animate(A.incorrectKeyP, A.incorrectKeyTF);
-                            addClass(key, "incorrect-key");
+                        for (const key of keys) {
+                            if (
+                                key.innerText === letter &&
+                                !key.classList.contains("correct-key")
+                            ) {
+                                key.animate(A.incorrectKeyP, A.incorrectKeyTF);
+                                addClass(key, "incorrect-key");
+                            }
                         }
-                    }
 
-                    duplicateRemover(
-                        activatedRows,
-                        letter,
-                        index,
-                        "incorrect-key"
-                    );
+                        duplicateRemover(
+                            activatedRows,
+                            letter,
+                            index,
+                            "incorrect-key"
+                        );
+                    });
                 }
 
                 //  correct
                 if (guessWord[index] === playersGuess[index]) {
-                    slot.animate(A.correctSlotP, A.correctSlotTF);
-                    addClass(slot, "correct-key");
+                    slot.animate(A.correctSlotP, A.correctSlotTF).finished.then(
+                        () => {
+                            addClass(slot, "correct-key");
 
-                    for (const key of keys) {
-                        if (key.innerText === letter) {
-                            key.animate(A.correctKeyP, A.correctKeyTF);
-                            addClass(key, "correct-key");
+                            for (const key of keys) {
+                                if (key.innerText === letter) {
+                                    key.animate(
+                                        A.correctKeyP,
+                                        A.correctKeyTF
+                                    ).finished.then(() => {
+                                        addClass(key, "correct-key");
+
+                                        duplicateRemover(
+                                            activatedRows,
+                                            letter,
+                                            index,
+                                            "correct-key"
+                                        );
+                                    });
+                                }
+                            }
                         }
-                    }
-
-                    duplicateRemover(
-                        activatedRows,
-                        letter,
-                        index,
-                        "correct-key"
                     );
 
                     greenSlotsTracker++;
@@ -229,7 +245,7 @@ export function keyboardMechanics(e) {
 
             GG.rowActiveState(GG.guessRows[activeRowCounter], "deactive");
 
-            for (const slot of GG.activeRowSlots) slot.style.border = "none";
+            log(playersGuessTracker);
         }
 
         //  game won
@@ -246,43 +262,56 @@ export function keyboardMechanics(e) {
                 setTimeout(() => {
                     // greened slots
                     GG.activeRowSlots.forEach((slot, index) => {
-                        slot.animate(A.winningAnimeP, {
+                        const greenify = slot.animate(A.winningAnimeP, {
                             duration: 500,
                             // delay based
                             delay: index * 120,
                         });
+
+                        if (index === GG.activeRowSlots.length - 1) {
+                            greenify.finished.then(() => {
+                                removeClass(keyboard, "show-keyboard");
+                                addEl(
+                                    keyboard,
+                                    "transitionend",
+                                    function keyboardTransEnd() {
+                                        wordRevealAC = GG.theNotch
+                                            .animate(A.turnTheNotchP, {
+                                                duration: 1500,
+                                                ...A.EF,
+                                            })
+                                            .finished.then(() => {
+                                                GG.wordCover.animate(
+                                                    [
+                                                        {
+                                                            right: "100%",
+                                                        },
+                                                        {
+                                                            right: "-10%",
+                                                            offset: 0.8,
+                                                        },
+                                                        {
+                                                            right: "0%",
+                                                        },
+                                                    ].reverse(),
+                                                    {
+                                                        duration: 1500,
+                                                        ...A.EF,
+                                                    }
+                                                );
+                                            });
+
+                                        removeEl(
+                                            keyboard,
+                                            "transitionend",
+                                            keyboardTransEnd
+                                        );
+                                    }
+                                );
+                            });
+                        }
                     });
-
-                    keyboard.animate(A.hideKeyboardTF, A.hideKeyboardTF);
                 }, 1000);
-
-                setTimeout(() => {
-                    wordRevealAC = GG.theNotch
-                        .animate(A.turnTheNotchP, {
-                            duration: 1500,
-                            ...A.EF,
-                        })
-                        .finished.then(() => {
-                            GG.wordCover.animate(
-                                [
-                                    {
-                                        right: "100%",
-                                    },
-                                    {
-                                        right: "-10%",
-                                        offset: 0.8,
-                                    },
-                                    {
-                                        right: "0%",
-                                    },
-                                ].reverse(),
-                                {
-                                    duration: 1500,
-                                    ...A.EF,
-                                }
-                            );
-                        });
-                }, 2500);
 
                 gameWon = true;
             }
@@ -302,9 +331,29 @@ export function keyboardMechanics(e) {
             ) {
                 setTimeout(() => {
                     removeEl(keyboard, "click", keyboardMechanics);
+                    removeClass(keyboard, "show-keyboard");
 
-                    keyboard.animate(A.hideKeyboardP, A.hideKeyboardTF);
-                }, 1000);
+                    addEl(
+                        keyboard,
+                        "transitionend",
+                        function keyboardTranEnd() {
+                            const downArrowAnime = M.downArrow.animate(
+                                A.scalingDownArrowP,
+                                A.scalingDownArrowTF
+                            );
+
+                            addEl(M.downArrow, "click", () => {
+                                downArrowAnime.cancel();
+                            });
+
+                            removeEl(
+                                keyboard,
+                                "transitionend",
+                                keyboardTranEnd
+                            );
+                        }
+                    );
+                }, 3000);
 
                 gameLost = true;
             }
@@ -323,8 +372,18 @@ export function keyboardMechanics(e) {
             ) {
                 activeRowCounter++;
 
+                sessionStorage.setItem(
+                    "progress",
+                    JSON.stringify({
+                        word: GG.guessWord,
+                        GWL: GG.guessWordLength,
+                        guesses: [...playersGuessTracker],
+                        activeRowCounter,
+                        legend: M.legendText,
+                    })
+                );
+
                 GG.rowActiveState(GG.guessRows[activeRowCounter], "active");
-                setTimeout(() => {}, 1000);
             }
         })();
     }
@@ -420,7 +479,7 @@ export function clearInvalidGuess() {
 }
 
 function unregisteredPopUp(PG) {
-    unregistered.lastElementChild.innerText = `"${PG.join("")}"`;
+    unregistered.lastElementChild.innerText = `${PG.join("")}`;
 
     addClass(unregistered, "show-unregistered");
 
@@ -463,7 +522,6 @@ export function gameReset() {
     GG.word.innerText = "Your Guess";
     GG.word.style.opacity = 0;
 
-    // M.fieldSet.style.opacity = 0;
     removeClass(M.legend, "show-legend");
 
     for (const key of keys) {
@@ -471,10 +529,24 @@ export function gameReset() {
         removeClass(key, "incorrect-key");
         removeClass(key, "correct-key");
 
-        removeClass(keyboard, "show-keyboard");
+        key.animate(
+            {
+                backgroundColor: "rgba(120,120,120, 0.02)",
+                color: "white",
+            },
+            {
+                duration: 0,
+                fill: "both",
+            }
+        );
     }
 
+    removeClass(keyboard, "show-keyboard");
     removeClass(shiftKeyIcon, "shift-key-pressed");
+
+    if (GG.veilWordAC) {
+        GG.veilWordAC.cancel();
+    }
 }
 
 // --------------- imports ---------------

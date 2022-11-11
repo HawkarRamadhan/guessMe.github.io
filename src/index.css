@@ -155,7 +155,7 @@ main {
   transition: transform 0.3s ease-in-out, opacity 0.1s ease-in-out, color 0.3s ease-in-out;
 }
 .menu .categories div div span {
-  padding: 0 0.5em;
+  padding: 0 0.2em;
 }
 .menu .categories div .show-lengths {
   transform: scale(1);
@@ -301,7 +301,7 @@ fieldset {
   padding: 1em;
 }
 fieldset legend {
-  width: 40%;
+  width: 60%;
   font-size: 0.8em;
   opacity: 0;
   transform: scale(0);
@@ -341,7 +341,7 @@ fieldset .guesses .guess-row span {
   color: rgb(20, 20, 20);
   font-size: 1em;
   border-radius: 0.2rem;
-  transition: transform 0.3s ease-in-out, border 0.1s 0.2s ease-in-out;
+  transition: transform 0.3s ease-in-out, border 0.1s 0.2s ease-in-out, color 0.3s ease-in-out;
   opacity: 0;
   cursor: pointer;
 }
@@ -390,6 +390,7 @@ fieldset .guesses .guess-row .active-slot {
   font-size: 1em;
   border-radius: 0.5em;
   transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+  position: relative;
   cursor: pointer;
 }
 .keyboard .row button:active {
@@ -401,6 +402,8 @@ fieldset .guesses .guess-row .active-slot {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
   padding: 0.5em;
 }
 @media screen and (min-width: 37.5em) {
@@ -482,13 +485,18 @@ fieldset .guesses .guess-row .active-slot {
   justify-content: center;
   align-items: center;
   min-width: 10em;
-  font-size: 1em;
+  font-size: 0.8em;
   border-radius: 0.5rem;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.3s ease-in-out;
   position: absolute;
   top: 50%;
   left: 50%;
+}
+@media screen and (min-width: 37.5em) {
+  .unregistered {
+    font-size: 1em;
+  }
 }
 .unregistered span:first-child {
   margin-right: 0.5em;

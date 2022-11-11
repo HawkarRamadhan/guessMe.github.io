@@ -81,13 +81,14 @@
                 @include flex(row, center, center);
 
                 transform: scale(0);
+
                 opacity: 0;
 
                 transition: transform 0.3s ease-in-out, opacity 0.1s ease-in-out,
                     color 0.3s ease-in-out;
 
                 span {
-                    padding: 0 0.5em;
+                    padding: 0 0.2em;
                 }
             }
             .show-lengths {
